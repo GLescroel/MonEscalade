@@ -1,0 +1,38 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Coucou!
+
+<br>
+
+<span th:if="${site}" th:text="${site.nom}"/>
+
+
+<form id="formRecherche" method="post" th:action="@{/}">
+    <div>
+        <span>Nom du site recherché:</span> <input name="recherche" type="text">
+    </div>
+    <div>
+        <button type="submit" name="Go!"></button>
+    </div>
+</form>
+
+<div th:if="${resultat}">
+
+Trouvé! <span th:text="${resultat.getNom()}"/>
+
+</div>
+
+
+<div th:if="!${resultat}">
+
+    Aucun site trouvé
+
+</div>
+
+</body>
+</html>
