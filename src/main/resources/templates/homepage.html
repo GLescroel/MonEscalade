@@ -2,34 +2,64 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Les amis de l'escalade</title>
 </head>
 <body>
-Coucou!
 
+<h1>Bienvenue aux amis de l'escalade</h1>
+<br>
 <br>
 
+<!--
 <span th:if="${site}" th:text="${site.nom}"/>
-
+-->
 
 <form id="formRecherche" method="post" th:action="@{/}">
     <div>
-        <span>Nom du site recherché:</span> <input name="recherche" type="text">
+        <span>Nom du site recherché:</span> <input name="siteRecherche" type="text" th:value="${site.getNom()}">
     </div>
+
+    <div class="form-group blu-margin">
+        <select class="form-control" th:object="${continents}" id="dropContinent" name="continentRecherche">
+            <option th:value="${continentSelectionne.getId()}" th:text="${continentSelectionne.getNom()}"></option>
+            <option th:each="continent : ${continents}" th:value="${continent.getId()}" th:text="${continent.getNom()}"></option>
+        </select>
+    </div>
+
+    <div class="form-group blu-margin">
+        <select class="form-control" th:object="${paysList}" id="dropPays" name="paysRecherche">
+            <option th:value="${paysSelectionne.getId()}" th:text="${paysSelectionne.getNom()}"></option>
+            <option th:each="pays : ${paysList}" th:value="${pays.getId()}" th:text="${pays.getNom()}"></option>
+        </select>
+    </div>
+
     <div>
-        <button type="submit" name="Go!"></button>
+        <button type="submit" name="RECHERCHER!"></button>
     </div>
 </form>
 
-<div th:if="${resultat}">
-
-Trouvé! <span th:text="${resultat.getNom()}"/>
+<div th:if="${resultats}">
+<br><br>
+    <table>
+        <thead>
+        <tr>
+            <th> Nom </th>
+            <th> Pays </th>
+            <th> Continent </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="site : ${resultats}">
+            <td><span th:text="${site.getNom()}"> Site </span></td>
+            <td><span th:text="${site.getLocalisation().getPays().getNom()}"> Pays </span></td>
+            <td><span th:text="${site.getLocalisation().getContinent().getNom()}"> Continent </span></td>
+        </tr>
+        </tbody>
+    </table>
 
 </div>
 
-
-<div th:if="!${resultat}">
-
+<div th:if="!${resultats}">
     Aucun site trouvé
 
 </div>
