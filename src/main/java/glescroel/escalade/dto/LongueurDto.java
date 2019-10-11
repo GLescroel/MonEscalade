@@ -2,7 +2,6 @@ package glescroel.escalade.dto;
 
 import glescroel.escalade.model.Commentaire;
 import glescroel.escalade.model.Longueur;
-import glescroel.escalade.model.Site;
 import glescroel.escalade.model.Voie;
 
 import java.util.List;

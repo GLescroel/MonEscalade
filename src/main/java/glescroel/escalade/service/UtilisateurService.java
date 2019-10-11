@@ -1,8 +1,6 @@
 package glescroel.escalade.service;
 
-import glescroel.escalade.dto.LongueurDto;
 import glescroel.escalade.dto.UtilisateurDto;
-import glescroel.escalade.model.Longueur;
 import glescroel.escalade.model.Utilisateur;
 import glescroel.escalade.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
