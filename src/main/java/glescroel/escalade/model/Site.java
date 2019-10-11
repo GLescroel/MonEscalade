@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -24,10 +25,8 @@ public class Site {
     @Size(message = ErrorMessages.SITE_NOM_LENGTH, min = 0, max = 50)
     private String nom;
 
-    @Basic
-    @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.SITE_LOCALISATION_LENGTH, min = 0, max = 100)
-    private String localisation;
+    @OneToOne
+    private Localisation localisation;
 
     @Basic
     private boolean tag;
@@ -60,11 +59,11 @@ public class Site {
         this.nom = nom;
     }
 
-    public String getLocalisation() {
+    public Localisation getLocalisation() {
         return localisation;
     }
 
-    public void setLocalisation(String localisation) {
+    public void setLocalisation(Localisation localisation) {
         this.localisation = localisation;
     }
 

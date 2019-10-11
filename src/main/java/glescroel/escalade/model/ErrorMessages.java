@@ -18,4 +18,10 @@ public class ErrorMessages {
     public static final String TOPO_LOCALISATION_LENGTH = "Longueur erronée de la localisation : 1 à 100 caractères";
     public static final String TOPO_DESCRIPTION_LENGTH = "Longueur erronée de la description du topo : 1 à 100 caractères";
     public static final String COMMENTAIRE_COMMENTAIRE_LENGTH = "Longueur erronée du commentaire : 10 à 1000 caractères";
+    public static final String CONTINENT_NOM_LENGTH = "Longueur erronée du continent : 50 caractères max";
+    public static final String PAYS_NOM_LENGTH = "Longueur erronnée du pays : 50 caractères max";
+    public static final String LOCALISATION_REGION_LENGTH = "Longueur erronée de la région : 50 caractères max";
+    public static final String LOCALISATION_DEPARTEMENT_LENGTH = "Longueur erronée du département : 50 caractères max";
+    public static final String LOCALISATION_VILLE_LENGTH = "Longueur erronée de la ville : 50 caractères max";
+    public static final String LOCALISATION_ADRESSE_LENGTH = "Longueur erronée de l'adresse : 100 caractères max";
 }

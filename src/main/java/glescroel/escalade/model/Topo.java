@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -26,10 +27,8 @@ public class Topo {
     @Size(message = ErrorMessages.TOPO_NOM_LENGTH, min = 1, max = 100)
     private String nom;
 
-    @Basic
-    @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.TOPO_LOCALISATION_LENGTH, min = 0, max = 100)
-    private String localisation;
+    @ManyToOne
+    private Localisation localisation;
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
@@ -66,11 +65,11 @@ public class Topo {
         this.nom = nom;
     }
 
-    public String getLocalisation() {
+    public Localisation getLocalisation() {
         return localisation;
     }
 
-    public void setLocalisation(String localisation) {
+    public void setLocalisation(Localisation localisation) {
         this.localisation = localisation;
     }
 

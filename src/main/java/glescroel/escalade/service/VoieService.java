@@ -1,8 +1,6 @@
 package glescroel.escalade.service;
 
-import glescroel.escalade.dto.UtilisateurDto;
 import glescroel.escalade.dto.VoieDto;
-import glescroel.escalade.model.Utilisateur;
 import glescroel.escalade.model.Voie;
 import glescroel.escalade.repository.VoieRepository;
 import org.springframework.beans.factory.annotation.Autowired;

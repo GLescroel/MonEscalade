@@ -1,6 +1,7 @@
 package glescroel.escalade.dto;
 
 import glescroel.escalade.model.Commentaire;
+import glescroel.escalade.model.Localisation;
 import glescroel.escalade.model.Site;
 import glescroel.escalade.model.Topo;
 import glescroel.escalade.model.Utilisateur;
@@ -12,7 +13,7 @@ public class TopoDto {
 
     private Integer id;
     private String nom;
-    private String localisation;
+    private Localisation localisation;
     private String description;
     private Date parution;
     private List<Site> sites;
@@ -46,11 +47,11 @@ public class TopoDto {
         this.nom = nom;
     }
 
-    public String getLocalisation() {
+    public Localisation getLocalisation() {
         return localisation;
     }
 
-    public void setLocalisation(String localisation) {
+    public void setLocalisation(Localisation localisation) {
         this.localisation = localisation;
     }
 
