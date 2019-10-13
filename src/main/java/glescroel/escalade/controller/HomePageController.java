@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,6 +48,7 @@ public class HomePageController {
         paysSelectionne.setId(0);
         paysSelectionne.setNom("Choix du pays");
         model.addAttribute("paysSelectionne", paysSelectionne);
+        model.addAttribute("paysRecherche", paysSelectionne);
         model.addAttribute("paysList", null);
 
         return "homepage";
@@ -62,49 +61,50 @@ public class HomePageController {
 
         ModelAndView modelAndview = new ModelAndView("homepage");
 
+
+        PaysDto paysSelectionne = checkPaysContinentConsistency(paysRecherche, continentRecherche);
+        modelAndview.addObject("paysSelectionne", paysSelectionne);
+
+        if(paysSelectionne.getId().equals(0)) {
+            paysRecherche = null;
+        }
+
+        SiteDto site = new SiteDto();
+        if (!nomSiteRecherche.isEmpty()) {
+            site.setNom(nomSiteRecherche);
+        } else {
+            site.setNom("");
+        }
+        modelAndview.addObject("site", site);
+
+
+
         List<SiteDto> sites = new ArrayList<>();
 
-        if ((!nomSiteRecherche.isEmpty()) && (!paysRecherche.equals("0"))) {
-            LOGGER.info(">>>>> POST : site recherché = " + nomSiteRecherche + " et pays = " + paysRecherche);
+        if ((!nomSiteRecherche.isEmpty()) && (paysRecherche != null) && (!paysRecherche.equals("0"))) {
             sites = siteService.getSitesByNomPartielAndPays(nomSiteRecherche, Integer.valueOf(paysRecherche));
-            LOGGER.info(">>>>> POST : sites pour ce nom et ce pays = " + sites.size());
         } else if ((!nomSiteRecherche.isEmpty()) && (!continentRecherche.equals("0"))) {
-            LOGGER.info(">>>>> POST : site recherché = " + nomSiteRecherche + " et continent = " + continentRecherche);
             sites = siteService.getSitesByNomPartielAndContinent(nomSiteRecherche, Integer.valueOf(continentRecherche));
-            LOGGER.info(">>>>> POST : sites pour ce nom = " + sites.size());
         } else if (!nomSiteRecherche.isEmpty()) {
-            LOGGER.info(">>>>> POST : site recherché = " + nomSiteRecherche);
             sites = siteService.getSitesByNomPartiel(nomSiteRecherche);
-            LOGGER.info(">>>>> POST : sites pour ce nom = " + sites.size());
-        } else if (!paysRecherche.equals("0")) {
-            LOGGER.info(">>>>> POST : pays = |" + continentRecherche+"|");
+        } else if ((paysRecherche != null) && (!paysRecherche.equals("0"))) {
             sites = siteService.getSitesByPays(Integer.valueOf(paysRecherche));
-            LOGGER.info(">>>>> POST : sites pour ce pays = " + sites.size());
         } else if (!continentRecherche.equals("0")) {
-            LOGGER.info(">>>>> POST : continent = |" + continentRecherche+"|");
             sites = siteService.getSitesByContinent(Integer.valueOf(continentRecherche));
-            LOGGER.info(">>>>> POST : sites pour ce continent = " + sites.size());
         }
 
         if (!sites.isEmpty()) {
             modelAndview.addObject("resultats", sites);
-            LOGGER.info(">>>>> POST : " + sites.size());
         } else {
             modelAndview.addObject("resultats", null);
         }
 
         modelAndview.addObject("continents", continentService.getAll());
-        LOGGER.info(">>>>> POST : continent = |" + continentRecherche+"|");
         if (!continentRecherche.equals("0")) {
             ContinentDto continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
             modelAndview.addObject("continentSelectionne", continentSelectionne);
 
-            PaysDto paysSelectionne = new PaysDto();
-            paysSelectionne.setId(0);
-            paysSelectionne.setNom("Choix du pays");
-            modelAndview.addObject("paysSelectionne", paysSelectionne);
             modelAndview.addObject("paysList", paysService.getPaysByContinent(continentSelectionne));
-            LOGGER.info(">>>>> POST : pays : " + paysService.getPaysByContinent(continentSelectionne).size());
         } else {
             ContinentDto continentDto = new ContinentDto();
             continentDto.setId(0);
@@ -112,27 +112,32 @@ public class HomePageController {
             modelAndview.addObject("continentSelectionne", continentDto);
         }
 
-        LOGGER.info(">>>>> POST : continent = |" + paysRecherche+"|");
-        if (!paysRecherche.equals("0")) {
-            PaysDto paysSelectionne = paysService.getPaysById(Integer.valueOf(paysRecherche));
-            modelAndview.addObject("paysSelectionne", paysSelectionne);
+
+        return modelAndview;
+
+    }
+
+    private PaysDto checkPaysContinentConsistency(String paysRecherche, String continentRecherche) {
+
+        boolean paysContinentOk = false;
+        PaysDto paysSelectionne = new PaysDto();
+        if ((paysRecherche != null) && (!paysRecherche.equals("0"))) {
+            paysSelectionne = paysService.getPaysById(Integer.valueOf(paysRecherche));
 
             ContinentDto continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
-            modelAndview.addObject("paysList", paysService.getPaysByContinent(continentSelectionne));
-        } else {
-            PaysDto paysDto = new PaysDto();
-            paysDto.setId(0);
-            paysDto.setNom("Choix du pays");
-            modelAndview.addObject("paysSelectionne", paysDto);
+
+            for (int i = 0; i < paysService.getPaysByContinent(continentSelectionne).size(); i++) {
+                if (paysSelectionne.getNom() == paysService.getPaysByContinent(continentSelectionne).get(i).getNom()) {
+                    paysContinentOk = true;
+                }
+            }
         }
 
-        SiteDto site = new SiteDto();
-        if(!nomSiteRecherche.isEmpty()) {
-            site.setNom(nomSiteRecherche);
-        } else {
-            site.setNom("");
+        if(!paysContinentOk) {
+            paysSelectionne.setId(0);
+            paysSelectionne.setNom("Choix du pays");
         }
-        modelAndview.addObject("site", site);
-        return modelAndview;
+
+        return paysSelectionne;
     }
 }

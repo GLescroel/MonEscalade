@@ -26,15 +26,17 @@
         </select>
     </div>
 
+    <span th:if="!${continentSelectionne.getId().equals(0)}">
     <div class="form-group blu-margin">
         <select class="form-control" th:object="${paysList}" id="dropPays" name="paysRecherche">
             <option th:value="${paysSelectionne.getId()}" th:text="${paysSelectionne.getNom()}"></option>
             <option th:each="pays : ${paysList}" th:value="${pays.getId()}" th:text="${pays.getNom()}"></option>
         </select>
     </div>
+    </span>
 
     <div>
-        <button type="submit" name="RECHERCHER!"></button>
+        <button type="submit" name="rechercher" value="RECHERCHER!"></button>
     </div>
 </form>
 
