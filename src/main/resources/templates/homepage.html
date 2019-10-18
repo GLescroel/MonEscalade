@@ -35,8 +35,9 @@
     </div>
     </span>
 
+    <br>
     <div>
-        <button type="submit" name="rechercher" value="RECHERCHER!"></button>
+        <button type="submit" name="rechercher" value="RECHERCHER!">RECHERCHER !</button>
     </div>
 </form>
 
@@ -52,9 +53,9 @@
         </thead>
         <tbody>
         <tr th:each="site : ${resultats}">
-            <td><span th:text="${site.getNom()}"> Site </span></td>
-            <td><span th:text="${site.getLocalisation().getPays().getNom()}"> Pays </span></td>
-            <td><span th:text="${site.getLocalisation().getContinent().getNom()}"> Continent </span></td>
+            <td><span><a th:href="@{/site(id=${site.getId()})}" th:text="${site.getNom()}"></a> </span></td>
+            <td><span th:text="${site.getLocalisation().getPays().getNom()}"> </span></td>
+            <td><span th:text="${site.getLocalisation().getContinent().getNom()}"> </span></td>
         </tr>
         </tbody>
     </table>

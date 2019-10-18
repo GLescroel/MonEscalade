@@ -1,0 +1,29 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Site</title>
+</head>
+<body>
+
+<h1><span th:if="${site}" th:text="${site.getNom()}"/></h1>
+
+
+<br>
+<br>
+<br>
+<h2>Localisation</h2>
+<a>Continent   : <a th:text="${site.getLocalisation().getContinent().getNom()}"/> </a><br>
+<a>Pays        : <a th:text="${site.getLocalisation().getPays().getNom()}"/></a><br>
+<a>Région      : <a th:text="${site.getLocalisation().getRegion()}"/></a><br>
+<a>Département : <a th:text="${site.getLocalisation().getDepartement()}"/></a><br>
+<a>Ville       : <a th:text="${site.getLocalisation().getVille()}"/></a><br>
+<a>Adresse     : <a th:text="${site.getLocalisation().getAdresse()}"/></a><br>
+
+<br><br><br><br>
+<div>
+    <a th:href="@{/}">Accueil</a>
+</div>
+
+</body>
+</html>

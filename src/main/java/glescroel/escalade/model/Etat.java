@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
+import java.util.Map;
 
 @Entity
 public class Etat {
@@ -20,6 +22,9 @@ public class Etat {
     @ColumnTransformer(write = "UPPER(?)")
     @Size(message = ErrorMessages.ETAT_NOM_LENGTH, min = 1, max = 20)
     private String etat;
+
+    @OneToMany
+    private Map<Topo, Utilisateur> topoUtilisateur;
 
     public Integer getId() {
         return id;

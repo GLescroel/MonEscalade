@@ -57,4 +57,13 @@ public class SiteService {
         }
         return siteDtos;
     }
+
+    public SiteDto getSiteById(Integer id) {
+        Optional<Site> result = siteRepository.findById(id);
+        SiteDto siteDto = null;
+        if (result.isPresent()) {
+            siteDto = new SiteDto(result.get());
+        }
+        return siteDto;
+    }
 }
