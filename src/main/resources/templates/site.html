@@ -63,6 +63,20 @@
     <tbody>
     <tr th:each="secteur: ${secteurs}">
         <td th:text="${secteur.getNom()}">Nom</td>
+        <div th:if="!${secteur.getVoies().isEmpty()}">
+            <table th:border="black" th:axis="1">
+                <tr>
+                    <td th:text="voie" th:align="center">Nom</td>
+                    <td th:text="cotation" th:align="center">Cotation</td>
+                    <td th:text="equipée" th:align="center">Equipee</td>
+                </tr>
+                <tr th:each="voie: ${secteur.getVoies()}">
+                    <td th:text="${voie.getNom()}">Nom</td>
+                    <td th:text="${voie.getCotation()}">Cotation</td>
+                    <td th:text="${voie.isEquipee()}">Equipee</td>
+                </tr>
+            </table>
+        </div>
     </tr>
     </tbody>
 </table>
