@@ -49,6 +49,26 @@
     </tbody>
 </table>
 
+<div th:if="!${secteurs.isEmpty()}">
+<br>
+<br>
+<br>
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="Description">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="secteur: ${secteurs}">
+        <td th:text="${secteur.getNom()}">Nom</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+
 <br><br><br><br>
 <div>
     <a th:href="@{/}">Accueil</a>

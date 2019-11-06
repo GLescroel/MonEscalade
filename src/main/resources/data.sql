@@ -24,3 +24,8 @@ INSERT INTO site (id, localisation_id, nom, tag) VALUES (1, 1, 'site de Chambér
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (2, 2, 'Mont Lincoln', false);
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (3, 3, 'Mont Janus', true);
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (4, 4, 'Flat Top Mountain', false);
+INSERT INTO secteur (id, nom, site_id) VALUES (1, 'Secteur de l"ourson', 1);
+INSERT INTO secteur (id, nom, site_id) VALUES (2, 'Secteur de l"ours blanc', 1);
+INSERT INTO secteur (id, nom, site_id) VALUES (3, 'Secteur 1', 2);
+INSERT INTO secteur (id, nom, site_id) VALUES (4, 'Secteur 2', 2);
+INSERT INTO secteur (id, nom, site_id) VALUES (5, 'Secteur 3', 2);
