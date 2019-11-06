@@ -14,13 +14,40 @@
 <br>
 <br>
 <br>
-<h2>Localisation</h2>
-<a>Continent   : <a th:text="${site.getLocalisation().getContinent().getNom()}"/> </a><br>
-<a>Pays        : <a th:text="${site.getLocalisation().getPays().getNom()}"/></a><br>
-<a>Région      : <a th:text="${site.getLocalisation().getRegion()}"/></a><br>
-<a>Département : <a th:text="${site.getLocalisation().getDepartement()}"/></a><br>
-<a>Ville       : <a th:text="${site.getLocalisation().getVille()}"/></a><br>
-<a>Adresse     : <a th:text="${site.getLocalisation().getAdresse()}"/></a><br>
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="Localisation">Localisation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text=Continent>Continent</td>
+        <td th:text="${site.getLocalisation().getContinent().getNom()}">Continent</td>
+    </tr>
+    <tr>
+        <td th:text=Pays>Pays</td>
+        <td th:text="${site.getLocalisation().getPays().getNom()}">Pays</td>
+    </tr>
+    <tr>
+        <td th:text=Région>Region</td>
+        <td th:text="${site.getLocalisation().getRegion()}">Region</td>
+    </tr>
+    <tr>
+        <td th:text=Département>Departement</td>
+        <td th:text="${site.getLocalisation().getDepartement()}">Departement</td>
+    </tr>
+    <tr>
+        <td th:text=Ville>Ville</td>
+        <td th:text="${site.getLocalisation().getVille()}">Ville</td>
+    </tr>
+    <tr>
+        <td th:text=Adresse>Adresse</td>
+        <td th:text="${site.getLocalisation().getAdresse()}">Adresse</td>
+    </tr>
+    </tbody>
+</table>
 
 <br><br><br><br>
 <div>
