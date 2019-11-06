@@ -8,7 +8,9 @@
 
 <h1><span th:if="${site}" th:text="${site.getNom()}"/></h1>
 
-
+<br>
+<br>
+<img alt="Mountain View" style="width:600px" th:src="@{Site_+${site.getId()}+.jpg}">
 <br>
 <br>
 <br>
