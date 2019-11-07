@@ -1,9 +1,12 @@
 package glescroel.escalade.controller;
 
+import glescroel.escalade.dto.LongueurDto;
 import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.dto.VoieDto;
+import glescroel.escalade.model.Longueur;
 import glescroel.escalade.model.Voie;
+import glescroel.escalade.service.LongueurService;
 import glescroel.escalade.service.SecteurService;
 import glescroel.escalade.service.SiteService;
 import glescroel.escalade.service.VoieService;
@@ -33,6 +36,9 @@ public class SiteController {
     @Autowired
     VoieService voieService;
 
+    @Autowired
+    LongueurService longueurService;
+
     @GetMapping(value = "/site", params = {"id"})
     public String viewSitePage(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
         LOGGER.debug(">>>>> Dans SiteController");
@@ -46,6 +52,9 @@ public class SiteController {
 
         for (SecteurDto secteur : secteursList) {
             secteur.setVoies(convertDtoToVoies(voieService.getVoiesBySecteur(secteur.getId())));
+            for(Voie voie : secteur.getVoies()) {
+                voie.setLongueurs(convertDtoToLongueurs(longueurService.getLongueursByVoie(voie.getId())));
+            }
         }
 
         model.addAttribute("secteurs", secteursList);
@@ -70,4 +79,19 @@ public class SiteController {
         }
         return voies;
     }
+
+    List<Longueur> convertDtoToLongueurs(List<LongueurDto> longueursDto) {
+
+        List<Longueur> longueurs = new ArrayList<>();
+        for (LongueurDto longueurDto : longueursDto) {
+            Longueur longueur = new Longueur();
+            longueur.setId(longueurDto.getId());
+            longueur.setNom(longueurDto.getNom());
+            longueur.setCotation(longueurDto.getCotation());
+            longueur.setCommentaires(longueurDto.getCommentaires());
+            longueurs.add(longueur);
+        }
+        return longueurs;
+    }
+
 }

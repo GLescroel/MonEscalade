@@ -35,3 +35,9 @@ INSERT INTO voie (id, nom, secteur_id, cotation, equipee) VALUES (3, 'Cuisse de 
 INSERT INTO voie (id, nom, secteur_id, cotation, equipee) VALUES (4, 'Pied de l"ours', 2, '3B', false );
 INSERT INTO voie (id, nom, secteur_id, cotation, equipee) VALUES (5, 'Tibia de l"ours', 2, '5A', false );
 INSERT INTO voie (id, nom, secteur_id, cotation, equipee) VALUES (6, 'Cuisse de l"ours', 2, '7B', true );
+INSERT INTO longueur (id, nom, voie_id, cotation) VALUES (1, 'Orteils de l"ourson', 1, '2');
+INSERT INTO longueur (id, nom, voie_id, cotation) VALUES (2, 'Cheville de l"ourson', 1, '2');
+INSERT INTO longueur (id, nom, voie_id, cotation) VALUES (3, 'Tibia de l"ourson', 2, '4A');
+INSERT INTO longueur (id, nom, voie_id, cotation) VALUES (4, 'Genou de l"ourson', 2, '4A');
+INSERT INTO longueur (id, nom, voie_id, cotation) VALUES (5, 'Cuisse de l"ourson', 3, '5A');
+INSERT INTO longueur (id, nom, voie_id, cotation) VALUES (6, 'Hanche de l"ourson', 3, '5B');

@@ -74,6 +74,18 @@
                     <td th:text="${voie.getNom()}">Nom</td>
                     <td th:text="${voie.getCotation()}">Cotation</td>
                     <td th:text="${voie.isEquipee()}">Equipee</td>
+                    <div th:if="!${voie.getLongueurs().isEmpty()}">
+                        <table th:border="black" th:axis="1">
+                            <tr>
+                                <td th:text="longueur" th:align="center">Nom</td>
+                                <td th:text="cotation" th:align="center">Cotation</td>
+                            </tr>
+                            <tr th:each="longueur: ${voie.getLongueurs()}">
+                                <td th:text="${longueur.getNom()}">Nom</td>
+                                <td th:text="${longueur.getCotation()}">Cotation</td>
+                            </tr>
+                        </table>
+                    </div>
                 </tr>
             </table>
         </div>

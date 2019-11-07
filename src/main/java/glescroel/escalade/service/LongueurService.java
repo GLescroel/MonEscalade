@@ -6,6 +6,8 @@ import glescroel.escalade.repository.LongueurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,19 @@ public class LongueurService {
             longueurDto = new LongueurDto(result.get());
         }
         return longueurDto;
+    }
+
+    public List<LongueurDto> getLongueursByVoie(Integer idVoie) {
+        List<Longueur> longueurs = longueurRepository.getLongueursByVoie_Id(idVoie);
+        return convertLongueursToDtos(longueurs);
+    }
+
+    private List<LongueurDto> convertLongueursToDtos(List<Longueur> longueurs) {
+        List<LongueurDto> longueurDtos = new ArrayList();
+        for (Longueur longueur : longueurs){
+            longueurDtos.add(new LongueurDto(longueur));
+        }
+        return longueurDtos;
     }
 
 }
