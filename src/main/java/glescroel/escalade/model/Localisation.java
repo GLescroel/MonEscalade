@@ -25,22 +25,22 @@ public class Localisation {
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.LOCALISATION_REGION_LENGTH, min = 0, max = 50)
+    @Size(message = ErrorMessages.LOCALISATION_REGION_LENGTH, max = 50)
     private String region;
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.LOCALISATION_DEPARTEMENT_LENGTH, min = 0, max = 50)
+    @Size(message = ErrorMessages.LOCALISATION_DEPARTEMENT_LENGTH, max = 50)
     private String departement;
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.LOCALISATION_VILLE_LENGTH, min = 0, max = 50)
+    @Size(message = ErrorMessages.LOCALISATION_VILLE_LENGTH, max = 50)
     private String ville;
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.LOCALISATION_ADRESSE_LENGTH, min = 0, max = 100)
+    @Size(message = ErrorMessages.LOCALISATION_ADRESSE_LENGTH, max = 100)
     private String adresse;
 
     public Integer getId() {

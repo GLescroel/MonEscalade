@@ -7,7 +7,7 @@ public class ErrorMessages {
     public static final String UTILISATEUR_NOM_LENGTH = "Longueur erronée du nom de l'utilisateur : 1 à 30 caractères";
     public static final String UTILISATEUR_PRENOM_LENGTH = "Longueur erronée du prénom de l'utilisateur : 1 à 30 caractères";
     public static final String UTILISATEUR_EMAIL_LENGTH = "Longueur erronée de l'email de l'utilisateur : 5 à 50 caractères";
-    public static final String UTILISATEUR_PWD_LENGTH = "Longueur erronée du password de l'utilisateur : 8 à 20 caractères";
+    public static final String UTILISATEUR_MDP_LENGTH = "Longueur erronée du password de l'utilisateur : 8 à 20 caractères";
     public static final String ETAT_NOM_LENGTH = "Longueur erronée de l'état : 1 à 20 caractères";
     public static final String SECTEUR_NOM_LENGTH = "Longueur erronée du nom du secteur : 1 à 50 caractères";
     public static final String VOIE_NOM_LENGTH = "Longueur erronée du nom de la voie : 1 à 50 caractères";

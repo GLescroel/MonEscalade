@@ -33,7 +33,7 @@ public class Topo {
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.TOPO_DESCRIPTION_LENGTH, min = 0, max = 100)
+    @Size(message = ErrorMessages.TOPO_DESCRIPTION_LENGTH, max = 100)
     private String description;
 
     @Basic

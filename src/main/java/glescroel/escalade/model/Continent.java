@@ -18,7 +18,7 @@ public class Continent {
 
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
-    @Size(message = ErrorMessages.CONTINENT_NOM_LENGTH, min = 0, max = 50)
+    @Size(message = ErrorMessages.CONTINENT_NOM_LENGTH, max = 50)
     private String nom;
 
     public Integer getId() {

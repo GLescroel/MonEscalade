@@ -38,7 +38,7 @@ public class Utilisateur {
 
     @Basic
     @ColumnTransformer()
-    @Size(message = ErrorMessages.UTILISATEUR_PWD_LENGTH, min = 8, max = 15)
+    @Size(message = ErrorMessages.UTILISATEUR_MDP_LENGTH, min = 8, max = 15)
     private String password;
 
     @OneToOne
