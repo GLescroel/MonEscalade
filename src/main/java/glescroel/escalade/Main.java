@@ -10,7 +10,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class Main extends SpringBootServletInitializer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final Logger MY_LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         new Main().runAsJavaApplication(args);
@@ -20,7 +20,7 @@ public class Main extends SpringBootServletInitializer {
         SpringApplicationBuilder application = new SpringApplicationBuilder();
         application.sources(Main.class);
         application.run(args);
-        LOGGER.info("L'application a démarré...");
+        MY_LOGGER.info("L'application a démarré...");
     }
 
 
