@@ -13,23 +13,12 @@ public class TopoDto {
 
     private Integer id;
     private String nom;
-    private Localisation localisation;
+    private LocalisationDto localisation;
     private String description;
     private Date parution;
-    private List<Site> sites;
-    private Utilisateur utilisateur;
-    private List<Commentaire> commentaires;
-
-    public TopoDto(Topo topo) {
-        this.id = topo.getId();
-        this.nom = topo.getNom();
-        this.localisation = topo.getLocalisation();
-        this.description = topo.getDescription();
-        this.parution = topo.getParution();
-        this.sites = topo.getSites();
-        this.utilisateur = topo.getUtilisateur();
-        this.commentaires = topo.getCommentaires();
-    }
+    private List<SiteDto> sites;
+    private UtilisateurDto utilisateur;
+    private List<CommentaireDto> commentaires;
 
     public Integer getId() {
         return id;
@@ -47,11 +36,11 @@ public class TopoDto {
         this.nom = nom;
     }
 
-    public Localisation getLocalisation() {
+    public LocalisationDto getLocalisation() {
         return localisation;
     }
 
-    public void setLocalisation(Localisation localisation) {
+    public void setLocalisation(LocalisationDto localisation) {
         this.localisation = localisation;
     }
 
@@ -71,27 +60,27 @@ public class TopoDto {
         this.parution = parution;
     }
 
-    public List<Site> getSites() {
+    public List<SiteDto> getSites() {
         return sites;
     }
 
-    public void setSites(List<Site> sites) {
+    public void setSites(List<SiteDto> sites) {
         this.sites = sites;
     }
 
-    public Utilisateur getUtilisateur() {
+    public UtilisateurDto getUtilisateur() {
         return utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
+    public void setUtilisateur(UtilisateurDto utilisateur) {
         this.utilisateur = utilisateur;
     }
 
-    public List<Commentaire> getCommentaires() {
+    public List<CommentaireDto> getCommentaires() {
         return commentaires;
     }
 
-    public void setCommentaires(List<Commentaire> commentaires) {
+    public void setCommentaires(List<CommentaireDto> commentaires) {
         this.commentaires = commentaires;
     }
 }

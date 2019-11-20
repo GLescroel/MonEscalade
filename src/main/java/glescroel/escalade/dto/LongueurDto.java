@@ -1,9 +1,5 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Commentaire;
-import glescroel.escalade.model.Longueur;
-import glescroel.escalade.model.Voie;
-
 import java.util.List;
 
 public class LongueurDto {
@@ -11,16 +7,8 @@ public class LongueurDto {
     private Integer id;
     private String nom;
     private String cotation;
-    private Voie voie;
-    private List<Commentaire> commentaires;
-
-    public LongueurDto(Longueur longueur) {
-        this.id = longueur.getId();
-        this.nom = longueur.getNom();
-        this.cotation = longueur.getCotation();
-        this.voie = longueur.getVoie();
-        this.commentaires = longueur.getCommentaires();
-    }
+    private VoieDto voie;
+    private List<CommentaireDto> commentaires;
 
     public Integer getId() {
         return id;
@@ -46,19 +34,19 @@ public class LongueurDto {
         this.cotation = cotation;
     }
 
-    public Voie getVoie() {
+    public VoieDto getVoie() {
         return voie;
     }
 
-    public void setVoie(Voie voie) {
+    public void setVoie(VoieDto voie) {
         this.voie = voie;
     }
 
-    public List<Commentaire> getCommentaires() {
+    public List<CommentaireDto> getCommentaires() {
         return commentaires;
     }
 
-    public void setCommentaires(List<Commentaire> commentaires) {
+    public void setCommentaires(List<CommentaireDto> commentaires) {
         this.commentaires = commentaires;
     }
 }

@@ -1,10 +1,5 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Commentaire;
-import glescroel.escalade.model.Longueur;
-import glescroel.escalade.model.Secteur;
-import glescroel.escalade.model.Voie;
-
 import java.util.List;
 
 public class VoieDto {
@@ -13,19 +8,9 @@ public class VoieDto {
     private String nom;
     private String cotation;
     private boolean equipee;
-    private Secteur secteur;
-    private List<Longueur> longueurs;
-    private List<Commentaire> commentaires;
-
-    public VoieDto(Voie voie) {
-        this.id = voie.getId();
-        this.nom = voie.getNom();
-        this.cotation = voie.getCotation();
-        this.equipee = voie.isEquipee();
-        this.secteur = voie.getSecteur();
-        this.longueurs = voie.getLongueurs();
-        this.commentaires = voie.getCommentaires();
-    }
+    private SecteurDto secteur;
+    private List<LongueurDto> longueurs;
+    private List<CommentaireDto> commentaires;
 
     public Integer getId() {
         return id;
@@ -59,27 +44,27 @@ public class VoieDto {
         this.equipee = equipee;
     }
 
-    public Secteur getSecteur() {
+    public SecteurDto getSecteur() {
         return secteur;
     }
 
-    public void setSecteur(Secteur secteur) {
+    public void setSecteur(SecteurDto secteur) {
         this.secteur = secteur;
     }
 
-    public List<Longueur> getLongueurs() {
+    public List<LongueurDto> getLongueurs() {
         return longueurs;
     }
 
-    public void setLongueurs(List<Longueur> longueurs) {
+    public void setLongueurs(List<LongueurDto> longueurs) {
         this.longueurs = longueurs;
     }
 
-    public List<Commentaire> getCommentaires() {
+    public List<CommentaireDto> getCommentaires() {
         return commentaires;
     }
 
-    public void setCommentaires(List<Commentaire> commentaires) {
+    public void setCommentaires(List<CommentaireDto> commentaires) {
         this.commentaires = commentaires;
     }
 }

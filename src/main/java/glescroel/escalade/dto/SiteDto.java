@@ -1,37 +1,17 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Commentaire;
-import glescroel.escalade.model.Localisation;
-import glescroel.escalade.model.Secteur;
-import glescroel.escalade.model.Site;
-import glescroel.escalade.model.Topo;
-import glescroel.escalade.model.Utilisateur;
-
 import java.util.List;
 
 public class SiteDto {
 
     private Integer id;
     private String nom;
-    private Localisation localisation;
+    private LocalisationDto localisation;
     private boolean tag;
-    private Utilisateur utilisateur;
-    private List<Secteur> secteurs;
-    private List<Topo> topos;
-    private List<Commentaire> commentaires;
-
-
-    public SiteDto () {};
-    public SiteDto(Site site){
-        this.nom = site.getNom();
-        this.id = site.getId();
-        this.localisation = site.getLocalisation();
-        this.tag = site.isTag();
-        this.utilisateur = site.getUtilisateur();
-        this.secteurs = site.getSecteurs();
-        this.topos = site.getTopos();
-        this.commentaires = site.getCommentaires();
-    }
+    private UtilisateurDto utilisateur;
+    private List<SecteurDto> secteurs;
+    private List<TopoDto> topos;
+    private List<CommentaireDto> commentaires;
 
     public String getNom() {
         return nom;
@@ -49,11 +29,11 @@ public class SiteDto {
         this.id = id;
     }
 
-    public Localisation getLocalisation() {
+    public LocalisationDto getLocalisation() {
         return localisation;
     }
 
-    public void setLocalisation(Localisation localisation) {
+    public void setLocalisation(LocalisationDto localisation) {
         this.localisation = localisation;
     }
 
@@ -65,35 +45,35 @@ public class SiteDto {
         this.tag = tag;
     }
 
-    public Utilisateur getUtilisateur() {
+    public UtilisateurDto getUtilisateur() {
         return utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
+    public void setUtilisateur(UtilisateurDto utilisateur) {
         this.utilisateur = utilisateur;
     }
 
-    public List<Secteur> getSecteurs() {
+    public List<SecteurDto> getSecteurs() {
         return secteurs;
     }
 
-    public void setSecteurs(List<Secteur> secteurs) {
+    public void setSecteurs(List<SecteurDto> secteurs) {
         this.secteurs = secteurs;
     }
 
-    public List<Topo> getTopos() {
+    public List<TopoDto> getTopos() {
         return topos;
     }
 
-    public void setTopos(List<Topo> topos) {
+    public void setTopos(List<TopoDto> topos) {
         this.topos = topos;
     }
 
-    public List<Commentaire> getCommentaires() {
+    public List<CommentaireDto> getCommentaires() {
         return commentaires;
     }
 
-    public void setCommentaires(List<Commentaire> commentaires) {
+    public void setCommentaires(List<CommentaireDto> commentaires) {
         this.commentaires = commentaires;
     }
 }

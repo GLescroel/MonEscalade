@@ -1,21 +1,10 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Continent;
-import glescroel.escalade.model.Pays;
-
 public class PaysDto {
 
     private Integer id;
     private String nom;
-    private Continent continent;
-
-    public PaysDto(){};
-
-    public PaysDto(Pays pays) {
-        this.id = pays.getId();
-        this.nom = pays.getNom();
-        this.continent = pays.getContinent();
-    }
+    private ContinentDto continent;
 
     public Integer getId() {
         return id;
@@ -33,11 +22,11 @@ public class PaysDto {
         this.nom = nom;
     }
 
-    public Continent getContinent() {
+    public ContinentDto getContinent() {
         return continent;
     }
 
-    public void setContinent(Continent continent) {
+    public void setContinent(ContinentDto continent) {
         this.continent = continent;
     }
 }

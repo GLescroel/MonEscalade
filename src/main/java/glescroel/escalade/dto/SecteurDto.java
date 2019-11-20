@@ -1,27 +1,14 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Commentaire;
-import glescroel.escalade.model.Secteur;
-import glescroel.escalade.model.Site;
-import glescroel.escalade.model.Voie;
-
 import java.util.List;
 
 public class SecteurDto {
 
     private Integer id;
     private String nom;
-    private Site site;
-    private List<Voie> voies;
-    private List<Commentaire> commentaires;
-
-    public SecteurDto(Secteur secteur) {
-        this.id = secteur.getId();
-        this.nom = secteur.getNom();
-        this.site = secteur.getSite();
-        this.voies = secteur.getVoies();
-        this.commentaires = secteur.getCommentaires();
-    }
+    private SiteDto site;
+    private List<VoieDto> voies;
+    private List<CommentaireDto> commentaires;
 
     public Integer getId() {
         return id;
@@ -39,27 +26,27 @@ public class SecteurDto {
         this.nom = nom;
     }
 
-    public Site getSite() {
+    public SiteDto getSite() {
         return site;
     }
 
-    public void setSite(Site site) {
+    public void setSite(SiteDto site) {
         this.site = site;
     }
 
-    public List<Voie> getVoies() {
+    public List<VoieDto> getVoies() {
         return voies;
     }
 
-    public void setVoies(List<Voie> voies) {
+    public void setVoies(List<VoieDto> voies) {
         this.voies = voies;
     }
 
-    public List<Commentaire> getCommentaires() {
+    public List<CommentaireDto> getCommentaires() {
         return commentaires;
     }
 
-    public void setCommentaires(List<Commentaire> commentaires) {
+    public void setCommentaires(List<CommentaireDto> commentaires) {
         this.commentaires = commentaires;
     }
 }

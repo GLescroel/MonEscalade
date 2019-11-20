@@ -25,11 +25,11 @@ public class HomePageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
 
     @Autowired
-    SiteService siteService;
+    private SiteService siteService;
     @Autowired
-    ContinentService continentService;
+    private ContinentService continentService;
     @Autowired
-    PaysService paysService;
+    private PaysService paysService;
 
     @GetMapping(value = "/")
     public String viewHomePage(Model model) {
@@ -127,7 +127,7 @@ public class HomePageController {
             ContinentDto continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
 
             for (int i = 0; i < paysService.getPaysByContinent(continentSelectionne).size(); i++) {
-                if (paysSelectionne.getNom() == paysService.getPaysByContinent(continentSelectionne).get(i).getNom()) {
+                if (paysSelectionne.getNom().equals(paysService.getPaysByContinent(continentSelectionne).get(i).getNom())) {
                     paysContinentOk = true;
                 }
             }

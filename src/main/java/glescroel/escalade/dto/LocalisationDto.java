@@ -1,13 +1,10 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Continent;
-import glescroel.escalade.model.Pays;
-
 public class LocalisationDto {
 
     private Integer id;
-    private Pays pays;
-    private Continent continent;
+    private PaysDto pays;
+    private ContinentDto continent;
     private String region;
     private String departement;
     private String ville;
@@ -21,19 +18,19 @@ public class LocalisationDto {
         this.id = id;
     }
 
-    public Pays getPays() {
+    public PaysDto getPays() {
         return pays;
     }
 
-    public void setPays(Pays pays) {
+    public void setPays(PaysDto pays) {
         this.pays = pays;
     }
 
-    public Continent getContinent() {
+    public ContinentDto getContinent() {
         return continent;
     }
 
-    public void setContinent(Continent continent) {
+    public void setContinent(ContinentDto continent) {
         this.continent = continent;
     }
 

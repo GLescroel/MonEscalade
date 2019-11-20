@@ -1,9 +1,6 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Commentaire;
 import glescroel.escalade.model.Role;
-import glescroel.escalade.model.Topo;
-import glescroel.escalade.model.Utilisateur;
 
 import java.util.List;
 
@@ -15,19 +12,8 @@ public class UtilisateurDto {
     private String email;
     private String password;
     private Role role;
-    private List<Topo> topos;
-    private List<Commentaire> commentaires;
-
-    public UtilisateurDto(Utilisateur utilisateur) {
-        this.id = utilisateur.getId();
-        this.nom = utilisateur.getNom();
-        this.prenom = utilisateur.getPrenom();
-        this.email = utilisateur.getEmail();
-        this.password = utilisateur.getPassword();
-        this.role = utilisateur.getRole();
-        this.topos = utilisateur.getTopos();
-        this.commentaires = utilisateur.getCommentaires();
-    }
+    private List<TopoDto> topos;
+    private List<CommentaireDto> commentaires;
 
     public Integer getId() {
         return id;
@@ -77,19 +63,19 @@ public class UtilisateurDto {
         this.role = role;
     }
 
-    public List<Topo> getTopos() {
+    public List<TopoDto> getTopos() {
         return topos;
     }
 
-    public void setTopos(List<Topo> topos) {
+    public void setTopos(List<TopoDto> topos) {
         this.topos = topos;
     }
 
-    public List<Commentaire> getCommentaires() {
+    public List<CommentaireDto> getCommentaires() {
         return commentaires;
     }
 
-    public void setCommentaires(List<Commentaire> commentaires) {
+    public void setCommentaires(List<CommentaireDto> commentaires) {
         this.commentaires = commentaires;
     }
 }

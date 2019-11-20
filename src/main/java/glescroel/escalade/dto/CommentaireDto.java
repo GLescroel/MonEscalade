@@ -1,34 +1,15 @@
 package glescroel.escalade.dto;
 
-import glescroel.escalade.model.Commentaire;
-import glescroel.escalade.model.Longueur;
-import glescroel.escalade.model.Secteur;
-import glescroel.escalade.model.Site;
-import glescroel.escalade.model.Topo;
-import glescroel.escalade.model.Utilisateur;
-import glescroel.escalade.model.Voie;
-
 public class CommentaireDto {
 
     private Integer id;
     private String commentaire;
-    private Topo topo;
-    private Site site;
-    private Secteur secteur;
-    private Voie voie;
-    private Longueur longueur;
-    private Utilisateur utilisateur;
-
-    public CommentaireDto(Commentaire commentaire) {
-        this.id = commentaire.getId();
-        this.commentaire = commentaire.getCommentaire();
-        this.topo = commentaire.getTopo();
-        this.site = commentaire.getSite();
-        this.secteur = commentaire.getSecteur();
-        this.voie = commentaire.getVoie();
-        this.longueur = commentaire.getLongueur();
-        this.utilisateur = commentaire.getUtilisateur();
-    }
+    private TopoDto topo;
+    private SiteDto site;
+    private SecteurDto secteur;
+    private VoieDto voie;
+    private LongueurDto longueur;
+    private UtilisateurDto utilisateur;
 
     public Integer getId() {
         return id;
@@ -46,51 +27,51 @@ public class CommentaireDto {
         this.commentaire = commentaire;
     }
 
-    public Topo getTopo() {
+    public TopoDto getTopo() {
         return topo;
     }
 
-    public void setTopo(Topo topo) {
+    public void setTopo(TopoDto topo) {
         this.topo = topo;
     }
 
-    public Site getSite() {
+    public SiteDto getSite() {
         return site;
     }
 
-    public void setSite(Site site) {
+    public void setSite(SiteDto site) {
         this.site = site;
     }
 
-    public Secteur getSecteur() {
+    public SecteurDto getSecteur() {
         return secteur;
     }
 
-    public void setSecteur(Secteur secteur) {
+    public void setSecteur(SecteurDto secteur) {
         this.secteur = secteur;
     }
 
-    public Voie getVoie() {
+    public VoieDto getVoie() {
         return voie;
     }
 
-    public void setVoie(Voie voie) {
+    public void setVoie(VoieDto voie) {
         this.voie = voie;
     }
 
-    public Longueur getLongueur() {
+    public LongueurDto getLongueur() {
         return longueur;
     }
 
-    public void setLongueur(Longueur longueur) {
+    public void setLongueur(LongueurDto longueur) {
         this.longueur = longueur;
     }
 
-    public Utilisateur getUtilisateur() {
+    public UtilisateurDto getUtilisateur() {
         return utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
+    public void setUtilisateur(UtilisateurDto utilisateur) {
         this.utilisateur = utilisateur;
     }
 }
