@@ -1,5 +1,7 @@
 package glescroel.escalade.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +18,8 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 public class Topo {
 
@@ -49,68 +53,4 @@ public class Topo {
 
     @OneToMany
     private List<Commentaire> commentaires;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Localisation getLocalisation() {
-        return localisation;
-    }
-
-    public void setLocalisation(Localisation localisation) {
-        this.localisation = localisation;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getParution() {
-        return parution;
-    }
-
-    public void setParution(Date parution) {
-        this.parution = parution;
-    }
-
-    public List<Site> getSites() {
-        return sites;
-    }
-
-    public void setSites(List<Site> sites) {
-        this.sites = sites;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public List<Commentaire> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<Commentaire> commentaires) {
-        this.commentaires = commentaires;
-    }
 }

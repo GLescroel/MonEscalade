@@ -1,5 +1,7 @@
 package glescroel.escalade.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.Basic;
@@ -12,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 public class Longueur {
 
@@ -34,44 +38,4 @@ public class Longueur {
 
     @OneToMany
     private List<Commentaire> commentaires;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getCotation() {
-        return cotation;
-    }
-
-    public void setCotation(String cotation) {
-        this.cotation = cotation;
-    }
-
-    public Voie getVoie() {
-        return voie;
-    }
-
-    public void setVoie(Voie voie) {
-        this.voie = voie;
-    }
-
-    public List<Commentaire> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<Commentaire> commentaires) {
-        this.commentaires = commentaires;
-    }
 }

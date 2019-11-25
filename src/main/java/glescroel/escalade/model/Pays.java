@@ -1,5 +1,7 @@
 package glescroel.escalade.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.Basic;
@@ -10,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+@Getter
+@Setter
 @Entity
 public class Pays {
 
@@ -24,28 +28,4 @@ public class Pays {
 
     @ManyToOne
     private Continent continent;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Continent getContinent() {
-        return continent;
-    }
-
-    public void setContinent(Continent continent) {
-        this.continent = continent;
-    }
 }

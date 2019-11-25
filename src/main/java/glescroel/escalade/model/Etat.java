@@ -1,5 +1,7 @@
 package glescroel.escalade.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.Basic;
@@ -11,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 import java.util.Map;
 
+@Getter
+@Setter
 @Entity
 public class Etat {
 
@@ -26,19 +30,4 @@ public class Etat {
     @OneToMany
     private Map<Topo, Utilisateur> topoUtilisateur;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getEtat() {
-        return etat;
-    }
-
-    public void setEtat(String etat) {
-        this.etat = etat;
-    }
 }
