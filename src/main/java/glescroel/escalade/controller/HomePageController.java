@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -78,9 +77,7 @@ public class HomePageController {
         modelAndview.addObject("site", site);
 
 
-
-        List<SiteDto> sites = new ArrayList<>();
-
+        List<SiteDto> sites;
         if ((!nomSiteRecherche.isEmpty()) && (paysRecherche != null) && (!paysRecherche.equals("0"))) {
             sites = siteService.getSitesByNomPartielAndPays(nomSiteRecherche, Integer.valueOf(paysRecherche));
         } else if ((!nomSiteRecherche.isEmpty()) && (!continentRecherche.equals("0"))) {
@@ -91,26 +88,21 @@ public class HomePageController {
             sites = siteService.getSitesByPays(Integer.valueOf(paysRecherche));
         } else if (!continentRecherche.equals("0")) {
             sites = siteService.getSitesByContinent(Integer.valueOf(continentRecherche));
-        }
-
-        if (!sites.isEmpty()) {
-            modelAndview.addObject("resultats", sites);
         } else {
-            modelAndview.addObject("resultats", null);
+            sites = null;
         }
+        modelAndview.addObject("resultats", sites);
 
         modelAndview.addObject("continents", continentService.getAll());
+        ContinentDto continentSelectionne = new ContinentDto();
         if (!continentRecherche.equals("0")) {
-            ContinentDto continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
-            modelAndview.addObject("continentSelectionne", continentSelectionne);
-
+            continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
             modelAndview.addObject("paysList", paysService.getPaysByContinent(continentSelectionne));
         } else {
-            ContinentDto continentDto = new ContinentDto();
-            continentDto.setId(0);
-            continentDto.setNom("Choix du continent");
-            modelAndview.addObject("continentSelectionne", continentDto);
+            continentSelectionne.setId(0);
+            continentSelectionne.setNom("Choix du continent");
         }
+        modelAndview.addObject("continentSelectionne", continentSelectionne);
 
 
         return modelAndview;
