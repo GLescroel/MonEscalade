@@ -4,10 +4,6 @@ import glescroel.escalade.dto.CommentaireDto;
 import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.dto.VoieDto;
-import glescroel.escalade.mapper.LongueurMapper;
-import glescroel.escalade.mapper.SecteurMapper;
-import glescroel.escalade.mapper.SiteMapper;
-import glescroel.escalade.mapper.VoieMapper;
 import glescroel.escalade.service.CommentaireService;
 import glescroel.escalade.service.LongueurService;
 import glescroel.escalade.service.SecteurService;
@@ -30,10 +26,6 @@ import java.util.List;
 public class SiteController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SiteController.class);
-    private static final SiteMapper SITE_MAPPER = SiteMapper.INSTANCE;
-    private static final SecteurMapper SECTEUR_MAPPER = SecteurMapper.INSTANCE;
-    private static final VoieMapper VOIE_MAPPER = VoieMapper.INSTANCE;
-    private static final LongueurMapper LONGUEUR_MAPPER = LongueurMapper.INSTANCE;
 
     @Autowired
     private SiteService siteService;

@@ -13,12 +13,9 @@ public class CommentaireDto {
 
     private Integer id;
     private String commentaire;
-//    private TopoDto topo;
-//    private SiteDto site;
-//    private SecteurDto secteur;
-//    private VoieDto voie;
-//    private LongueurDto longueur;
     private UtilisateurDto utilisateur;
 
-    public CommentaireDto(){};
+    public CommentaireDto(){
+        //constructeur par défaut (vs builder)
+    };
 }
