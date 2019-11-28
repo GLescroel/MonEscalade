@@ -22,24 +22,23 @@ public class Commentaire {
     private Integer id;
 
     @Basic
-    @ColumnTransformer(write = "UPPER(?)")
     @Size(message = ErrorMessages.COMMENTAIRE_COMMENTAIRE_LENGTH, min = 10, max = 1000)
     private String commentaire;
 
-    @OneToOne
-    private Topo topo;
+//    @OneToOne
+//    private Topo topo;
 
-    @OneToOne
-    private Site site;
+//    @OneToOne
+//    private Site site;
 
-    @OneToOne
-    private Secteur secteur;
+//    @OneToOne
+//    private Secteur secteur;
 
-    @OneToOne
-    private Voie voie;
+//    @OneToOne
+//    private Voie voie;
 
-    @OneToOne
-    private Longueur longueur;
+//    @OneToOne
+//    private Longueur longueur;
 
     @OneToOne
     private Utilisateur utilisateur;

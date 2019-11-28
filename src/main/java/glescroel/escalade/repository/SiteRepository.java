@@ -1,5 +1,6 @@
 package glescroel.escalade.repository;
 
+import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.model.Site;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -44,4 +45,6 @@ public interface SiteRepository extends JpaRepository<Site, Integer> {
             "where localisation.continent.id = :paysRecherche) " +
             "order by site.nom asc")
     List<Site> getSitesByNomPartielAndPays(@Param("nomPartiel") String nomPartiel, @Param("paysRecherche") Integer paysRecherche);
+
+    Site save(Site site);
 }

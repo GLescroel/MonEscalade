@@ -59,4 +59,8 @@ public class SiteService {
         }
         return siteDto;
     }
+
+    public SiteDto save(SiteDto siteDto) {
+        return SITE_MAPPER.map(siteRepository.save(SITE_MAPPER.map(siteDto)));
+    }
 }

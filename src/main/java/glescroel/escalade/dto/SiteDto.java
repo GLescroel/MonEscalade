@@ -17,4 +17,9 @@ public class SiteDto {
     private List<SecteurDto> secteurs;
     private List<TopoDto> topos;
     private List<CommentaireDto> commentaires;
+
+    public void addComment(CommentaireDto commentaire) {
+        commentaires.add(commentaire);
+    }
+
 }

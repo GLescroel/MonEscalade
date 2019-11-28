@@ -49,6 +49,29 @@
     </tbody>
 </table>
 
+<br>
+<br>
+
+<form id="formAjoutCommentaire" method="post" th:action="@{site(id=${site.getId()})}">
+    <div>
+        <span>Ajouter un commentaire:</span> <input name="commentaireSite" type="text" th:size="100" th:value="${commentaire.getCommentaire()}">
+        <button type="submit" name="ajouter" value="Ajouter!">Ajouter</button>
+    </div>
+</form>
+
+<div th:if="!${commentaires.isEmpty()}">
+    <br>
+<!--    <span th:each="commentaire : ${commentaires}" th:text="${commentaire.getCommentaire()}"></span>  -->
+    <table th:border="black" th:axis="1">
+        <tr>
+            <td th:text="COMMENTAIRES" th:align="left">Commentaires</td>
+        </tr>
+        <tr th:each="commentaire: ${commentaires}">
+            <td th:text="${commentaire.getCommentaire()}">Commentaire</td>
+        </tr>
+    </table>
+
+</div>
 <div th:if="!${secteurs.isEmpty()}">
 <br>
 <br>
@@ -94,6 +117,47 @@
 </table>
 </div>
 
+<br><br><br>
+
+<div th:if="!${secteurs.isEmpty()}">
+
+<div class="container-fluid p-0" >
+    <div class="card">
+        <div class="card-header"><h5>Informations détaillées des secteurs</h5></div>
+        <div class="card-body p-0">
+            <div id="accordion">
+                <div th:each ="secteur : ${secteurs}" class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" th:attr="href='#collapseSecteurId_'+${secteur.getId()}">
+                            <span th:utext="${secteur.getNom()}">...</span>
+                        </a>
+                    </div>
+                    <div th:attr="id='collapseSecteurId_'+${secteur.getId()}" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless text-center">
+                                    <thead>
+                                    <th class="text-left">nom de la voie</th>
+                                    <th>cotation</th>
+                                    <th>Equipee</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="voie : ${secteur.getVoies()}">
+                                        <td class="text-left" th:utext="${voie.getNom()}"></td>
+                                        <td th:utext="${voie.getCotation()}"></td>
+                                        <td th:utext="${voie.isEquipee()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 <br><br><br><br>
 <div>
