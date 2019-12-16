@@ -1,5 +1,7 @@
 package glescroel.escalade.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class SiteDto {
 
     private Integer id;
@@ -17,6 +21,10 @@ public class SiteDto {
     private List<SecteurDto> secteurs;
     private List<TopoDto> topos;
     private List<CommentaireDto> commentaires;
+
+    public SiteDto() {
+        //default constructor (vs Lombok one)
+    }
 
     public void addComment(CommentaireDto commentaire) {
         commentaires.add(commentaire);

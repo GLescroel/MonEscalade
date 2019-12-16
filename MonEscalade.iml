@@ -130,7 +130,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-spring:1.2.4" level="project" />
   </component>
   <component name="SonarLintModuleSettings">
-    <option name="idePathPrefix" value="src/main/java/glescroel/escalade/model" />
-    <option name="sqPathPrefix" value="gdpr-batch/src/main/java/fr/axa/gdpr/batch/applicationloader/validation" />
+    <option name="idePathPrefix" value="src/test/java/glescroel/escalade/controller" />
+    <option name="sqPathPrefix" value="gdpr-business/src/test/java/fr/axa/gdpr/business" />
   </component>
 </module>

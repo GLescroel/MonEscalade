@@ -44,4 +44,8 @@ public class PaysService {
         continent.setNom(continentDto.getNom());
         return PAYS_MAPPER.paysToDtos(paysRepository.findAllByContinentOrderByNomAsc(continent));
     }
+
+    public List<PaysDto> getAll() {
+        return PAYS_MAPPER.paysToDtos(paysRepository.findAll());
+    }
 }

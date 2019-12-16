@@ -1,10 +1,14 @@
 package glescroel.escalade.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class LocalisationDto {
 
     private Integer id;
@@ -14,4 +18,8 @@ public class LocalisationDto {
     private String departement;
     private String ville;
     private String adresse;
+
+    public LocalisationDto() {
+        //constructeur par défaut (vs Lombok)
+    }
 }

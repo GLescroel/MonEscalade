@@ -1,0 +1,87 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout/modification d'un site</title>
+</head>
+<body>
+
+<h1>Ajout d'un site</h1>
+<br>
+<br>
+
+<div th:if="!${site}">
+<form id="CreationSite" method="post" th:action="@{newSite}">
+    <div>
+        <span>Nom du site :</span> <input name="nomNewSite" type="text" th:size="50" th:value="toto"><br><br>
+
+        Localisation :<br>
+        <div class="form-group blu-margin">
+            Continent :
+            <select class="form-control" th:object="${continents}" id="dropContinent" name="continentSelection">
+                <option th:value="${continentSelectionne.getId()}" th:text="${continentSelectionne.getNom()}"></option>
+                <option th:each="continent : ${continents}" th:value="${continent.getId()}" th:text="${continent.getNom()}"></option>
+            </select>
+        </div>
+        <div class="form-group blu-margin">
+        et/ou pays :
+            <select class="form-control" th:object="${paysList}" id="dropPays" name="paysSelection">
+                <option th:value="${paysSelectionne.getId()}" th:text="${paysSelectionne.getNom()}"></option>
+                <option th:each="pays : ${paysList}" th:value="${pays.getId()}" th:text="${pays.getNom()}"></option>
+            </select>
+        </div>
+        <span>Région :</span> <input name="region" type="text" th:size="50" th:value="${localisation.getRegion()}"><br>
+        <span>Département :</span> <input name="departement" type="text" th:size="50" th:value="${localisation.getDepartement()}"><br>
+        <span>Ville :</span> <input name="ville" type="text" th:size="50" th:value="${localisation.getVille()}"><br>
+        <span>Adresse :</span> <input name="adresse" type="text" th:size="50" th:value="${localisation.getAdresse()}"><br>
+
+        <br><br>
+        <button type="submit" name="CreerSite" value="CreerSite!">Créer site</button>
+    </div>
+</form>
+</div>
+
+<div th:if="${site}">
+    <b>Nom du site : </b><span th:text="${site.getNom()}"></span>
+    <table>
+        <thead>
+        <tr>
+            <th th:text="Localisation">Localisation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text=Continent>Continent : </td>
+            <td th:text="${site.getLocalisation().getContinent().getNom()}">Continent</td>
+        </tr>
+        <tr>
+            <td th:text=Pays>Pays : </td>
+            <td th:text="${site.getLocalisation().getPays().getNom()}">Pays</td>
+        </tr>
+        <tr>
+            <td th:text=Région>Region : </td>
+            <td th:text="${site.getLocalisation().getRegion()}">Region</td>
+        </tr>
+        <tr>
+            <td th:text=Département>Departement : </td>
+            <td th:text="${site.getLocalisation().getDepartement()}">Departement</td>
+        </tr>
+        <tr>
+            <td th:text=Ville>Ville : </td>
+            <td th:text="${site.getLocalisation().getVille()}">Ville</td>
+        </tr>
+        <tr>
+            <td th:text=Adresse>Adresse : </td>
+            <td th:text="${site.getLocalisation().getAdresse()}">Adresse</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<br><br><br><br>
+<div>
+    <a th:href="@{/}">Accueil</a>
+</div>
+
+</body>
+</html>
