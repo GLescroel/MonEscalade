@@ -20,10 +20,12 @@ INSERT INTO localisation (id, continent_id, pays_id, region, departement, ville,
 INSERT INTO localisation (id, continent_id, pays_id, region, departement, ville, adresse) VALUES (2, 2, 2, 'Colorado', '', '', 'Chaînon Mosquito');
 INSERT INTO localisation (id, continent_id, pays_id, region, departement, ville, adresse) VALUES (3, 1, 1, 'PACA', 'Haute-Savoie', 'Montgenèvre', 'Route de la Haute Montagne');
 INSERT INTO localisation (id, continent_id, pays_id, region, departement, ville, adresse) VALUES (4, 2, 2, 'Colorado', '', '', 'Plateau de la White River');
+INSERT INTO localisation (id, continent_id, pays_id, region, departement, ville, adresse) VALUES (5, 1, 1, 'Pyrhenees', 'Pyrhenees', 'Pyrhenees city', 'Route de la Ptite Montagne');
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (1, 1, 'site de Chambéry', true);
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (2, 2, 'Mont Lincoln', false);
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (3, 3, 'Mont Janus', true);
 INSERT INTO site (id, localisation_id, nom, tag) VALUES (4, 4, 'Flat Top Mountain', false);
+INSERT INTO site (id, localisation_id, nom, tag) VALUES (5, 5, 'Pic des Pyrhénées', false);
 INSERT INTO secteur (id, nom, site_id) VALUES (1, 'Secteur de l"ourson', 1);
 INSERT INTO secteur (id, nom, site_id) VALUES (2, 'Secteur de l"ours blanc', 1);
 INSERT INTO secteur (id, nom, site_id) VALUES (3, 'Secteur 1', 2);

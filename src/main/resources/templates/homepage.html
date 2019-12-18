@@ -36,6 +36,18 @@
     </span>
 
     <br>
+
+    <span th:if="${regionList}">
+    <div class="form-group blu-margin">
+        <select class="form-control" th:object="${regionList}" id="dropRegion" name="regionRecherche">
+            <option th:value="${regionSelectionnee}" th:text="${regionSelectionnee}"></option>
+            <option th:each="region : ${regionList}" th:value="${region}" th:text="${region}"></option>
+        </select>
+    </div>
+    </span>
+
+    <br>
+
     <div>
         <button type="submit" name="rechercher" value="RECHERCHER!">RECHERCHER !</button>
     </div>
@@ -47,15 +59,17 @@
         <thead>
         <tr>
             <th> Nom </th>
-            <th> Pays </th>
             <th> Continent </th>
+            <th> Pays </th>
+            <th> Région </th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="site : ${resultats}">
             <td><span><a th:href="@{/site(id=${site.getId()})}" th:text="${site.getNom()}"></a> </span></td>
-            <td><span th:text="${site.getLocalisation().getPays().getNom()}"> </span></td>
             <td><span th:text="${site.getLocalisation().getContinent().getNom()}"> </span></td>
+            <td><span th:text="${site.getLocalisation().getPays().getNom()}"> </span></td>
+            <td><span th:text="${site.getLocalisation().getRegion()}"> </span></td>
         </tr>
         </tbody>
     </table>
@@ -69,6 +83,12 @@
 <br>
 <br>
 <img src="Homepage.jpg" alt="Mountain View" style="width:600px">
+
+<br>
+<br>
+<div>
+    <a th:href="@{/newSite}">Ajouter un site</button>
+</div>
 
 </body>
 </html>
