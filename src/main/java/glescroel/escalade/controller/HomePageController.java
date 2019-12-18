@@ -4,6 +4,8 @@ import glescroel.escalade.dto.ContinentDto;
 import glescroel.escalade.dto.LocalisationDto;
 import glescroel.escalade.dto.PaysDto;
 import glescroel.escalade.dto.SiteDto;
+import glescroel.escalade.model.Recherche;
+import glescroel.escalade.model.Selection;
 import glescroel.escalade.service.ContinentService;
 import glescroel.escalade.service.LocalisationService;
 import glescroel.escalade.service.PaysService;
@@ -35,27 +37,22 @@ public class HomePageController {
     @Autowired
     private LocalisationService localisationService;
 
+    private static final ContinentDto DEFAULT_CONTINENT = new ContinentDto().builder().id(0).nom("Choix du continent").build();
+    private static final PaysDto DEFAULT_PAYS = new PaysDto().builder().id(0).nom("Choix du pays").continent(DEFAULT_CONTINENT).build();
+    private static final String DEFAULT_REGION = "Choix de la région";
+
     @GetMapping(value = "/")
     public String viewHomePage(Model model) {
         LOGGER.debug(">>>>> Dans HomePageController");
 
-        SiteDto site = new SiteDto();
-        site.setNom("");
-
-        model.addAttribute("site", site);
+        model.addAttribute("site", new SiteDto().builder().nom("").build());
         model.addAttribute("continents", continentService.getAll());
-        ContinentDto continentDto = new ContinentDto();
-        continentDto.setId(0);
-        continentDto.setNom("Choix du continent");
-        model.addAttribute("continentSelectionne", continentDto);
-        PaysDto paysSelectionne = new PaysDto();
-        paysSelectionne.setId(0);
-        paysSelectionne.setNom("Choix du pays");
-        model.addAttribute("paysSelectionne", paysSelectionne);
-        model.addAttribute("paysRecherche", paysSelectionne);
+        model.addAttribute("continentSelectionne", DEFAULT_CONTINENT);
+        model.addAttribute("paysSelectionne", DEFAULT_PAYS);
+        model.addAttribute("paysRecherche", DEFAULT_PAYS);
         model.addAttribute("paysList", null);
         model.addAttribute("region", null);
-        model.addAttribute("regionList", null);
+        model.addAttribute("regions", null);
 
         return "homepage";
     }
@@ -68,113 +65,154 @@ public class HomePageController {
 
         ModelAndView modelAndview = new ModelAndView("homepage");
 
+        Selection selection = new Selection()
+                .builder()
+                .nomSite(nomSiteRecherche)
+                .nomContinent(continentRecherche)
+                .nomPays(paysRecherche)
+                .region(regionRecherche)
+                .build();
 
-        PaysDto paysSelectionne = checkPaysContinentConsistency(paysRecherche, continentRecherche);
-        modelAndview.addObject("paysSelectionne", paysSelectionne);
+        Recherche recherche = buildRechercheFromSelection(selection);
 
-        if(paysSelectionne.getId().equals(0)) {
-            paysRecherche = null;
-        }
+        updateSelection(selection, modelAndview);
 
-        String regionSelectionnee = checkRegionPaysConsistency(regionRecherche, paysSelectionne);
-        modelAndview.addObject("regionSelectionnee", regionSelectionnee);
-
-        if(regionSelectionnee.equalsIgnoreCase("Choix de la région")) {
-            regionRecherche = null;
-        }
-
-        SiteDto site = new SiteDto();
-        if (!nomSiteRecherche.isEmpty()) {
-            site.setNom(nomSiteRecherche);
-        } else {
-            site.setNom("");
-        }
-        modelAndview.addObject("site", site);
-
-
-        List<SiteDto> sites;
-        if ((!nomSiteRecherche.isEmpty()) && (paysRecherche != null) && (!paysRecherche.equals("0"))) {
-            sites = siteService.getSitesByNomPartielAndPays(nomSiteRecherche, Integer.valueOf(paysRecherche));
-        } else if ((!nomSiteRecherche.isEmpty()) && (!continentRecherche.equals("0"))) {
-            sites = siteService.getSitesByNomPartielAndContinent(nomSiteRecherche, Integer.valueOf(continentRecherche));
-        } else if (!nomSiteRecherche.isEmpty()) {
-            sites = siteService.getSitesByNomPartiel(nomSiteRecherche);
-        } else if ((paysRecherche != null) && (!paysRecherche.equals("0"))) {
-            sites = siteService.getSitesByPays(Integer.valueOf(paysRecherche));
-        } else if (!continentRecherche.equals("0")) {
-            sites = siteService.getSitesByContinent(Integer.valueOf(continentRecherche));
-        } else {
-            sites = null;
-        }
-        if ((sites != null) && (regionRecherche != null) && (!regionRecherche.isEmpty())) {
-            List<Integer> deletionIndexList = new ArrayList<>();
-            for (SiteDto siteDto : sites) {
-                if (!siteDto.getLocalisation().getRegion().equalsIgnoreCase(regionRecherche)) {
-                    deletionIndexList.add(sites.indexOf(siteDto));
-                }
-            }
-            for (int j = deletionIndexList.size() -1 ; j >= 0 ; j--) {
-                sites.remove(deletionIndexList.get(j).intValue());
-            }
-        }
+        List<SiteDto> sites = findSitesFromRecherche(recherche);
         modelAndview.addObject("resultats", sites);
 
-        modelAndview.addObject("continents", continentService.getAll());
-        ContinentDto continentSelectionne = new ContinentDto();
-        if (!continentRecherche.equals("0")) {
-            continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
-            modelAndview.addObject("paysList", paysService.getPaysByContinent(continentSelectionne));
-        } else {
-            continentSelectionne.setId(0);
-            continentSelectionne.setNom("Choix du continent");
-        }
-        modelAndview.addObject("continentSelectionne", continentSelectionne);
-
-        modelAndview.addObject("regionList", null);
-        if (paysSelectionne.getId() != 0) {
-            List<LocalisationDto> localisationList = localisationService.getLocalisationsByPays(paysSelectionne.getId());
-            List<String> regionList = new ArrayList<>();
-            for (LocalisationDto localisation : localisationList) {
-                if(!regionList.contains(localisation.getRegion())) {
-                    regionList.add(localisation.getRegion());
-                }
-            }
-            modelAndview.addObject("regionList", regionList);
-        }
+        updateLists(recherche, modelAndview);
 
         return modelAndview;
 
     }
 
-    private PaysDto checkPaysContinentConsistency(String paysRecherche, String continentRecherche) {
+    private ContinentDto getContinentFromId(String idContinent) {
+        if ((idContinent != null) && (idContinent != "0")) {
+            return continentService.getContinentById(Integer.valueOf(idContinent));
+        } else {
+            return DEFAULT_CONTINENT;
+        }
+    }
+
+    private PaysDto getPaysFromId(String idPays) {
+        if ((idPays != null) && (!idPays.equals("0"))) {
+            return paysService.getPaysById(Integer.valueOf(idPays));
+        } else {
+            return DEFAULT_PAYS;
+        }
+    }
+
+    private Recherche buildRechercheFromSelection(Selection selection) {
+
+        selection.setContinent(getContinentFromId(selection.getNomContinent()));
+        selection.setNomContinent(selection.getContinent().getNom());
+
+        selection.setPays(getPaysFromId(selection.getNomPays()));
+        selection.setPays(checkPaysContinentConsistency(selection.getPays(), selection.getContinent()));
+        selection.setNomPays(selection.getPays().getNom());
+
+        selection.setRegion(checkRegionPaysConsistency(selection.getRegion(), selection.getPays()));
+
+        return new Recherche()
+                .builder()
+                .nomSite(selection.getNomSite())
+                .continent(selection.getContinent())
+                .nomPays(selection.getNomPays())
+                .region(selection.getRegion())
+                .pays(selection.getPays())
+                .build();
+    }
+
+    private PaysDto checkPaysContinentConsistency(PaysDto paysToCheck, ContinentDto continentToCheck) {
 
         boolean paysContinentOk = false;
-        PaysDto paysSelectionne = new PaysDto();
-        if ((paysRecherche != null) && (!paysRecherche.equals("0"))) {
-            paysSelectionne = paysService.getPaysById(Integer.valueOf(paysRecherche));
-
-            ContinentDto continentSelectionne = continentService.getContinentById(Integer.valueOf(continentRecherche));
-
-            for (PaysDto pays : paysService.getPaysByContinent(continentSelectionne)) {
-                if (paysSelectionne.getNom().equals(pays.getNom())) {
+        if ((paysToCheck != null) && (paysToCheck != DEFAULT_PAYS) &&
+                (continentToCheck != null) && (continentToCheck != DEFAULT_CONTINENT)) {
+            for (PaysDto pays : paysService.getPaysByContinent(continentToCheck)) {
+                if (paysToCheck.getNom().equals(pays.getNom())) {
                     paysContinentOk = true;
                 }
             }
         }
 
-        if(!paysContinentOk) {
-            paysSelectionne.setId(0);
-            paysSelectionne.setNom("Choix du pays");
+        if (!paysContinentOk) {
+            return DEFAULT_PAYS;
         }
 
-        return paysSelectionne;
+        return paysToCheck;
     }
 
     private String checkRegionPaysConsistency(String region, PaysDto pays) {
         for (LocalisationDto localisation : localisationService.getLocalisationsByPays(pays.getId())) {
-            if(localisation.getRegion().equalsIgnoreCase(region))
+            if (localisation.getRegion().equalsIgnoreCase(region))
                 return region;
         }
-        return "Choix de la région";
+        return DEFAULT_REGION;
+    }
+
+    private List<SiteDto> findSitesFromRecherche(Recherche recherche) {
+
+        LOGGER.info("Recherche : continent : " + recherche.getContinent().getNom() + " / pays : " + recherche.getPays().getNom() + " / region : " + recherche.getRegion());
+        List<SiteDto> sites;
+        if ((!recherche.getNomSite().isEmpty()) && (recherche.getPays() != DEFAULT_PAYS)) {
+            LOGGER.info("recherche par nom et pays");
+            sites = siteService.getSitesByNomPartielAndPays(recherche.getNomSite(), recherche.getPays().getId());
+        } else if ((!recherche.getNomSite().isEmpty()) && (recherche.getContinent() != DEFAULT_CONTINENT)) {
+            LOGGER.info("recherche par nom et continent");
+            sites = siteService.getSitesByNomPartielAndContinent(recherche.getNomSite(), recherche.getContinent().getId());
+        } else if (!recherche.getNomSite().isEmpty()) {
+            LOGGER.info("recherche par nom uniquement");
+            sites = siteService.getSitesByNomPartiel(recherche.getNomSite());
+        } else if (recherche.getPays() != DEFAULT_PAYS) {
+            LOGGER.info("recherche par pays");
+            sites = siteService.getSitesByPays(recherche.getPays().getId());
+        } else if (recherche.getContinent() != DEFAULT_CONTINENT) {
+            LOGGER.info("recherche par continent");
+            sites = siteService.getSitesByContinent(recherche.getContinent().getId());
+        } else {
+            LOGGER.info("else null");
+            sites = null;
+        }
+
+        if ((sites != null) && (recherche.getRegion() != DEFAULT_REGION)) {
+            LOGGER.info("filtre par region");
+            List<Integer> deletionIndexList = new ArrayList<>();
+            for (SiteDto siteDto : sites) {
+                if (!siteDto.getLocalisation().getRegion().equalsIgnoreCase(recherche.getRegion())) {
+                    deletionIndexList.add(sites.indexOf(siteDto));
+                }
+            }
+            for (int j = deletionIndexList.size() - 1; j >= 0; j--) {
+                sites.remove(deletionIndexList.get(j).intValue());
+            }
+        }
+        return sites;
+    }
+
+    private void updateSelection(Selection selection, ModelAndView modelAndview) {
+        modelAndview.addObject("site", new SiteDto().builder().nom(selection.getNomSite()).build());
+        modelAndview.addObject("continentSelectionne", selection.getContinent());
+        modelAndview.addObject("paysSelectionne", selection.getPays());
+        modelAndview.addObject("regionSelectionnee", selection.getRegion());
+    }
+
+    private void updateLists(Recherche recherche, ModelAndView modelAndview) {
+
+        modelAndview.addObject("continents", continentService.getAll());
+
+        if (recherche.getContinent() != DEFAULT_CONTINENT) {
+            modelAndview.addObject("paysList", paysService.getPaysByContinent(recherche.getContinent()));
+        }
+
+        if (recherche.getPays() != DEFAULT_PAYS) {
+            List<LocalisationDto> localisationList = localisationService.getLocalisationsByPays(recherche.getPays().getId());
+            List<String> regionList = new ArrayList<>();
+            for (LocalisationDto localisation : localisationList) {
+                if (!regionList.contains(localisation.getRegion())) {
+                    regionList.add(localisation.getRegion());
+                }
+            }
+            modelAndview.addObject("regions", regionList);
+        }
     }
 }

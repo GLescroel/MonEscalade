@@ -37,11 +37,11 @@
 
     <br>
 
-    <span th:if="${regionList}">
+    <span th:if="${regions}">
     <div class="form-group blu-margin">
-        <select class="form-control" th:object="${regionList}" id="dropRegion" name="regionRecherche">
+        <select class="form-control" th:object="${regions}" id="dropRegion" name="regionRecherche">
             <option th:value="${regionSelectionnee}" th:text="${regionSelectionnee}"></option>
-            <option th:each="region : ${regionList}" th:value="${region}" th:text="${region}"></option>
+            <option th:each="region : ${regions}" th:value="${region}" th:text="${region}"></option>
         </select>
     </div>
     </span>
