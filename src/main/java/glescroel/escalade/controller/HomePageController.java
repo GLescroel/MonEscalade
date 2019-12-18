@@ -41,6 +41,13 @@ public class HomePageController {
     private static final PaysDto DEFAULT_PAYS = new PaysDto().builder().id(0).nom("Choix du pays").continent(DEFAULT_CONTINENT).build();
     private static final String DEFAULT_REGION = "Choix de la région";
 
+    public HomePageController(ContinentService continentService, PaysService paysService, SiteService siteService, LocalisationService localisationService) {
+        this.continentService = continentService;
+        this.paysService = paysService;
+        this.siteService = siteService;
+        this.localisationService = localisationService;
+    }
+
     @GetMapping(value = "/")
     public String viewHomePage(Model model) {
         LOGGER.debug(">>>>> Dans HomePageController");
@@ -87,7 +94,7 @@ public class HomePageController {
     }
 
     private ContinentDto getContinentFromId(String idContinent) {
-        if ((idContinent != null) && (idContinent != "0")) {
+        if ((idContinent != null) && (!idContinent.equals("0"))) {
             return continentService.getContinentById(Integer.valueOf(idContinent));
         } else {
             return DEFAULT_CONTINENT;
@@ -144,33 +151,27 @@ public class HomePageController {
 
     private String checkRegionPaysConsistency(String region, PaysDto pays) {
         for (LocalisationDto localisation : localisationService.getLocalisationsByPays(pays.getId())) {
-            if (localisation.getRegion().equalsIgnoreCase(region))
+            if (localisation.getRegion().equalsIgnoreCase(region)) {
                 return region;
+            }
         }
         return DEFAULT_REGION;
     }
 
     private List<SiteDto> findSitesFromRecherche(Recherche recherche) {
 
-        LOGGER.info("Recherche : continent : " + recherche.getContinent().getNom() + " / pays : " + recherche.getPays().getNom() + " / region : " + recherche.getRegion());
         List<SiteDto> sites;
         if ((!recherche.getNomSite().isEmpty()) && (recherche.getPays() != DEFAULT_PAYS)) {
-            LOGGER.info("recherche par nom et pays");
             sites = siteService.getSitesByNomPartielAndPays(recherche.getNomSite(), recherche.getPays().getId());
         } else if ((!recherche.getNomSite().isEmpty()) && (recherche.getContinent() != DEFAULT_CONTINENT)) {
-            LOGGER.info("recherche par nom et continent");
             sites = siteService.getSitesByNomPartielAndContinent(recherche.getNomSite(), recherche.getContinent().getId());
         } else if (!recherche.getNomSite().isEmpty()) {
-            LOGGER.info("recherche par nom uniquement");
             sites = siteService.getSitesByNomPartiel(recherche.getNomSite());
         } else if (recherche.getPays() != DEFAULT_PAYS) {
-            LOGGER.info("recherche par pays");
             sites = siteService.getSitesByPays(recherche.getPays().getId());
         } else if (recherche.getContinent() != DEFAULT_CONTINENT) {
-            LOGGER.info("recherche par continent");
             sites = siteService.getSitesByContinent(recherche.getContinent().getId());
         } else {
-            LOGGER.info("else null");
             sites = null;
         }
 
