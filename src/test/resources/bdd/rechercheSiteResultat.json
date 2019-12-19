@@ -1,0 +1,35 @@
+{
+  "rechercheSiteResultat1" : [
+    {
+      "nom": "Mont Janus"
+    },
+    {
+      "nom": "Mont Lincoln"
+    }
+  ],
+  "rechercheSiteResultat2" : [
+    {
+      "nom": "Mont Janus"
+    },
+    {
+      "nom": "site de Chambéry"
+    },
+    {
+      "nom": "Pic des Pyrhénées"
+    }
+  ],
+  "rechercheSiteResultat3" : [
+    {
+      "nom": "Mont Janus"
+    },
+    {
+      "nom": "site de Chambéry"
+    }
+  ],
+  "rechercheSiteResultat4" : [
+    {
+      "nom": "Mont Janus"
+    }
+  ]
+
+}
