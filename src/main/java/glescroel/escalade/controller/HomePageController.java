@@ -2,14 +2,20 @@ package glescroel.escalade.controller;
 
 import glescroel.escalade.dto.ContinentDto;
 import glescroel.escalade.dto.LocalisationDto;
+import glescroel.escalade.dto.LongueurDto;
 import glescroel.escalade.dto.PaysDto;
+import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
+import glescroel.escalade.dto.VoieDto;
 import glescroel.escalade.model.Recherche;
 import glescroel.escalade.model.Selection;
 import glescroel.escalade.service.ContinentService;
 import glescroel.escalade.service.LocalisationService;
+import glescroel.escalade.service.LongueurService;
 import glescroel.escalade.service.PaysService;
+import glescroel.escalade.service.SecteurService;
 import glescroel.escalade.service.SiteService;
+import glescroel.escalade.service.VoieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -36,6 +43,12 @@ public class HomePageController {
     private PaysService paysService;
     @Autowired
     private LocalisationService localisationService;
+    @Autowired
+    private SecteurService secteurService;
+    @Autowired
+    private VoieService voieService;
+    @Autowired
+    private LongueurService longueurService;
 
     private static final ContinentDto DEFAULT_CONTINENT = new ContinentDto().builder().id(0).nom("Choix du continent").build();
     private static final PaysDto DEFAULT_PAYS = new PaysDto().builder().id(0).nom("Choix du pays").continent(DEFAULT_CONTINENT).build();
@@ -60,6 +73,8 @@ public class HomePageController {
         model.addAttribute("paysList", null);
         model.addAttribute("region", null);
         model.addAttribute("regions", null);
+        model.addAttribute("cotationMin", null);
+        model.addAttribute("cotationMax", null);
 
         return "homepage";
     }
@@ -68,7 +83,9 @@ public class HomePageController {
     public ModelAndView searchSite(@RequestParam(required = false, name = "siteRecherche") String nomSiteRecherche,
                                    @RequestParam(required = false, name = "continentRecherche") String continentRecherche,
                                    @RequestParam(required = false, name = "paysRecherche") String paysRecherche,
-                                   @RequestParam(required = false, name = "regionRecherche") String regionRecherche) {
+                                   @RequestParam(required = false, name = "regionRecherche") String regionRecherche,
+                                   @RequestParam(required = false, name = "cotationMin") String cotationMinRecherche,
+                                   @RequestParam(required = false, name = "cotationMax") String cotationMaxRecherche) {
 
         ModelAndView modelAndview = new ModelAndView("homepage");
 
@@ -78,6 +95,8 @@ public class HomePageController {
                 .nomContinent(continentRecherche)
                 .nomPays(paysRecherche)
                 .region(regionRecherche)
+                .cotationMin(cotationMinRecherche)
+                .cotationMax(cotationMaxRecherche)
                 .build();
 
         Recherche recherche = buildRechercheFromSelection(selection);
@@ -127,6 +146,8 @@ public class HomePageController {
                 .nomPays(selection.getNomPays())
                 .region(selection.getRegion())
                 .pays(selection.getPays())
+                .cotationMin(selection.getCotationMin())
+                .cotationMax(selection.getCotationMax())
                 .build();
     }
 
@@ -159,6 +180,7 @@ public class HomePageController {
     }
 
     private List<SiteDto> findSitesFromRecherche(Recherche recherche) {
+        LOGGER.info(">>>>>>> Recherche des sites correspondants à la recherche");
 
         List<SiteDto> sites;
         if ((!recherche.getNomSite().isEmpty()) && (recherche.getPays() != DEFAULT_PAYS)) {
@@ -174,6 +196,7 @@ public class HomePageController {
         } else {
             sites = null;
         }
+        LOGGER.info("Liste établie");
 
         if ((sites != null) && (recherche.getRegion() != DEFAULT_REGION)) {
             LOGGER.info("filtre par region");
@@ -187,6 +210,11 @@ public class HomePageController {
                 sites.remove(deletionIndexList.get(j).intValue());
             }
         }
+
+        if (sites != null) {
+            sites = filterCotations(sites, recherche);
+        }
+
         return sites;
     }
 
@@ -195,10 +223,13 @@ public class HomePageController {
         modelAndview.addObject("continentSelectionne", selection.getContinent());
         modelAndview.addObject("paysSelectionne", selection.getPays());
         modelAndview.addObject("regionSelectionnee", selection.getRegion());
+        modelAndview.addObject("cotationMin", selection.getCotationMin());
+        modelAndview.addObject("cotationMax", selection.getCotationMax());
     }
 
     private void updateLists(Recherche recherche, ModelAndView modelAndview) {
 
+        LOGGER.info(">>>>>>> Update des listes à afficher");
         modelAndview.addObject("continents", continentService.getAll());
 
         if (recherche.getContinent() != DEFAULT_CONTINENT) {
@@ -216,4 +247,114 @@ public class HomePageController {
             modelAndview.addObject("regions", regionList);
         }
     }
+
+    public List<SiteDto> filterCotations(List<SiteDto> siteList, Recherche recherche) {
+
+        for (SiteDto site : siteList) {
+            site = getSiteCotationsMinMax(site);
+        }
+
+        siteList = filterSitesCotations(siteList, recherche);
+
+        return siteList;
+    }
+
+    public List<SiteDto> filterSitesCotations(List<SiteDto> siteList, Recherche recherche) {
+
+        if(recherche.getCotationMin().isEmpty() && recherche.getCotationMax().isEmpty())
+            return siteList;
+
+        int rechercheCotationMin = 0;
+        if(!recherche.getCotationMin().isEmpty()) {
+            rechercheCotationMin = convertCotationToInt(recherche.getCotationMin());
+        }
+        int rechercheCotationMax = 100;
+        if(!recherche.getCotationMax().isEmpty()) {
+            rechercheCotationMax = convertCotationToInt(recherche.getCotationMax());
+        }
+        List<SiteDto> siteWithCotationsOk = new ArrayList<>();
+        for (SiteDto site : siteList) {
+            boolean cotationOk = false;
+            boolean cotationFound = false;
+            for (SecteurDto secteur : site.getSecteurs()) {
+                for (VoieDto voie : secteur.getVoies()) {
+                    if(!voie.getCotation().isEmpty()) {
+                        cotationFound = true;
+                        if ((convertCotationToInt(voie.getCotation()) >= rechercheCotationMin) &&
+                                (convertCotationToInt(voie.getCotation()) <= rechercheCotationMax)) {
+                            cotationOk = true;
+                        }
+                    }
+                    for (LongueurDto longueur : voie.getLongueurs()) {
+                        if(!longueur.getCotation().isEmpty()) {
+                            cotationFound = true;
+                            if ((convertCotationToInt(longueur.getCotation()) >= rechercheCotationMin) &&
+                                (convertCotationToInt(longueur.getCotation()) <= rechercheCotationMax)) {
+                                cotationOk = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!cotationFound || cotationOk) {
+                siteWithCotationsOk.add(site);
+            }
+        }
+        return siteWithCotationsOk;
+    }
+
+    public int convertCotationToInt(String cotation) {
+        if(cotation.matches("[0-9]{1}")){
+            return Integer.valueOf(cotation) * 10;
+        }
+
+        int cotationInt = 0;
+        if(cotation.matches("[0-9]{1}[abcABC]{1}")){
+            cotationInt = Integer.valueOf(String.valueOf(cotation.charAt(0))) * 10;
+            if("A".equalsIgnoreCase(String.valueOf(cotation.charAt(1)))) {
+                cotationInt += 1;
+            } else if("B".equalsIgnoreCase(String.valueOf(cotation.charAt(1)))) {
+                cotationInt += 2;
+            } else if("C".equalsIgnoreCase(String.valueOf(cotation.charAt(1)))) {
+                cotationInt += 3;
+            }
+            return cotationInt;
+        }
+        return 0;
+    }
+
+    public SiteDto getSiteCotationsMinMax(SiteDto siteDto) {
+        List<String> cotations = new ArrayList<>();
+        List<SecteurDto> secteurList = secteurService.getSecteursBySite(siteDto.getId());
+        if (!secteurList.isEmpty()) {
+            for (SecteurDto secteur : secteurList) {
+                List<VoieDto> voieDtoList = voieService.getVoiesBySecteur(secteur.getId());
+                if (!voieDtoList.isEmpty()) {
+                    for (VoieDto voie : voieDtoList) {
+                        cotations.add(voie.getCotation());
+                        List<LongueurDto> longueurDtoList = longueurService.getLongueursByVoie(voie.getId());
+                        if (!longueurDtoList.isEmpty()) {
+                            voie.setLongueurs(longueurDtoList);
+                            for (LongueurDto longueur : longueurDtoList) {
+                                cotations.add(longueur.getCotation());
+                            }
+                        }
+                    }
+                    secteur.setVoies(voieDtoList);
+                }
+            }
+            siteDto.setSecteurs(secteurList);
+        }
+
+        if(!cotations.isEmpty()) {
+            Collections.sort(cotations);
+            siteDto.setCotationsMin(cotations.get(0));
+            siteDto.setCotationsMax(cotations.get(cotations.size() - 1));
+        } else {
+            siteDto.setCotationsMin("");
+            siteDto.setCotationsMax("");
+        }
+        return siteDto;
+    }
+
 }

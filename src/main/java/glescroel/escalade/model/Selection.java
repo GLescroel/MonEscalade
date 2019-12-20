@@ -19,6 +19,8 @@ public class Selection {
     private String region;
     private ContinentDto continent;
     private PaysDto pays;
+    private String cotationMin;
+    private String cotationMax;
 
     public Selection() {
         //constructeur par défaut vs lombok

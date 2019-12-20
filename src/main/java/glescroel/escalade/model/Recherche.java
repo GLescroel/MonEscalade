@@ -19,6 +19,8 @@ public class Recherche {
     private String region;
     private ContinentDto continent;
     private PaysDto pays;
+    private String cotationMin;
+    private String cotationMax;
 
     public Recherche() {
         //constructeur par défaut vs lombok

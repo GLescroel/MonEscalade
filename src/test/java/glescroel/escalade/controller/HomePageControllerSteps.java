@@ -33,6 +33,8 @@ public class HomePageControllerSteps extends StepDefs {
     private String paysRecherche;
     private String regionRecherche;
     private ModelAndView modelAndView;
+    private String cotationMinRecherche;
+    private String cotationMaxRecherche;
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -49,6 +51,8 @@ public class HomePageControllerSteps extends StepDefs {
     private static final int CONTINENT_COLUMN = 1;
     private static final int PAYS_COLUMN = 2;
     private static final int REGION_COLUMN = 3;
+    private static final int COTATION_MIN_COLUMN = 4;
+    private static final int COTATION_MAX_COLUMN = 5;
 
     @Given("je saisis les paramètres de recherche suivants")
     public void selectSearchCriteria(DataTable searchCriteria) {
@@ -57,13 +61,15 @@ public class HomePageControllerSteps extends StepDefs {
         continentRecherche = data.get(1).get(CONTINENT_COLUMN);
         paysRecherche = data.get(1).get(PAYS_COLUMN);
         regionRecherche = data.get(1).get(REGION_COLUMN);
+        cotationMinRecherche = data.get(1).get(COTATION_MIN_COLUMN);
+        cotationMaxRecherche = data.get(1).get(COTATION_MAX_COLUMN);
     }
 
     @When("je clique sur le bouton Rechercher")
     @Transactional
     public void searchRequest() {
         HomePageController homePageController = new HomePageController(continentService, paysService, siteService, localisationService);
-        modelAndView = homePageController.searchSite(nomSiteRecherche, continentRecherche, paysRecherche, regionRecherche);
+        modelAndView = homePageController.searchSite(nomSiteRecherche, continentRecherche, paysRecherche, regionRecherche, cotationMinRecherche, cotationMaxRecherche);
     }
 
     @Then("La liste (.*) des sites du fichier rechercheSiteResultat.json s'affiche")

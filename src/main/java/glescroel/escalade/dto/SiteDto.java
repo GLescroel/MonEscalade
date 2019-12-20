@@ -21,6 +21,8 @@ public class SiteDto {
     private List<SecteurDto> secteurs;
     private List<TopoDto> topos;
     private List<CommentaireDto> commentaires;
+    private String cotationsMin;
+    private String cotationsMax;
 
     public SiteDto() {
         //default constructor (vs Lombok one)
