@@ -218,7 +218,7 @@ public class HomePageController {
         return sites;
     }
 
-    private void updateSelection(Selection selection, ModelAndView modelAndview) {
+    private static void updateSelection(Selection selection, ModelAndView modelAndview) {
         modelAndview.addObject("site", new SiteDto().builder().nom(selection.getNomSite()).build());
         modelAndview.addObject("continentSelectionne", selection.getContinent());
         modelAndview.addObject("paysSelectionne", selection.getPays());
@@ -248,7 +248,7 @@ public class HomePageController {
         }
     }
 
-    public List<SiteDto> filterCotations(List<SiteDto> siteList, Recherche recherche) {
+    private List<SiteDto> filterCotations(List<SiteDto> siteList, Recherche recherche) {
 
         for (SiteDto site : siteList) {
             site = getSiteCotationsMinMax(site);
@@ -259,10 +259,11 @@ public class HomePageController {
         return siteList;
     }
 
-    public List<SiteDto> filterSitesCotations(List<SiteDto> siteList, Recherche recherche) {
+    private static List<SiteDto> filterSitesCotations(List<SiteDto> siteList, Recherche recherche) {
 
-        if(recherche.getCotationMin().isEmpty() && recherche.getCotationMax().isEmpty())
+        if(recherche.getCotationMin().isEmpty() && recherche.getCotationMax().isEmpty()) {
             return siteList;
+        }
 
         int rechercheCotationMin = 0;
         if(!recherche.getCotationMin().isEmpty()) {
@@ -272,7 +273,12 @@ public class HomePageController {
         if(!recherche.getCotationMax().isEmpty()) {
             rechercheCotationMax = convertCotationToInt(recherche.getCotationMax());
         }
-        List<SiteDto> siteWithCotationsOk = new ArrayList<>();
+        return getSitesWithCotationOk(siteList, rechercheCotationMin, rechercheCotationMax);
+    }
+
+    private static List<SiteDto> getSitesWithCotationOk(List<SiteDto> siteList, int rechercheCotationMin, int rechercheCotationMax) {
+
+        List<SiteDto> sitesWithCotationOk = new ArrayList<>();
         for (SiteDto site : siteList) {
             boolean cotationOk = false;
             boolean cotationFound = false;
@@ -289,7 +295,7 @@ public class HomePageController {
                         if(!longueur.getCotation().isEmpty()) {
                             cotationFound = true;
                             if ((convertCotationToInt(longueur.getCotation()) >= rechercheCotationMin) &&
-                                (convertCotationToInt(longueur.getCotation()) <= rechercheCotationMax)) {
+                                    (convertCotationToInt(longueur.getCotation()) <= rechercheCotationMax)) {
                                 cotationOk = true;
                             }
                         }
@@ -297,13 +303,13 @@ public class HomePageController {
                 }
             }
             if (!cotationFound || cotationOk) {
-                siteWithCotationsOk.add(site);
+                sitesWithCotationOk.add(site);
             }
         }
-        return siteWithCotationsOk;
+        return sitesWithCotationOk;
     }
 
-    public int convertCotationToInt(String cotation) {
+    private static int convertCotationToInt(String cotation) {
         if(cotation.matches("[0-9]{1}")){
             return Integer.valueOf(cotation) * 10;
         }
@@ -323,7 +329,7 @@ public class HomePageController {
         return 0;
     }
 
-    public SiteDto getSiteCotationsMinMax(SiteDto siteDto) {
+    private SiteDto getSiteCotationsMinMax(SiteDto siteDto) {
         List<String> cotations = new ArrayList<>();
         List<SecteurDto> secteurList = secteurService.getSecteursBySite(siteDto.getId());
         if (!secteurList.isEmpty()) {

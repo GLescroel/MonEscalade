@@ -67,8 +67,6 @@ public class FormSiteController {
         ModelAndView modelAndview = new ModelAndView("formSite");
         LOGGER.info(">>>>> Dans FormSiteController - PostMapping");
 
-        LOGGER.info(">>>>> continenet : " + continentSelectionne + " / pays : " + paysSelectionne);
-
         LocalisationDto localisation = new LocalisationDto()
                 .builder()
                 .continent(continentService.getContinentById(Integer.valueOf(continentSelectionne)))

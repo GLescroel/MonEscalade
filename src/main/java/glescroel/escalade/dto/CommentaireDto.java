@@ -17,5 +17,5 @@ public class CommentaireDto {
 
     public CommentaireDto(){
         //constructeur par défaut (vs builder)
-    };
+    }
 }
