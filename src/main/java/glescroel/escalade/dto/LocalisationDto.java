@@ -14,6 +14,7 @@ public class LocalisationDto {
     private Integer id;
     private PaysDto pays;
     private ContinentDto continent;
+    private SiteDto site;
     private String region;
     private String departement;
     private String ville;

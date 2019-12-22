@@ -99,14 +99,23 @@ public class HomePageController {
                 .cotationMax(cotationMaxRecherche)
                 .build();
 
+        LOGGER.info("avant build recherche");
+
         Recherche recherche = buildRechercheFromSelection(selection);
 
+        LOGGER.info("apres build recherche");
+
         updateSelection(selection, modelAndview);
+        LOGGER.info("apres update selection");
 
         List<SiteDto> sites = findSitesFromRecherche(recherche);
         modelAndview.addObject("resultats", sites);
 
+        LOGGER.info("apres recherche sites");
+
         updateLists(recherche, modelAndview);
+
+        LOGGER.info("apres update listes");
 
         return modelAndview;
 
@@ -192,7 +201,9 @@ public class HomePageController {
         } else if (recherche.getPays() != DEFAULT_PAYS) {
             sites = siteService.getSitesByPays(recherche.getPays().getId());
         } else if (recherche.getContinent() != DEFAULT_CONTINENT) {
+            LOGGER.info("avant getSitesByContinent");
             sites = siteService.getSitesByContinent(recherche.getContinent().getId());
+            LOGGER.info("après getSitesByContinent");
         } else {
             sites = null;
         }
@@ -331,25 +342,32 @@ public class HomePageController {
 
     private SiteDto getSiteCotationsMinMax(SiteDto siteDto) {
         List<String> cotations = new ArrayList<>();
-        List<SecteurDto> secteurList = secteurService.getSecteursBySite(siteDto.getId());
-        if (!secteurList.isEmpty()) {
-            for (SecteurDto secteur : secteurList) {
-                List<VoieDto> voieDtoList = voieService.getVoiesBySecteur(secteur.getId());
-                if (!voieDtoList.isEmpty()) {
-                    for (VoieDto voie : voieDtoList) {
+        //List<SecteurDto> secteurList = secteurService.getSecteursBySite(siteDto.getId());
+        LOGGER.info("Site : " + siteDto.getNom());
+        if (!siteDto.getSecteurs().isEmpty()) {
+            LOGGER.info("SecteurList non vide");
+            for (SecteurDto secteur : siteDto.getSecteurs()) {
+                //List<VoieDto> voieDtoList = voieService.getVoiesBySecteur(secteur.getId());
+                LOGGER.info("secteur : " + secteur.getNom());
+                if (!secteur.getVoies().isEmpty()) {
+                    LOGGER.info("VoieList non vide");
+                    for (VoieDto voie : secteur.getVoies()) {
+                        LOGGER.info("Voie : " + voie.getNom());
                         cotations.add(voie.getCotation());
-                        List<LongueurDto> longueurDtoList = longueurService.getLongueursByVoie(voie.getId());
-                        if (!longueurDtoList.isEmpty()) {
-                            voie.setLongueurs(longueurDtoList);
-                            for (LongueurDto longueur : longueurDtoList) {
+                        //List<LongueurDto> longueurDtoList = longueurService.getLongueursByVoie(voie.getId());
+                        if (!voie.getLongueurs().isEmpty()) {
+                            LOGGER.info("LongueurList not emty");
+                            //voie.setLongueurs(longueurDtoList);
+                            for (LongueurDto longueur : voie.getLongueurs()) {
+                                LOGGER.info("Longueur : " + longueur.getNom());
                                 cotations.add(longueur.getCotation());
                             }
                         }
                     }
-                    secteur.setVoies(voieDtoList);
+                    //secteur.setVoies(voieDtoList);
                 }
             }
-            siteDto.setSecteurs(secteurList);
+            //siteDto.setSecteurs(secteurList);
         }
 
         if(!cotations.isEmpty()) {

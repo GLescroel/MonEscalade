@@ -6,11 +6,10 @@ import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -37,14 +36,8 @@ public class Site {
     @Basic
     private boolean tag;
 
-    @ManyToOne
-    private Utilisateur utilisateur;
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "site")
     private List<Secteur> secteurs;
-
-    @ManyToMany
-    private List<Topo> topos;
 
     @OneToMany
     private List<Commentaire> commentaires;

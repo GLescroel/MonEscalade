@@ -5,10 +5,13 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -36,10 +39,11 @@ public class Voie {
     @Basic
     private boolean equipee;
 
-    @OneToOne
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "secteur_id")
     private Secteur secteur;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voie")
     private List<Longueur> longueurs;
 
     @OneToMany

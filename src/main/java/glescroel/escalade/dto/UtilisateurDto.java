@@ -16,6 +16,5 @@ public class UtilisateurDto {
     private String email;
     private String password;
     private Role role;
-    private List<TopoDto> topos;
     private List<CommentaireDto> commentaires;
 }

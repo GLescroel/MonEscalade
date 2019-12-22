@@ -32,9 +32,6 @@ public class Topo {
     @Size(message = ErrorMessages.TOPO_NOM_LENGTH, min = 1, max = 100)
     private String nom;
 
-    @ManyToOne
-    private Localisation localisation;
-
     @Basic
     @ColumnTransformer(write = "UPPER(?)")
     @Size(message = ErrorMessages.TOPO_DESCRIPTION_LENGTH, max = 100)
@@ -44,9 +41,6 @@ public class Topo {
     @DateTimeFormat
     @ColumnTransformer(write = "UPPER(?)")
     private Date parution;
-
-    @ManyToMany
-    private List<Site> sites;
 
     @OneToOne
     private Utilisateur utilisateur;

@@ -12,10 +12,8 @@ public class TopoDto {
 
     private Integer id;
     private String nom;
-    private LocalisationDto localisation;
     private String description;
     private Date parution;
-    private List<SiteDto> sites;
     private UtilisateurDto utilisateur;
     private List<CommentaireDto> commentaires;
 }

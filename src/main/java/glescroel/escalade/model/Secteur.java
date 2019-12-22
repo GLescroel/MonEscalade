@@ -6,9 +6,11 @@ import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
@@ -29,10 +31,11 @@ public class Secteur {
     @Size(message = ErrorMessages.SECTEUR_NOM_LENGTH, min = 1, max = 50)
     private String nom;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "site_id")
     private Site site;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "secteur")
     private List<Voie> voies;
 
     @OneToMany

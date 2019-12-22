@@ -24,6 +24,4 @@ public class Commentaire {
     @Size(message = ErrorMessages.COMMENTAIRE_COMMENTAIRE_LENGTH, min = 10, max = 1000)
     private String commentaire;
 
-    @OneToOne
-    private Utilisateur utilisateur;
 }

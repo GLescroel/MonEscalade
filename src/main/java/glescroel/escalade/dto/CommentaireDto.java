@@ -13,7 +13,6 @@ public class CommentaireDto {
 
     private Integer id;
     private String commentaire;
-    private UtilisateurDto utilisateur;
 
     public CommentaireDto(){
         //constructeur par défaut (vs builder)

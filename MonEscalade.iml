@@ -119,7 +119,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.16" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.14" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.postgresql:postgresql:9.4.1212" level="project" />
-    <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.3.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-java:1.2.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-core:1.2.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-html:0.2.3" level="project" />

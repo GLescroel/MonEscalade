@@ -17,9 +17,7 @@ public class SiteDto {
     private String nom;
     private LocalisationDto localisation;
     private boolean tag;
-    private UtilisateurDto utilisateur;
     private List<SecteurDto> secteurs;
-    private List<TopoDto> topos;
     private List<CommentaireDto> commentaires;
     private String cotationsMin;
     private String cotationsMax;
