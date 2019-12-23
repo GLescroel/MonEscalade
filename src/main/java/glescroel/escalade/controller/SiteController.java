@@ -1,14 +1,9 @@
 package glescroel.escalade.controller;
 
 import glescroel.escalade.dto.CommentaireDto;
-import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
-import glescroel.escalade.dto.VoieDto;
 import glescroel.escalade.service.CommentaireService;
-import glescroel.escalade.service.LongueurService;
-import glescroel.escalade.service.SecteurService;
 import glescroel.escalade.service.SiteService;
-import glescroel.escalade.service.VoieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Controller
 public class SiteController {
@@ -29,15 +23,6 @@ public class SiteController {
 
     @Autowired
     private SiteService siteService;
-
-    @Autowired
-    private SecteurService secteurService;
-
-    @Autowired
-    private VoieService voieService;
-
-    @Autowired
-    private LongueurService longueurService;
 
     @Autowired
     private CommentaireService commentaireService;
@@ -49,7 +34,7 @@ public class SiteController {
         SiteDto site = siteService.getSiteById(Integer.valueOf(id));
         model.addAttribute("site", site);
 
-        model.addAttribute("secteurs", getSecteursBySite(site));
+        model.addAttribute("secteurs", site.getSecteurs());
 
         CommentaireDto commentaire = new CommentaireDto();
         commentaire.setCommentaire("");
@@ -79,20 +64,8 @@ public class SiteController {
         modelAndview.addObject("commentaires", site.getCommentaires());
         modelAndview.addObject("commentaire", new CommentaireDto());
 
-        modelAndview.addObject("secteurs", getSecteursBySite(site));
+        modelAndview.addObject("secteurs", site.getSecteurs());
 
         return modelAndview;
-    }
-
-    private List<SecteurDto> getSecteursBySite(SiteDto site) {
-        List<SecteurDto> secteursList = secteurService.getSecteursBySite(site.getId());
-
-        for (SecteurDto secteur : secteursList) {
-            secteur.setVoies(voieService.getVoiesBySecteur(secteur.getId()));
-            for (VoieDto voie : secteur.getVoies()) {
-                voie.setLongueurs(longueurService.getLongueursByVoie(voie.getId()));
-            }
-        }
-        return secteursList;
     }
 }
