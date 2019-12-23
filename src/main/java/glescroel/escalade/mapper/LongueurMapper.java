@@ -1,9 +1,7 @@
 package glescroel.escalade.mapper;
 
 import glescroel.escalade.dto.LongueurDto;
-import glescroel.escalade.dto.VoieDto;
 import glescroel.escalade.model.Longueur;
-import glescroel.escalade.model.Voie;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -12,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
+@Mapper(uses = {SiteMapper.class, SecteurMapper.class, VoieMapper.class})
 public interface LongueurMapper {
 
     LongueurMapper INSTANCE = Mappers.getMapper(LongueurMapper.class);
@@ -29,6 +27,9 @@ public interface LongueurMapper {
     LongueurDto map(Longueur longueur);
 
     default List<Longueur> dtosToLongueurs(List<LongueurDto> longueurDtos) {
+        if (longueurDtos == null) {
+            return null;
+        }
         List<Longueur> longueurs = new ArrayList<>();
         for (LongueurDto longueurDto : longueurDtos) {
             longueurs.add(this.map(longueurDto));
@@ -37,23 +38,13 @@ public interface LongueurMapper {
     }
 
     default List<LongueurDto> longueursToDtos(List<Longueur> longueurs) {
+        if (longueurs == null) {
+            return null;
+        }
         List<LongueurDto> longueurDtoList = new ArrayList<>();
         for (Longueur longueur : longueurs) {
             longueurDtoList.add(this.map(longueur));
         }
         return longueurDtoList;
     }
-
-    //child
-    @Mappings({
-//            @Mapping(target = "longueurs", ignore = true)
-            @Mapping(target = "secteur", ignore = true)
-    })
-    VoieDto map(Voie voie);
-
-    @Mappings({
-//            @Mapping(target = "longueurs", ignore = true)
-            @Mapping(target = "secteur", ignore = true)
-    })
-    Voie map(VoieDto voieDto);
 }
