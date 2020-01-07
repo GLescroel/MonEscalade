@@ -78,10 +78,34 @@
     </table>
 </div>
 
-<br><br><br><br>
-<div>
-    <a th:href="@{/}">Accueil</a>
+<br>
+<div th:if="${site}">
+    <div th:if="${site.getSecteurs()}">
+    <table th:axis="1">
+        <tr>
+            <td th:text="SECTEURS" th:align="left">Secteurs :</td>
+        </tr>
+        <tr th:each="secteur: ${site.getSecteurs()}">
+            <td th:text="${secteur.getNom()}">secteur</td>
+        </tr>
+    </table>
+    </div>
 </div>
+
+<br><br>
+
+<div th:if="${site}">
+
+    <a th:href="@{/newSite/{id}/newSecteur(id=${site.getId()})}">Ajout secteur</a>
+
+<br>
+    <form class="button" th:action="@{/newSite/{id}/newSecteur(id=${site.getId()})}">
+        <input type="submit" value="Ajouter un secteur"/>
+    </form>
+    <br><br><br><br>
+</div>
+
+<a th:href="@{/}">Accueil</a>
 
 </body>
 </html>

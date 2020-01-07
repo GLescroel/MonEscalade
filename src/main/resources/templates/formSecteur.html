@@ -1,0 +1,42 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout d'un secteur</title>
+</head>
+
+<body>
+
+<h1>Ajout d'un secteur</h1>
+
+<br><br>
+<span th:text="${site.getNom()}"/>
+<br><br>
+<!-- <form id="CreationSecteur" method="post" th:action="@{/newSite(id=${site.getId()})}">   -->
+    <form id="CreationSecteur" method="post" th:action="@{/newSite/{id}/newSecteur(id=${site.getId()})}">
+    <div>
+        <span>Nom du secteur :</span> <input name="nomSecteur" type="text" th:size="50"><br><br>
+        <button type="submit" name="AjouterSecteur" value="AjouterSecteur!">Ajouter secteur</button>
+    </div>
+</form>
+
+<br><br>
+<div th:if="${secteurs}">
+    <table th:axis="1">
+        <tr>
+            <td th:text="SECTEURS" th:align="left">Secteurs</td>
+        </tr>
+        <tr th:each="secteur: ${secteurs}">
+            <td><span><a th:href="@{/site/{idSite}/secteur/{idSecteur}/newVoie(idSite=${site.getId()}, idSecteur=secteur.getId())}" th:text="${secteur.getNom()}"></a> </span></td>
+        </tr>
+    </table>
+
+</div>
+<br><br>
+<a th:href="@{/newSite(id=${site.getId()})}">Retour au site</a>
+
+<br><br><br>
+<a th:href="@{/}">Accueil</a>
+
+</body>
+</html>

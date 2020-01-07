@@ -18,8 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.constraints.NotNull;
 
 @Controller
 public class FormSiteController {
@@ -42,8 +45,8 @@ public class FormSiteController {
     private LocalisationService localisationService;
 
     @GetMapping(value = "/newSite")
-    public String viewFormSite(Model model) {
-        LOGGER.debug(">>>>> Dans FormSiteController - GetMapping");
+    public String viewEmptyFormSite(Model model) {
+        LOGGER.info(">>>>> Dans FormSiteController - GetMapping");
 
         model.addAttribute("site", null);
         model.addAttribute("continents", continentService.getAll());
@@ -52,6 +55,12 @@ public class FormSiteController {
         model.addAttribute("paysSelectionne", new PaysDto());
         model.addAttribute("localisation", new LocalisationDto());
 
+        return "formSite";
+    }
+
+    @RequestMapping(value = "/newSite", params = {"id"})
+    public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
+        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
         return "formSite";
     }
 

@@ -4,6 +4,7 @@ import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.mapper.SecteurMapper;
 import glescroel.escalade.model.Secteur;
 import glescroel.escalade.repository.SecteurRepository;
+import glescroel.escalade.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class SecteurService {
 
     private static final SecteurMapper SECTEUR_MAPPER = SecteurMapper.INSTANCE;
+
+    @Autowired
+    private SiteRepository siteRepository;
 
     @Autowired
     private SecteurRepository secteurRepository;
@@ -31,5 +35,11 @@ public class SecteurService {
     public List<SecteurDto> getSecteursBySite(Integer idSite) {
         List<Secteur> secteurs = secteurRepository.getSecteursBySite_Id(idSite);
         return SECTEUR_MAPPER.secteursToDtos(secteurs);
+    }
+
+    public SecteurDto save(SecteurDto secteur) {
+        Secteur secteurEntity = SECTEUR_MAPPER.map(secteur);
+        secteurEntity.setSite(siteRepository.getOne(secteur.getSite().getId()));
+        return SECTEUR_MAPPER.map(secteurRepository.saveAndFlush(secteurEntity));
     }
 }

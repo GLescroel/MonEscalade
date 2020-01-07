@@ -30,4 +30,7 @@ public class SiteDto {
         commentaires.add(commentaire);
     }
 
+    public void addSecteur(SecteurDto secteur) {
+        secteurs.add(secteur);
+    }
 }
