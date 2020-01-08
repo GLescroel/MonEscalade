@@ -22,4 +22,8 @@ public class SecteurDto {
     public SecteurDto() {
         //default constructor vs lombok
     }
+
+    public void addVoie(VoieDto voie) {
+        voies.add(voie);
+    }
 }

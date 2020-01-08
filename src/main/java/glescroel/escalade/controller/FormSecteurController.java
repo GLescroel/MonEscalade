@@ -28,8 +28,9 @@ public class FormSecteurController {
     public String viewFormSite(@PathVariable("id") String id, Model model) {
         LOGGER.info(">>>>> Dans FormSecteurController - GetMapping");
 
-        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
-        model.addAttribute("secteurs", null);
+        SiteDto site = siteService.getSiteById(Integer.valueOf(id));
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
 
         return "formSecteur";
     }

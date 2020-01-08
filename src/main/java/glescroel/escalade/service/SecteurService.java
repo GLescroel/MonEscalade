@@ -37,9 +37,18 @@ public class SecteurService {
         return SECTEUR_MAPPER.secteursToDtos(secteurs);
     }
 
-    public SecteurDto save(SecteurDto secteur) {
-        Secteur secteurEntity = SECTEUR_MAPPER.map(secteur);
-        secteurEntity.setSite(siteRepository.getOne(secteur.getSite().getId()));
-        return SECTEUR_MAPPER.map(secteurRepository.saveAndFlush(secteurEntity));
+    public SecteurDto save(SecteurDto secteurDto) {
+        Secteur secteur = SECTEUR_MAPPER.map(secteurDto);
+        secteur.setSite(siteRepository.getOne(secteurDto.getSite().getId()));
+        return SECTEUR_MAPPER.map(secteurRepository.saveAndFlush(secteur));
+    }
+
+    public SecteurDto getSecteurById(Integer secteurId) {
+        Optional<Secteur> result = secteurRepository.findById(secteurId);
+        SecteurDto secteurDto = null;
+        if (result.isPresent()){
+            secteurDto = SECTEUR_MAPPER.map(result.get());
+        }
+        return secteurDto;
     }
 }
