@@ -27,7 +27,7 @@
             <td th:text="SECTEURS" th:align="left">Secteurs</td>
         </tr>
         <tr th:each="secteur: ${secteurs}">
-            <td><span><a th:href="@{/site/{idSite}/secteur/{idSecteur}/newVoie(idSite=${site.getId()}, idSecteur=secteur.getId())}" th:text="${secteur.getNom()}"></a> </span></td>
+            <td><span><a th:href="@{/site/{idSite}/secteur/{idSecteur}/newVoie(idSite=${site.getId()},idSecteur=${secteur.getId()})}" th:text="${secteur.getNom()}"></a> </span></td>
         </tr>
     </table>
 
