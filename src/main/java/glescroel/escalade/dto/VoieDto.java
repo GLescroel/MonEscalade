@@ -24,4 +24,8 @@ public class VoieDto {
     public VoieDto() {
         //default constructor
     }
+
+    public void addLongueur(LongueurDto longueur) {
+        longueurs.add(longueur);
+    }
 }

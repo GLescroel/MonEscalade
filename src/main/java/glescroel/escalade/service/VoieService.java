@@ -42,4 +42,13 @@ public class VoieService {
         voie.setSecteur(secteurRepository.getOne(voieDto.getSecteur().getId()));
         return VOIE_MAPPER.map(voieRepository.save(voie));
     }
+
+    public VoieDto getVoieById(int idVoie) {
+        Optional<Voie> result = voieRepository.findById(idVoie);
+        VoieDto voieDto = null;
+        if (result.isPresent()){
+            voieDto = VOIE_MAPPER.map(result.get());
+        }
+        return voieDto;
+    }
 }

@@ -23,7 +23,7 @@
             <select class="form-control" id="dropEquipee" name="voieEquipee">
                 <option th:value="neutre" th:text="Equipee">Equipee ?</option>
                 <option th:value="true" th:text="Oui"></option>
-                <option th:value="flase" th:text="Non"></option>
+                <option th:value="false" th:text="Non"></option>
             </select>
         </div>
         <button type="submit" name="AjouterVoie" value="AjouterVoie">Ajouter voie</button>
@@ -39,7 +39,7 @@
             <td th:text="voies" th:align="left">Equipée ?</td>
         </tr>
         <tr th:each="voie: ${voies}">
-            <td><span><a th:href="@{/newSite/{idSite}/newSecteur/{idSecteur}/newVoie/{idVoie}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()})}" th:text="${voie.getNom()}"></a> </span></td>
+            <td><span><a th:href="@{/newSite/{idSite}/newSecteur/{idSecteur}/newVoie/{idVoie}/newLongueur(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()})}" th:text="${voie.getNom()}"></a> </span></td>
             <td th:text="${voie.getCotation()}">Cotation</td>
             <td th:text="${voie.isEquipee()}">IsEsquipee</td>
         </tr>

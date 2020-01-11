@@ -4,6 +4,7 @@ import glescroel.escalade.dto.LongueurDto;
 import glescroel.escalade.mapper.LongueurMapper;
 import glescroel.escalade.model.Longueur;
 import glescroel.escalade.repository.LongueurRepository;
+import glescroel.escalade.repository.VoieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class LongueurService {
 
     @Autowired
     private LongueurRepository longueurRepository;
+    @Autowired
+    private VoieRepository voieRepository;
 
     public LongueurDto getLongueurByNom(String nom){
         Optional<Longueur> result = longueurRepository.findByNomIgnoreCase(nom);
@@ -30,5 +33,11 @@ public class LongueurService {
     public List<LongueurDto> getLongueursByVoie(Integer idVoie) {
         List<Longueur> longueurs = longueurRepository.getLongueursByVoie_Id(idVoie);
         return LONGUEUR_MAPPER.longueursToDtos(longueurs);
+    }
+
+    public LongueurDto save(LongueurDto longueurDto) {
+        Longueur longueur = LONGUEUR_MAPPER.map(longueurDto);
+        longueur.setVoie(voieRepository.getOne(longueurDto.getVoie().getId()));
+        return LONGUEUR_MAPPER.map(longueurRepository.save(longueur));
     }
 }
