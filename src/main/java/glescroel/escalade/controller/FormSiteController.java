@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,12 +55,14 @@ public class FormSiteController {
         model.addAttribute("paysList", paysService.getAll());
         model.addAttribute("paysSelectionne", new PaysDto());
         model.addAttribute("localisation", new LocalisationDto());
+        model.addAttribute("suppression", false);
 
         return "formSite";
     }
 
     @RequestMapping(value = "/newSite", params = {"id"})
     public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
+        LOGGER.info(">>>>> Dans FormSiteController - RequestMapping");
         model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
         return "formSite";
     }
@@ -95,7 +98,20 @@ public class FormSiteController {
         newSite = siteService.save(newSite);
 
         modelAndview.addObject("site", newSite);
+        modelAndview.addObject("suppression", false);
 
         return modelAndview;
+    }
+
+    @GetMapping(value = "/newSite/{idSite}/suppression")
+    public String deleteSite(@PathVariable("idSite") String idSite, Model model) {
+        LOGGER.info(">>>>> Dans FormSiteController - GetMapping - URL : /newSite/{id}/suppression");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
+        siteService.delete(site);
+
+        model.addAttribute("suppression", true);
+        model.addAttribute("site", null);
+        return "formSite";
     }
 }

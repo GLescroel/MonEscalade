@@ -63,4 +63,8 @@ public class SiteService {
     public SiteDto save(SiteDto siteDto) {
         return SITE_MAPPER.map(siteRepository.save(SITE_MAPPER.map(siteDto)));
     }
+
+    public void delete(SiteDto siteDto) {
+        siteRepository.delete(SITE_MAPPER.map(siteDto));
+    }
 }

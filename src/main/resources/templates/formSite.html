@@ -10,7 +10,7 @@
 <br>
 <br>
 
-<div th:if="!${site}">
+<div th:if="${site == null && suppression == false}">
 <form id="CreationSite" method="post" th:action="@{newSite}">
     <div>
         <span>Nom du site :</span> <input name="nomNewSite" type="text" th:size="50"><br><br>
@@ -105,6 +105,18 @@
     <br><br><br><br>
 </div>
 
+<div th:if="${site}">
+    <span th:text="${site.getId()}"></span>
+    <br>
+    <form class="button" th:action="@{/newSite/{id}/suppression(id=${site.getId()})}">
+        <input type="submit" value="Supprimer le site"/>
+    </form>
+    <br><br><br><br>
+</div>
+<div th:if="${suppression} == true">
+    <span><h2>LE SITE A ETE SUPPRIME</h2></span>
+    <br><br><br><br>
+</div>
 <a th:href="@{/}">Accueil</a>
 
 </body>
