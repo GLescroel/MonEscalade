@@ -117,7 +117,12 @@
     <span><h2>LE SITE A ETE SUPPRIME</h2></span>
     <br><br><br><br>
 </div>
-<a th:href="@{/}">Accueil</a>
+<div th:if="${site}">
+<a th:href="@{/site(id=${site.getId()})}">Aller au site</a>
+</div>
 
 </body>
+<footer>
+    <a th:href="@{/}">Accueil</a>
+</footer>
 </html>
