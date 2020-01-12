@@ -11,10 +11,10 @@
 
 <br><br>
 
-<span th:text="${site.getNom()}"/>
-<span th:text="${secteur.getNom()}"/>
-<br><br>
-
+<div th:if="${secteur != null && suppression == false}">
+    <span th:text="${site.getNom()}"/>
+    <span th:text="${secteur.getNom()}"/>
+    <br><br>
 <form id="CreationVoie" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}">
     <div>
         <span>Nom de la voie :</span> <input name="nomVoie" type="text" th:size="50"><br><br>
@@ -29,6 +29,7 @@
         <button type="submit" name="AjouterVoie" value="AjouterVoie">Ajouter voie</button>
     </div>
 </form>
+</div>
 
 <br><br>
 <div th:if="${voies}">
@@ -47,9 +48,20 @@
 
 </div>
 
-
-
 <br><br>
+<div th:if="${secteur}">
+    <br>
+    <form class="button" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()})}">
+        <input type="submit" value="Supprimer le secteur"/>
+    </form>
+    <br><br><br><br>
+</div>
+<div th:if="${suppression} == true">
+    <span><h2>LE SECTEUR A ETE SUPPRIME</h2></span>
+    <br><br><br><br>
+</div>
+
+
 <a th:href="@{/modifSite/{idSite}/newSecteur(idSite=${site.getId()})}">Retour à la liste des secteurs</a>
 <br><br>
 <a th:href="@{/modifSite(id=${site.getId()})}">Retour au site</a>

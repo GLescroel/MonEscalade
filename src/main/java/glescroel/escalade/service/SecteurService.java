@@ -7,6 +7,7 @@ import glescroel.escalade.repository.SecteurRepository;
 import glescroel.escalade.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,5 +51,10 @@ public class SecteurService {
             secteurDto = SECTEUR_MAPPER.map(result.get());
         }
         return secteurDto;
+    }
+
+    @Transactional
+    public void delete(SecteurDto secteur) {
+        secteurRepository.deleteSecteurById(secteur.getId());
     }
 }

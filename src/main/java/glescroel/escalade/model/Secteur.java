@@ -31,7 +31,7 @@ public class Secteur {
     @Size(message = ErrorMessages.SECTEUR_NOM_LENGTH, min = 1, max = 50)
     private String nom;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "site_id")
     private Site site;
 

@@ -29,7 +29,7 @@ public class FormSecteurController {
     private VoieService voieService;
 
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}")
-    public String viewFormSite(@PathVariable("idSite") String idSite,
+    public String viewFormSecteur(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                Model model) {
         LOGGER.info(">>>>> Dans FormVoieController - GetMapping");
@@ -39,12 +39,13 @@ public class FormSecteurController {
         model.addAttribute("site", site);
         model.addAttribute("secteur", secteur);
         model.addAttribute("voies", secteur.getVoies());
+        model.addAttribute("suppression", false);
 
         return "formSecteur";
     }
 
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}")
-    public String viewFormSite(@PathVariable("idSite") String idSite,
+    public String updateFormSecteur(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                Model model,
                                @RequestParam(required = true, name = "nomVoie") String nomVoie,
@@ -68,6 +69,26 @@ public class FormSecteurController {
         model.addAttribute("site", site);
         model.addAttribute("secteur", secteur);
         model.addAttribute("voies", secteur.getVoies());
+        model.addAttribute("suppression", false);
+
+        return "formSecteur";
+    }
+
+    @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/suppression")
+    public String deleteSecteur(@PathVariable("idSite") String idSite,
+                               @PathVariable("idSecteur") String idSecteur,
+                               Model model) {
+        LOGGER.info(">>>>> Dans FormVoieController - PostMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/suppression");
+
+        SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
+
+        LOGGER.info("avant delete");
+        secteurService.delete(secteur);
+        LOGGER.info("après delete");
+
+        model.addAttribute("suppression", true);
+        model.addAttribute("secteur", null);
+        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(idSite)));
 
         return "formSecteur";
     }

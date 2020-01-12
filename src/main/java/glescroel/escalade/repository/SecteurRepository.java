@@ -12,4 +12,6 @@ public interface SecteurRepository extends JpaRepository<Secteur, Integer> {
     Optional<Secteur> findByNomIgnoreCase(String nom);
 
     List<Secteur> getSecteursBySite_Id(Integer idSite);
+
+    void deleteSecteurById(Integer idSecteur);
 }

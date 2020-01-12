@@ -36,7 +36,7 @@ public class Site {
     @Basic
     private boolean tag;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "site")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "site", orphanRemoval = true)
     private List<Secteur> secteurs;
 
     @OneToMany
