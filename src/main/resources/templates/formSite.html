@@ -2,16 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ajout/modification d'un site</title>
+    <title>Ajout/modification/suppression d'un site</title>
 </head>
 <body>
 
-<h1>Ajout d'un site</h1>
-<br>
-<br>
-
 <div th:if="${site == null && suppression == false}">
-<form id="CreationSite" method="post" th:action="@{newSite}">
+    <h1>Ajout d'un site</h1><br><br>
+<form id="CreationSite" method="post" th:action="@{/modifSite}">
     <div>
         <span>Nom du site :</span> <input name="nomNewSite" type="text" th:size="50"><br><br>
 
@@ -42,6 +39,7 @@
 </div>
 
 <div th:if="${site}">
+    <h1>Modification d'un site</h1><br><br>
     <b>Nom du site : </b><span th:text="${site.getNom()}"></span>
     <table>
         <thead>
@@ -86,7 +84,7 @@
             <td th:text="SECTEURS" th:align="left">Secteurs :</td>
         </tr>
         <tr th:each="secteur: ${site.getSecteurs()}">
-            <td><span><a th:href="@{/newSite/{idSite}/newSecteur/{idSecteur}/newVoie(idSite=${site.getId()},idSecteur=${secteur.getId()})}" th:text="${secteur.getNom()}"></a> </span></td>
+            <td><span><a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}" th:text="${secteur.getNom()}"></a> </span></td>
         </tr>
     </table>
     </div>
@@ -95,20 +93,16 @@
 <br><br>
 
 <div th:if="${site}">
-
-    <a th:href="@{/newSite/{id}/newSecteur(id=${site.getId()})}">Ajout secteur</a>
-
 <br>
-    <form class="button" th:action="@{/newSite/{id}/newSecteur(id=${site.getId()})}">
+    <form class="button" th:action="@{/modifSite/{id}/newSecteur(id=${site.getId()})}">
         <input type="submit" value="Ajouter un secteur"/>
     </form>
     <br><br><br><br>
 </div>
 
 <div th:if="${site}">
-    <span th:text="${site.getId()}"></span>
     <br>
-    <form class="button" th:action="@{/newSite/{id}/suppression(id=${site.getId()})}">
+    <form class="button" th:action="@{/modifSite/{id}/suppression(id=${site.getId()})}">
         <input type="submit" value="Supprimer le site"/>
     </form>
     <br><br><br><br>

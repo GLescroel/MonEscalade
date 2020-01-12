@@ -45,7 +45,7 @@ public class FormSiteController {
     @Autowired
     private LocalisationService localisationService;
 
-    @GetMapping(value = "/newSite")
+    @GetMapping(value = "/modifSite")
     public String viewEmptyFormSite(Model model) {
         LOGGER.info(">>>>> Dans FormSiteController - GetMapping");
 
@@ -60,14 +60,14 @@ public class FormSiteController {
         return "formSite";
     }
 
-    @RequestMapping(value = "/newSite", params = {"id"})
+    @RequestMapping(value = "/modifSite", params = {"id"})
     public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
         LOGGER.info(">>>>> Dans FormSiteController - RequestMapping");
         model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
         return "formSite";
     }
 
-    @PostMapping(value = "/newSite")
+    @PostMapping(value = "/modifSite")
     public ModelAndView searchSite(@RequestParam(required = false, name = "nomNewSite") String nomSite,
                                    @RequestParam(required = false, name = "continentSelection") String continentSelectionne,
                                    @RequestParam(required = false, name = "paysSelection") String paysSelectionne,
@@ -103,9 +103,9 @@ public class FormSiteController {
         return modelAndview;
     }
 
-    @GetMapping(value = "/newSite/{idSite}/suppression")
+    @GetMapping(value = "/modifSite/{idSite}/suppression")
     public String deleteSite(@PathVariable("idSite") String idSite, Model model) {
-        LOGGER.info(">>>>> Dans FormSiteController - GetMapping - URL : /newSite/{id}/suppression");
+        LOGGER.info(">>>>> Dans FormSiteController - GetMapping - URL : /modifSite/{id}/suppression");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         siteService.delete(site);

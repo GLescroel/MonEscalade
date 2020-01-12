@@ -2,38 +2,57 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ajout d'un secteur</title>
+    <title>Ajout d'une voie</title>
 </head>
 
 <body>
 
-<h1>Ajout d'un secteur</h1>
+<h1>Modification du secteur</h1>
 
 <br><br>
+
 <span th:text="${site.getNom()}"/>
+<span th:text="${secteur.getNom()}"/>
 <br><br>
-<!-- <form id="CreationSecteur" method="post" th:action="@{/newSite(id=${site.getId()})}">   -->
-    <form id="CreationSecteur" method="post" th:action="@{/newSite/{id}/newSecteur(id=${site.getId()})}">
+
+<form id="CreationVoie" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}">
     <div>
-        <span>Nom du secteur :</span> <input name="nomSecteur" type="text" th:size="50"><br><br>
-        <button type="submit" name="AjouterSecteur" value="AjouterSecteur!">Ajouter secteur</button>
+        <span>Nom de la voie :</span> <input name="nomVoie" type="text" th:size="50"><br><br>
+        <span>Cotation :</span> <input name="cotation" type="text" th:size="10"><br><br>
+        <div class="form-group blu-margin">
+            <select class="form-control" id="dropEquipee" name="voieEquipee">
+                <option th:value="neutre" th:text="Equipee">Equipee ?</option>
+                <option th:value="true" th:text="Oui"></option>
+                <option th:value="false" th:text="Non"></option>
+            </select>
+        </div>
+        <button type="submit" name="AjouterVoie" value="AjouterVoie">Ajouter voie</button>
     </div>
 </form>
 
 <br><br>
-<div th:if="${secteurs}">
+<div th:if="${voies}">
     <table th:axis="1">
         <tr>
-            <td th:text="SECTEURS" th:align="left">Secteurs</td>
+            <td th:text="voies" th:align="left">Voies</td>
+            <td th:text="Cotation" th:align="left">Cotation</td>
+            <td th:text="Equipée" th:align="left">Equipée ?</td>
         </tr>
-        <tr th:each="secteur: ${secteurs}">
-            <td><span><a th:href="@{/newSite/{idSite}/newSecteur/{idSecteur}/newVoie(idSite=${site.getId()},idSecteur=${secteur.getId()})}" th:text="${secteur.getNom()}"></a> </span></td>
+        <tr th:each="voie: ${voies}">
+            <td><span><a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()})}" th:text="${voie.getNom()}"></a> </span></td>
+            <td th:text="${voie.getCotation()}">Cotation</td>
+            <td th:text="${voie.isEquipee()}">IsEsquipee</td>
         </tr>
     </table>
 
 </div>
+
+
+
 <br><br>
-<a th:href="@{/newSite(id=${site.getId()})}">Retour au site</a>
+<a th:href="@{/modifSite/{idSite}/newSecteur(idSite=${site.getId()})}">Retour à la liste des secteurs</a>
+<br><br>
+<a th:href="@{/modifSite(id=${site.getId()})}">Retour au site</a>
 
 </body>
 <footer>

@@ -1,8 +1,10 @@
 package glescroel.escalade.controller;
 
+import glescroel.escalade.dto.LongueurDto;
 import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.dto.VoieDto;
+import glescroel.escalade.service.LongueurService;
 import glescroel.escalade.service.SecteurService;
 import glescroel.escalade.service.SiteService;
 import glescroel.escalade.service.VoieService;
@@ -27,47 +29,53 @@ public class FormVoieController {
     private SecteurService secteurService;
     @Autowired
     private VoieService voieService;
+    @Autowired
+    private LongueurService longueurService;
 
-    @GetMapping(value = "/newSite/{idSite}/newSecteur/{idSecteur}/newVoie")
+    @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
     public String viewFormSite(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
+                               @PathVariable("idVoie") String idVoie,
                                Model model) {
-        LOGGER.info(">>>>> Dans FormVoieController - GetMapping");
+        LOGGER.info(">>>>> Dans FormLongueurController - GetMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
+        VoieDto voie = voieService.getVoieById(Integer.valueOf(idVoie));
         model.addAttribute("site", site);
         model.addAttribute("secteur", secteur);
-        model.addAttribute("voies", secteur.getVoies());
+        model.addAttribute("voie", voie);
+        model.addAttribute("longueurs", voie.getLongueurs());
 
         return "formVoie";
     }
 
-    @PostMapping(value = "/newSite/{idSite}/newSecteur/{idSecteur}/newVoie")
+    @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
     public String viewFormSite(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
+                               @PathVariable("idVoie") String idVoie,
                                Model model,
-                               @RequestParam(required = true, name = "nomVoie") String nomVoie,
-                               @RequestParam(required = false, name = "cotation") String cotation,
-                               @RequestParam(required = false, name = "voieEquipee") boolean isEquipee) {
-        LOGGER.info(">>>>> Dans FormVoieController - PostMapping");
+                               @RequestParam(required = true, name = "nomLongueur") String nomLongueur,
+                               @RequestParam(required = false, name = "cotation") String cotation) {
+        LOGGER.info(">>>>> Dans FormLongueurController - PostMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
+        VoieDto voie = voieService.getVoieById(Integer.valueOf(idVoie));
 
-        VoieDto voie = new VoieDto()
+        LongueurDto longueur = new LongueurDto()
                 .builder()
-                .nom(nomVoie)
-                .secteur(secteur)
+                .nom(nomLongueur)
+                .voie(voie)
                 .cotation(cotation)
-                .equipee(isEquipee)
                 .build();
-        voie = voieService.save(voie);
-        secteur.addVoie(voie);
+        longueur = longueurService.save(longueur);
+        voie.addLongueur(longueur);
 
         model.addAttribute("site", site);
         model.addAttribute("secteur", secteur);
-        model.addAttribute("voies", secteur.getVoies());
+        model.addAttribute("voie", voie);
+        model.addAttribute("longueurs", voie.getLongueurs());
 
         return "formVoie";
     }
