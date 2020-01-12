@@ -37,7 +37,7 @@ public class FormVoieController {
                                @PathVariable("idSecteur") String idSecteur,
                                @PathVariable("idVoie") String idVoie,
                                Model model) {
-        LOGGER.info(">>>>> Dans FormLongueurController - GetMapping");
+        LOGGER.info(">>>>> Dans FormVoieController - GetMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
@@ -46,6 +46,7 @@ public class FormVoieController {
         model.addAttribute("secteur", secteur);
         model.addAttribute("voie", voie);
         model.addAttribute("longueurs", voie.getLongueurs());
+        model.addAttribute("suppression", false);
 
         return "formVoie";
     }
@@ -57,7 +58,7 @@ public class FormVoieController {
                                Model model,
                                @RequestParam(required = true, name = "nomLongueur") String nomLongueur,
                                @RequestParam(required = false, name = "cotation") String cotation) {
-        LOGGER.info(">>>>> Dans FormLongueurController - PostMapping");
+        LOGGER.info(">>>>> Dans FormVoieController - PostMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
@@ -76,7 +77,27 @@ public class FormVoieController {
         model.addAttribute("secteur", secteur);
         model.addAttribute("voie", voie);
         model.addAttribute("longueurs", voie.getLongueurs());
+        model.addAttribute("suppression", false);
 
         return "formVoie";
     }
+
+    @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression")
+    public String deleteSecteur(@PathVariable("idSite") String idSite,
+                                @PathVariable("idSecteur") String idSecteur,
+                                @PathVariable("idVoie") String idVoie,
+                                Model model) {
+        LOGGER.info(">>>>> Dans FormVoieController - PostMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression");
+
+        VoieDto voie = voieService.getVoieById(Integer.valueOf(idVoie));
+        voieService.delete(voie);
+
+        model.addAttribute("suppression", true);
+        model.addAttribute("voie", null);
+        model.addAttribute("secteur", secteurService.getSecteurById(Integer.valueOf(idSecteur)));
+        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(idSite)));
+
+        return "formVoie";
+    }
+
 }

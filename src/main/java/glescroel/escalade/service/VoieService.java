@@ -8,6 +8,7 @@ import glescroel.escalade.repository.SecteurRepository;
 import glescroel.escalade.repository.VoieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,5 +51,10 @@ public class VoieService {
             voieDto = VOIE_MAPPER.map(result.get());
         }
         return voieDto;
+    }
+
+    @Transactional
+    public void delete(VoieDto voie) {
+        voieRepository.deleteVoieById(voie.getId());
     }
 }

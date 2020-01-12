@@ -12,4 +12,6 @@ public interface VoieRepository extends JpaRepository<Voie, Integer> {
     Optional<Voie> findByNomIgnoreCase(String nom);
 
     List<Voie> getVoiesBySecteur_Id(int secteurId);
+
+    void deleteVoieById(Integer id);
 }
