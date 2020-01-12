@@ -159,6 +159,14 @@
 </div>
 </div>
 
+<div th:if="${site}">
+    <br>
+    <form class="button" th:action="@{/modifSite(id=${site.getId()})}">
+        <input type="submit" value="Modifier ce site"/>
+    </form>
+    <br><br><br><br>
+</div>
+
 </body>
 <footer>
     <a th:href="@{/}">Accueil</a>
