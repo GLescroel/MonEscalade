@@ -12,4 +12,6 @@ public interface LongueurRepository extends JpaRepository<Longueur, Integer> {
     Optional<Longueur> findByNomIgnoreCase(String nom);
 
     List<Longueur> getLongueursByVoie_Id(int voieId);
+
+    void deleteLongueurById(Integer id);
 }

@@ -31,7 +31,7 @@
             <td th:text="cotation" th:align="left">Cotation</td>
         </tr>
         <tr th:each="longueur: ${longueurs}">
-            <td th:text="${longueur.getNom()}">Longueur</td>
+            <td><span><a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}" th:text="${longueur.getNom()}"></a> </span></td>
             <td th:text="${longueur.getCotation()}">Cotation</td>
         </tr>
     </table>

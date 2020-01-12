@@ -7,6 +7,7 @@ import glescroel.escalade.repository.LongueurRepository;
 import glescroel.escalade.repository.VoieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,5 +40,14 @@ public class LongueurService {
         Longueur longueur = LONGUEUR_MAPPER.map(longueurDto);
         longueur.setVoie(voieRepository.getOne(longueurDto.getVoie().getId()));
         return LONGUEUR_MAPPER.map(longueurRepository.save(longueur));
+    }
+
+    public LongueurDto getLongueurById(Integer idLongueur) {
+        return LONGUEUR_MAPPER.map(longueurRepository.getOne(idLongueur));
+    }
+
+    @Transactional
+    public void delete(LongueurDto longueur) {
+        longueurRepository.deleteLongueurById(longueur.getId());
     }
 }
