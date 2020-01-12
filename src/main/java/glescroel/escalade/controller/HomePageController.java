@@ -54,7 +54,7 @@ public class HomePageController {
 
     @GetMapping(value = "/")
     public String viewHomePage(Model model) {
-        LOGGER.debug(">>>>> Dans HomePageController");
+        LOGGER.debug(">>>>> Dans HomePageController - GetMapping");
 
         model.addAttribute("site", new SiteDto().builder().nom("").build());
         model.addAttribute("continents", continentService.getAll());
@@ -77,6 +77,7 @@ public class HomePageController {
                                    @RequestParam(required = false, name = "regionRecherche") String regionRecherche,
                                    @RequestParam(required = false, name = "cotationMin") String cotationMinRecherche,
                                    @RequestParam(required = false, name = "cotationMax") String cotationMaxRecherche) {
+        LOGGER.debug(">>>>> Dans HomePageController - PostMapping");
 
         ModelAndView modelAndview = new ModelAndView("homepage");
 

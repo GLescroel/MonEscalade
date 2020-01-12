@@ -32,7 +32,7 @@ public class FormSecteurController {
     public String viewFormSecteur(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                Model model) {
-        LOGGER.info(">>>>> Dans FormVoieController - GetMapping");
+        LOGGER.info(">>>>> Dans FormSecteurController - GetMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
@@ -51,7 +51,7 @@ public class FormSecteurController {
                                @RequestParam(required = true, name = "nomVoie") String nomVoie,
                                @RequestParam(required = false, name = "cotation") String cotation,
                                @RequestParam(required = false, name = "voieEquipee") boolean isEquipee) {
-        LOGGER.info(">>>>> Dans FormVoieController - PostMapping");
+        LOGGER.info(">>>>> Dans FormSecteurController - PostMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
@@ -78,7 +78,7 @@ public class FormSecteurController {
     public String deleteSecteur(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                Model model) {
-        LOGGER.info(">>>>> Dans FormVoieController - PostMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/suppression");
+        LOGGER.info(">>>>> Dans FormSecteurController - PostMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/suppression");
 
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
 

@@ -25,8 +25,8 @@ public class FormAddSecteurController {
     private SecteurService secteurService;
 
     @GetMapping(value = "/modifSite/{id}/newSecteur")
-    public String viewFormSite(@PathVariable("id") String id, Model model) {
-        LOGGER.info(">>>>> Dans FormSecteurController - GetMapping");
+    public String viewFormAddSecteur(@PathVariable("id") String id, Model model) {
+        LOGGER.info(">>>>> Dans FormAddSecteurController - GetMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(id));
         model.addAttribute("site", site);
@@ -38,7 +38,7 @@ public class FormAddSecteurController {
     @PostMapping(value = "/modifSite/{id}/newSecteur")
     public String saveSecteur(@PathVariable("id") String id, Model model,
                               @RequestParam(required = true, name = "nomSecteur") String nomSecteur) {
-        LOGGER.info(">>>>> Dans FormSecteurController - PostMapping");
+        LOGGER.info(">>>>> Dans FormAddSecteurController - PostMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(id));
         SecteurDto secteur = new SecteurDto().builder().nom(nomSecteur).site(site).build();

@@ -33,7 +33,7 @@ public class FormVoieController {
     private LongueurService longueurService;
 
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
-    public String viewFormSite(@PathVariable("idSite") String idSite,
+    public String viewFormVoie(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                @PathVariable("idVoie") String idVoie,
                                Model model) {
@@ -52,7 +52,7 @@ public class FormVoieController {
     }
 
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
-    public String viewFormSite(@PathVariable("idSite") String idSite,
+    public String viewUpdateVoie(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                @PathVariable("idVoie") String idVoie,
                                Model model,
@@ -87,7 +87,7 @@ public class FormVoieController {
                                 @PathVariable("idSecteur") String idSecteur,
                                 @PathVariable("idVoie") String idVoie,
                                 Model model) {
-        LOGGER.info(">>>>> Dans FormVoieController - PostMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression");
+        LOGGER.info(">>>>> Dans FormVoieController - GetMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression");
 
         VoieDto voie = voieService.getVoieById(Integer.valueOf(idVoie));
         voieService.delete(voie);

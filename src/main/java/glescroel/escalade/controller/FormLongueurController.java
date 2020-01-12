@@ -1,7 +1,6 @@
 package glescroel.escalade.controller;
 
 import glescroel.escalade.dto.LongueurDto;
-import glescroel.escalade.dto.VoieDto;
 import glescroel.escalade.service.LongueurService;
 import glescroel.escalade.service.SecteurService;
 import glescroel.escalade.service.SiteService;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class ForLongueurController {
+public class FormLongueurController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForLongueurController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormLongueurController.class);
 
     @Autowired
     SiteService siteService;
@@ -34,7 +33,7 @@ public class ForLongueurController {
                                 @PathVariable("idVoie") String idVoie,
                                 @PathVariable("idLongueur") String idLongueur,
                                 Model model) {
-        LOGGER.info(">>>>> Dans ForLongueurController - GetMapping");
+        LOGGER.info(">>>>> Dans FormLongueurController - GetMapping");
 
         model.addAttribute("suppression", false);
         model.addAttribute("longueur", longueurService.getLongueurById(Integer.valueOf(idLongueur)));
@@ -51,7 +50,7 @@ public class ForLongueurController {
                                 @PathVariable("idVoie") String idVoie,
                                 @PathVariable("idLongueur") String idLongueur,
                                 Model model) {
-        LOGGER.info(">>>>> Dans ForLongueurController - GetMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}/suppression");
+        LOGGER.info(">>>>> Dans FormLongueurController - GetMapping - URL : /modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}/suppression");
 
         LongueurDto longueur = longueurService.getLongueurById(Integer.valueOf(idLongueur));
         longueurService.delete(longueur);

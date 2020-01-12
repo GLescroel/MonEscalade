@@ -68,7 +68,7 @@ public class FormSiteController {
     }
 
     @PostMapping(value = "/modifSite")
-    public ModelAndView searchSite(@RequestParam(required = false, name = "nomNewSite") String nomSite,
+    public ModelAndView createSite(@RequestParam(required = false, name = "nomNewSite") String nomSite,
                                    @RequestParam(required = false, name = "continentSelection") String continentSelectionne,
                                    @RequestParam(required = false, name = "paysSelection") String paysSelectionne,
                                    @RequestParam(required = false, name = "region") String region,
