@@ -90,15 +90,15 @@
     </div>
 </div>
 
-<br><br>
-
 <div th:if="${site}">
-<br>
-    <form class="button" th:action="@{/modifSite/{id}/newSecteur(id=${site.getId()})}">
-        <input type="submit" value="Ajouter un secteur"/>
+    <form id="CreationSecteur" method="post" th:action="@{/modifSite(id=${site.getId()})}">
+        <div>
+            <span>Nom du secteur :</span> <input name="nomSecteur" type="text" th:size="50"><br><br>
+            <button type="submit" name="AjouterSecteur" value="AjouterSecteur!">Ajouter secteur</button>
+        </div>
     </form>
-    <br><br><br><br>
 </div>
+<br><br>
 
 <div th:if="${site}">
     <br>

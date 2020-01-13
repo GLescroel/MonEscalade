@@ -3,6 +3,7 @@ package glescroel.escalade.controller;
 import glescroel.escalade.dto.ContinentDto;
 import glescroel.escalade.dto.LocalisationDto;
 import glescroel.escalade.dto.PaysDto;
+import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.service.ContinentService;
 import glescroel.escalade.service.LocalisationService;
@@ -19,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,10 +60,27 @@ public class FormSiteController {
         return "formSite";
     }
 
-    @RequestMapping(value = "/modifSite", params = {"id"})
+    @GetMapping(value = "/modifSite", params = {"id"})
     public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
         LOGGER.info(">>>>> Dans FormSiteController - RequestMapping");
         model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
+        return "formSite";
+    }
+
+    @PostMapping(value = "/modifSite", params = {"id"})
+    public String saveSecteur(Model model,
+                              @NotNull(message = "id must be not null") @RequestParam("id") String id,
+                              @RequestParam(required = true, name = "nomSecteur") String nomSecteur) {
+        LOGGER.info(">>>>> Dans FormSiteController - PostMapping");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(id));
+        SecteurDto secteur = new SecteurDto().builder().nom(nomSecteur).site(site).build();
+        secteur = secteurService.save(secteur);
+        site.addSecteur(secteur);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+
         return "formSite";
     }
 
