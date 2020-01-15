@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class FormLongueurController {
@@ -34,6 +36,31 @@ public class FormLongueurController {
                                 @PathVariable("idLongueur") String idLongueur,
                                 Model model) {
         LOGGER.info(">>>>> Dans FormLongueurController - GetMapping");
+
+        model.addAttribute("suppression", false);
+        model.addAttribute("longueur", longueurService.getLongueurById(Integer.valueOf(idLongueur)));
+        model.addAttribute("voie", voieService.getVoieById(Integer.valueOf(idVoie)));
+        model.addAttribute("secteur", secteurService.getSecteurById(Integer.valueOf(idSecteur)));
+        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(idSite)));
+
+        return "formLongueur";
+    }
+
+    @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}")
+    public String updateLongueur(@PathVariable("idSite") String idSite,
+                                   @PathVariable("idSecteur") String idSecteur,
+                                   @PathVariable("idVoie") String idVoie,
+                                   @PathVariable("idLongueur") String idLongueur,
+                                 @RequestParam(required = true, name = "nomLongueur") String nomLongueur,
+                                 @RequestParam(required = true, name = "cotation") String cotation,
+                                   Model model) {
+        LOGGER.info(">>>>> Dans FormLongueurController - PostMapping");
+
+        LongueurDto longueur = longueurService.getLongueurById(Integer.valueOf(idLongueur));
+        longueur.setNom(nomLongueur);
+        longueur.setCotation(cotation);
+        longueur.setVoie(voieService.getVoieById(Integer.valueOf(idVoie)));
+        longueur = longueurService.save(longueur);
 
         model.addAttribute("suppression", false);
         model.addAttribute("longueur", longueurService.getLongueurById(Integer.valueOf(idLongueur)));
