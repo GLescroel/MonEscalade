@@ -11,27 +11,47 @@
 
 <br><br>
 <div th:if="${voie != null && suppression == false}">
-<span th:text="${site.getNom()}"/>
-<span th:text="${secteur.getNom()}"/>
-<span th:text="${voie.getNom()}"/>
-<br><br>
-<form id="CreationSecteur" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
-    <div>
-        <span>Nom de la longueur :</span> <input name="nomLongueur" type="text" th:size="50"><br><br>
-        <span>Cotation :</span> <input name="cotation" type="text" th:size="10"><br><br>
-        <button type="submit" name="AjouterLongueur" value="AjouterLongueur">Ajouter longueur</button>
-    </div>
-</form>
+    <span th:text="${site.getNom()}"/>
+    <span th:text="${secteur.getNom()}"/>
+    <span th:text="${voie.getNom()}"/>
+    <br><br>
+    <form id="MajVoie" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/update(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
+        <div>
+            <span>Nom de la voie :</span> <input name="nomVoie" type="text" th:value="${voie.getNom()}" th:size="50"><br><br>
+            <span>Cotation :</span> <input name="cotationVoie" type="text" th:value="${voie.getCotation()}" th:size="10"><br><br>
+            <div class="form-group blu-margin">
+                <span th:text="Equipee">Equipée ?</span>
+                <select class="form-control" id="dropEquipee" name="voieEquipee">
+                    <option th:value="${voie.isEquipee()}" th:text="${voie.isEquipee()}">Equipee ?</option>
+                    <option th:value="true" th:text="Oui"></option>
+                    <option th:value="false" th:text="Non"></option>
+                </select>
+            </div>
+            <button type="submit" name="MajVoie" value="MajVoie">Mettre à jour</button>
+        </div>
+    </form>
+
+    <br><br>
+    <form id="CreationSecteur" method="post"
+          th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
+        <div>
+            <span>Nom de la longueur :</span> <input name="nomLongueur" th:size="50" type="text"><br><br>
+            <span>Cotation :</span> <input name="cotation" th:size="10" type="text"><br><br>
+            <button name="AjouterLongueur" type="submit" value="AjouterLongueur">Ajouter longueur</button>
+        </div>
+    </form>
 </div>
 <br><br>
 <div th:if="${longueurs}">
     <table th:axis="1">
         <tr>
-            <td th:text="longueurs" th:align="left">Longueurs</td>
-            <td th:text="cotation" th:align="left">Cotation</td>
+            <td th:align="left" th:text="longueurs">Longueurs</td>
+            <td th:align="left" th:text="cotation">Cotation</td>
         </tr>
         <tr th:each="longueur: ${longueurs}">
-            <td><span><a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}" th:text="${longueur.getNom()}"></a> </span></td>
+            <td><span><a
+                    th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}"
+                    th:text="${longueur.getNom()}"></a> </span></td>
             <td th:text="${longueur.getCotation()}">Cotation</td>
         </tr>
     </table>
@@ -41,7 +61,8 @@
 
 <div th:if="${voie}">
     <br>
-    <form class="button" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
+    <form class="button"
+          th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
         <input type="submit" value="Supprimer la voie"/>
     </form>
     <br><br><br><br>

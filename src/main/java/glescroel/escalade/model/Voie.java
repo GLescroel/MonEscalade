@@ -43,7 +43,7 @@ public class Voie {
     @JoinColumn(name = "secteur_id")
     private Secteur secteur;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voie")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "voie")
     private List<Longueur> longueurs;
 
     @OneToMany

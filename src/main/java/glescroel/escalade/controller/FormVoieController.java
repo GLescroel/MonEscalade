@@ -51,13 +51,39 @@ public class FormVoieController {
         return "formVoie";
     }
 
-    @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
+    @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/update")
     public String viewUpdateVoie(@PathVariable("idSite") String idSite,
-                               @PathVariable("idSecteur") String idSecteur,
-                               @PathVariable("idVoie") String idVoie,
-                               Model model,
-                               @RequestParam(required = true, name = "nomLongueur") String nomLongueur,
-                               @RequestParam(required = false, name = "cotation") String cotation) {
+                                 @PathVariable("idSecteur") String idSecteur,
+                                 @PathVariable("idVoie") String idVoie,
+                                 Model model,
+                                 @RequestParam(required = true, name = "nomVoie") String nomVoie,
+                                 @RequestParam(required = false, name = "voieEquipee") boolean voieEquipee,
+                                 @RequestParam(required = false, name = "cotationVoie") String cotation) {
+        LOGGER.info(">>>>> Dans FormVoieController - PostMapping update");
+
+        VoieDto voie = voieService.getVoieById(Integer.valueOf(idVoie));
+        voie.setNom(nomVoie);
+        voie.setCotation(cotation);
+        voie.setEquipee(voieEquipee);
+        voie.setSecteur(secteurService.getSecteurById(Integer.valueOf(idSecteur)));
+        voie = voieService.save(voie);
+
+        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(idSite)));
+        model.addAttribute("secteur", secteurService.getSecteurById(Integer.valueOf(idSecteur)));
+        model.addAttribute("voie", voie);
+        model.addAttribute("longueurs", voie.getLongueurs());
+        model.addAttribute("suppression", false);
+
+        return "formVoie";
+    }
+
+    @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
+    public String viewAddLongueur(@PathVariable("idSite") String idSite,
+                                 @PathVariable("idSecteur") String idSecteur,
+                                 @PathVariable("idVoie") String idVoie,
+                                 Model model,
+                                 @RequestParam(required = true, name = "nomLongueur") String nomLongueur,
+                                 @RequestParam(required = false, name = "cotation") String cotation) {
         LOGGER.info(">>>>> Dans FormVoieController - PostMapping");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
