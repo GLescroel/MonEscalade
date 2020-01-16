@@ -161,7 +161,7 @@
 
 <div th:if="${site}">
     <br>
-    <form class="button" th:action="@{/modifSite(id=${site.getId()})}">
+    <form class="button" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
         <input type="submit" value="Modifier ce site"/>
     </form>
     <br><br><br><br>

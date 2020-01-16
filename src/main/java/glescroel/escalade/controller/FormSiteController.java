@@ -60,16 +60,16 @@ public class FormSiteController {
         return "formSite";
     }
 
-    @GetMapping(value = "/modifSite", params = {"id"})
-    public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
+    @GetMapping(value = "/modifSite/{id}")
+    public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @PathVariable("id") String id) {
         LOGGER.info(">>>>> Dans FormSiteController - RequestMapping");
         model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
         return "formSite";
     }
 
-    @PostMapping(value = "/modifSite", params = {"id"})
+    @PostMapping(value = "/modifSite/{id}")
     public String saveSecteur(Model model,
-                              @NotNull(message = "id must be not null") @RequestParam("id") String id,
+                              @NotNull(message = "id must be not null") @PathVariable("id") String id,
                               @RequestParam(required = true, name = "nomSecteur") String nomSecteur) {
         LOGGER.info(">>>>> Dans FormSiteController - PostMapping");
 
