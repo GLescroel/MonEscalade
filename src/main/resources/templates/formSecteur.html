@@ -12,27 +12,16 @@
 <br><br>
 
 <div th:if="${secteur != null && suppression == false}">
+    <h2>
     <span th:text="${site.getNom()}"/>
+    <span> / </span>
     <span th:text="${secteur.getNom()}"/>
+    </h2>
     <br><br>
-<form id="CreationVoie" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}">
-    <div>
-        <span>Nom de la voie :</span> <input name="nomVoie" type="text" th:size="50"><br><br>
-        <span>Cotation :</span> <input name="cotation" type="text" th:size="10"><br><br>
-        <div class="form-group blu-margin">
-            <select class="form-control" id="dropEquipee" name="voieEquipee">
-                <option th:value="neutre" th:text="Equipee">Equipee ?</option>
-                <option th:value="true" th:text="Oui"></option>
-                <option th:value="false" th:text="Non"></option>
-            </select>
-        </div>
-        <button type="submit" name="AjouterVoie" value="AjouterVoie">Ajouter voie</button>
-    </div>
-</form>
 </div>
 
-<br><br>
-<div th:if="${voies}">
+<div th:if="${voies != null && !voies.isEmpty()}">
+    <span>VOIES : </span><br>
     <table th:axis="1">
         <tr>
             <td th:text="voies" th:align="left">Voies</td>
@@ -45,7 +34,25 @@
             <td th:text="${voie.isEquipee()}">IsEsquipee</td>
         </tr>
     </table>
+<br><br>
+</div>
 
+<div th:if="${secteur != null && suppression == false}">
+    <span>Ajouter une voie : </span><br>
+    <form id="CreationVoie" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}">
+        <div>
+            <span>Nom de la voie :</span> <input name="nomVoie" type="text" th:size="50"><br>
+            <span>Cotation :</span> <input name="cotation" type="text" th:size="10"><br>
+            <div class="form-group blu-margin">
+                <select class="form-control" id="dropEquipee" name="voieEquipee">
+                    <option th:value="neutre" th:text="Equipee">Equipee ?</option>
+                    <option th:value="true" th:text="Oui"></option>
+                    <option th:value="false" th:text="Non"></option>
+                </select>
+            </div>
+            <button type="submit" name="AjouterVoie" value="AjouterVoie">Ajouter voie</button>
+        </div>
+    </form>
 </div>
 
 <br><br>

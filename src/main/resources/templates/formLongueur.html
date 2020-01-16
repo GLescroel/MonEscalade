@@ -11,25 +11,30 @@
 
 <br><br>
 <div th:if="${longueur != null && suppression == false}">
+    <h2>
     <span th:text="${site.getNom()}"/>
+        <span> / </span>
     <span th:text="${secteur.getNom()}"/>
+        <span> / </span>
     <span th:text="${voie.getNom()}"/>
+        <span> / </span>
     <span th:text="${longueur.getNom()}"/>
+    </h2>
     <br><br>
 </div>
 <br><br>
 
 <div th:if="${longueur}">
-    <br>
+    <span>Informations sur la longueur : </span><br>
     <form id="MajLongueur" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}">
         <div>
-            <span>Nom de la longueur :</span> <input name="nomLongueur" type="text" th:value="${longueur.getNom()}" th:size="50"><br><br>
-            <span>Cotation :</span> <input name="cotation" type="text" th:value="${longueur.getCotation()}" th:size="10"><br><br>
+            <span>Nom de la longueur :</span> <input name="nomLongueur" type="text" th:value="${longueur.getNom()}" th:size="50"><br>
+            <span>Cotation :</span> <input name="cotation" type="text" th:value="${longueur.getCotation()}" th:size="10"><br>
             <button type="submit" name="MajLongueur" value="MajLongueur">Mettre à jour</button>
         </div>
     </form>
 
-    <br><br>
+    <br><br><br><br>
 
     <form class="button" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}">
         <input type="submit" value="Supprimer la longueur"/>

@@ -89,12 +89,12 @@
     </table>
     </div>
 </div>
-
+<br><br>
 <div th:if="${site}">
     <form id="CreationSecteur" method="post" th:action="@{/modifSite(id=${site.getId()})}">
         <div>
-            <span>Nom du secteur :</span> <input name="nomSecteur" type="text" th:size="50"><br><br>
             <button type="submit" name="AjouterSecteur" value="AjouterSecteur!">Ajouter secteur</button>
+            <span></span> <input name="nomSecteur" type="text" th:size="50">
         </div>
     </form>
 </div>
