@@ -78,7 +78,7 @@
 
 <br>
 <div th:if="${site}">
-    <div th:if="${site.getSecteurs()}">
+    <div th:if="${site.getSecteurs() != null && !site.getSecteurs().isEmpty()}">
     <table th:axis="1">
         <tr>
             <td th:text="SECTEURS" th:align="left">Secteurs :</td>

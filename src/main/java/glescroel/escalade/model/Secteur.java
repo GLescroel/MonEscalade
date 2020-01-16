@@ -35,7 +35,7 @@ public class Secteur {
     @JoinColumn(name = "site_id")
     private Site site;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "secteur")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "secteur")
     private List<Voie> voies;
 
     @OneToMany

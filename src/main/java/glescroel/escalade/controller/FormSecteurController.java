@@ -45,7 +45,7 @@ public class FormSecteurController {
     }
 
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}")
-    public String updateFormSecteur(@PathVariable("idSite") String idSite,
+    public String addVoie(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
                                Model model,
                                @RequestParam(required = true, name = "nomVoie") String nomVoie,
@@ -65,6 +65,27 @@ public class FormSecteurController {
                 .build();
         voie = voieService.save(voie);
         secteur.addVoie(voie);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteur", secteur);
+        model.addAttribute("voies", secteur.getVoies());
+        model.addAttribute("suppression", false);
+
+        return "formSecteur";
+    }
+
+    @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/update")
+    public String updateNomSecteur(@PathVariable("idSite") String idSite,
+                                    @PathVariable("idSecteur") String idSecteur,
+                                    @RequestParam("nomSecteur") String nomSecteur,
+                                    Model model) {
+        LOGGER.info(">>>>> Dans FormSecteurController - PostMapping / update");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
+        SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
+        secteur.setNom(nomSecteur);
+        secteur.setSite(site);
+        secteurService.save(secteur);
 
         model.addAttribute("site", site);
         model.addAttribute("secteur", secteur);

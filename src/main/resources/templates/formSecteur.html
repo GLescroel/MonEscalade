@@ -12,11 +12,14 @@
 <br><br>
 
 <div th:if="${secteur != null && suppression == false}">
+    <form id="MajSecteur" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/update(idSite=${site.getId()}, idSecteur=${secteur.getId()})}">
     <h2>
     <span th:text="${site.getNom()}"/>
     <span> / </span>
-    <span th:text="${secteur.getNom()}"/>
+    <span></span> <input name="nomSecteur" type="text" th:value="${secteur.getNom()}" th:size="50"><br>
+    <button type="submit" name="MajSecteur" value="MajSecteur">Mettre à jour</button>
     </h2>
+    </form>
     <br><br>
 </div>
 
