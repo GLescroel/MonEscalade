@@ -62,8 +62,10 @@ public class FormSiteController {
 
     @GetMapping(value = "/modifSite/{id}")
     public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @PathVariable("id") String id) {
-        LOGGER.info(">>>>> Dans FormSiteController - RequestMapping");
+        LOGGER.info(">>>>> Dans FormSiteController - GetMapping");
         model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
         return "formSite";
     }
 
@@ -71,7 +73,7 @@ public class FormSiteController {
     public String saveSecteur(Model model,
                               @NotNull(message = "id must be not null") @PathVariable("id") String id,
                               @RequestParam(required = true, name = "nomSecteur") String nomSecteur) {
-        LOGGER.info(">>>>> Dans FormSiteController - PostMapping");
+        LOGGER.info(">>>>> Dans FormSiteController - PostMapping - saveSecteur");
 
         SiteDto site = siteService.getSiteById(Integer.valueOf(id));
         SecteurDto secteur = new SecteurDto().builder().nom(nomSecteur).site(site).build();
@@ -80,6 +82,8 @@ public class FormSiteController {
 
         model.addAttribute("site", site);
         model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
 
         return "formSite";
     }
@@ -116,8 +120,45 @@ public class FormSiteController {
 
         modelAndview.addObject("site", newSite);
         modelAndview.addObject("suppression", false);
+        modelAndview.addObject("continents", continentService.getAll());
+        modelAndview.addObject("paysList", paysService.getAll());
 
         return modelAndview;
+    }
+
+    @PostMapping(value = "/modifSite/{id}/update")
+    public String updateSite(Model model,
+                              @NotNull(message = "id must be not null") @PathVariable("id") String id,
+                             @RequestParam(required = true, name = "nomSite") String nomSite,
+                             @RequestParam(required = true, name = "continentSelection") int idContinent,
+                             @RequestParam(required = true, name = "paysSelection") int idPays,
+                             @RequestParam(required = true, name = "region") String region,
+                             @RequestParam(required = true, name = "departement") String departement,
+                             @RequestParam(required = true, name = "ville") String ville,
+                             @RequestParam(required = true, name = "adresse") String adresse) {
+        LOGGER.info(">>>>> Dans FormSiteController - PostMapping / update");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(id));
+        site.setNom(nomSite);
+        LocalisationDto localisation = new LocalisationDto()
+                .builder()
+                .continent(continentService.getContinentById(idContinent))
+                .pays(paysService.getPaysById(idPays))
+                .region(region)
+                .departement(departement)
+                .ville(ville)
+                .adresse(adresse)
+                .build();
+        localisation = localisationService.save(localisation);
+        site.setLocalisation(localisation);
+        site = siteService.save(site);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
+
+        return "formSite";
     }
 
     @GetMapping(value = "/modifSite/{idSite}/suppression")

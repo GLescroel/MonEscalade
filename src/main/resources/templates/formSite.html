@@ -40,7 +40,9 @@
 
 <div th:if="${site}">
     <h1>Modification d'un site</h1><br><br>
-    <b>Nom du site : </b><span th:text="${site.getNom()}"></span>
+    <form id="MajSite" method="post" th:action="@{/modifSite/{idSite}/update(idSite=${site.getId()})}">
+    <b>Nom du site : </b>
+        <span></span> <input name="nomSite" type="text" th:value="${site.getNom()}" th:size="50">
     <table>
         <thead>
         <tr>
@@ -50,30 +52,48 @@
         <tbody>
         <tr>
             <td th:text=Continent>Continent : </td>
-            <td th:text="${site.getLocalisation().getContinent().getNom()}">Continent</td>
+            <td>
+                <div class="form-group blu-margin">
+                    <select class="form-control" th:object="${continents}" id="dropContinentUpdate" name="continentSelection">
+                        <option th:value="${site.getLocalisation().getContinent().getId()}" th:text="${site.getLocalisation().getContinent().getNom()}"></option>
+                        <option th:each="continent : ${continents}" th:value="${continent.getId()}" th:text="${continent.getNom()}"></option>
+                    </select>
+                </div>
+            </td>
         </tr>
         <tr>
             <td th:text=Pays>Pays : </td>
-            <td th:text="${site.getLocalisation().getPays().getNom()}">Pays</td>
+            <td>
+                <div class="form-group blu-margin">
+                    <select class="form-control" th:object="${paysList}" id="dropPaysUpdate" name="paysSelection">
+                        <option th:value="${site.getLocalisation().getPays().getId()}" th:text="${site.getLocalisation().getPays().getNom()}"></option>
+                        <option th:each="pays : ${paysList}" th:value="${pays.getId()}" th:text="${pays.getNom()}"></option>
+                    </select>
+                </div>
+
+            </td>
         </tr>
         <tr>
             <td th:text=Région>Region : </td>
-            <td th:text="${site.getLocalisation().getRegion()}">Region</td>
+            <td><span></span> <input name="region" type="text" th:value="${site.getLocalisation().getRegion()}" th:size="50"></td>
         </tr>
         <tr>
             <td th:text=Département>Departement : </td>
-            <td th:text="${site.getLocalisation().getDepartement()}">Departement</td>
+            <td><span></span> <input name="departement" type="text" th:value="${site.getLocalisation().getDepartement()}" th:size="50"></td>
         </tr>
         <tr>
             <td th:text=Ville>Ville : </td>
-            <td th:text="${site.getLocalisation().getVille()}">Ville</td>
+            <td><span></span> <input name="ville" type="text" th:value="${site.getLocalisation().getVille()}" th:size="50"></td>
         </tr>
         <tr>
             <td th:text=Adresse>Adresse : </td>
-            <td th:text="${site.getLocalisation().getAdresse()}">Adresse</td>
+            <td><span></span> <input name="adresse" type="text" th:value="${site.getLocalisation().getAdresse()}" th:size="50"></td>
         </tr>
         </tbody>
     </table>
+
+        <button type="submit" name="MajSite" value="MajSite">Mettre à jour</button>
+    </form>
 </div>
 
 <br>
