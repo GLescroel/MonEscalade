@@ -1,7 +1,12 @@
 <!DOCTYPE html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
     <title>Site</title>
 </head>
 <body>
@@ -54,17 +59,18 @@
 
 <form id="formAjoutCommentaire" method="post" th:action="@{site(id=${site.getId()})}">
     <div>
-        <span>Ajouter un commentaire:</span> <input name="commentaireSite" type="text" th:size="100" th:value="${commentaire.getCommentaire()}">
-        <button type="submit" name="ajouter" value="Ajouter!">Ajouter</button>
+        <span>Ajouter un commentaire:</span> <input name="commentaireSite" th:size="100" th:value="${commentaire.getCommentaire()}"
+                                                    type="text">
+        <button name="ajouter" type="submit" value="Ajouter!">Ajouter</button>
     </div>
 </form>
 
 <div th:if="!${commentaires.isEmpty()}">
     <br>
-<!--    <span th:each="commentaire : ${commentaires}" th:text="${commentaire.getCommentaire()}"></span>  -->
-    <table th:border="black" th:axis="1">
+    <!--    <span th:each="commentaire : ${commentaires}" th:text="${commentaire.getCommentaire()}"></span>  -->
+    <table th:axis="1" th:border="black">
         <tr>
-            <td th:text="COMMENTAIRES" th:align="left">Commentaires</td>
+            <td th:align="left" th:text="COMMENTAIRES">Commentaires</td>
         </tr>
         <tr th:each="commentaire: ${commentaires}">
             <td th:text="${commentaire.getCommentaire()}">Commentaire</td>
@@ -73,82 +79,85 @@
 
 </div>
 <div th:if="!${secteurs.isEmpty()}">
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
 
-<table>
-    <thead>
-    <tr>
-        <th th:text="Description">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="secteur: ${secteurs}">
-        <td th:text="${secteur.getNom()}">Nom</td>
-        <div th:if="!${secteur.getVoies().isEmpty()}">
-            <table th:border="black" th:axis="1">
-                <tr>
-                    <td th:text="voie" th:align="center">Nom</td>
-                    <td th:text="cotation" th:align="center">Cotation</td>
-                    <td th:text="equipée" th:align="center">Equipee</td>
-                </tr>
-                <tr th:each="voie: ${secteur.getVoies()}">
-                    <td th:text="${voie.getNom()}">Nom</td>
-                    <td th:text="${voie.getCotation()}">Cotation</td>
-                    <td th:text="${voie.isEquipee()}">Equipee</td>
-                    <div th:if="!${voie.getLongueurs().isEmpty()}">
-                        <table th:border="black" th:axis="1">
-                            <tr>
-                                <td th:text="longueur" th:align="center">Nom</td>
-                                <td th:text="cotation" th:align="center">Cotation</td>
-                            </tr>
-                            <tr th:each="longueur: ${voie.getLongueurs()}">
-                                <td th:text="${longueur.getNom()}">Nom</td>
-                                <td th:text="${longueur.getCotation()}">Cotation</td>
-                            </tr>
-                        </table>
-                    </div>
-                </tr>
-            </table>
-        </div>
-    </tr>
-    </tbody>
-</table>
+    <table>
+        <thead>
+        <tr>
+            <th th:text="Description">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="secteur: ${secteurs}">
+            <td th:text="${secteur.getNom()}">Nom</td>
+            <div th:if="!${secteur.getVoies().isEmpty()}">
+                <table th:axis="1" th:border="black">
+                    <tr>
+                        <td th:align="center" th:text="voie">Nom</td>
+                        <td th:align="center" th:text="cotation">Cotation</td>
+                        <td th:align="center" th:text="equipée">Equipee</td>
+                    </tr>
+                    <tr th:each="voie: ${secteur.getVoies()}">
+                        <td th:text="${voie.getNom()}">Nom</td>
+                        <td th:text="${voie.getCotation()}">Cotation</td>
+                        <td th:text="${voie.isEquipee()}">Equipee</td>
+                        <div th:if="!${voie.getLongueurs().isEmpty()}">
+                            <table th:axis="1" th:border="black">
+                                <tr>
+                                    <td th:align="center" th:text="longueur">Nom</td>
+                                    <td th:align="center" th:text="cotation">Cotation</td>
+                                </tr>
+                                <tr th:each="longueur: ${voie.getLongueurs()}">
+                                    <td th:text="${longueur.getNom()}">Nom</td>
+                                    <td th:text="${longueur.getCotation()}">Cotation</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </tr>
+                </table>
+            </div>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <br><br><br>
 
 <div th:if="!${secteurs.isEmpty()}">
 
-<div class="container-fluid p-0" >
-    <div class="card">
-        <div class="card-header"><h5>Informations détaillées des secteurs</h5></div>
-        <div class="card-body p-0">
-            <div id="accordion">
-                <div th:each ="secteur : ${secteurs}" class="card">
-                    <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" th:attr="href='#collapseSecteurId_'+${secteur.getId()}">
-                            <span th:utext="${secteur.getNom()}">...</span>
-                        </a>
-                    </div>
-                    <div th:attr="id='collapseSecteurId_'+${secteur.getId()}" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-borderless text-center">
-                                    <thead>
-                                    <th class="text-left">nom de la voie</th>
-                                    <th>cotation</th>
-                                    <th>Equipee</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="voie : ${secteur.getVoies()}">
-                                        <td class="text-left" th:utext="${voie.getNom()}"></td>
-                                        <td th:utext="${voie.getCotation()}"></td>
-                                        <td th:utext="${voie.isEquipee()}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+    <div class="container-fluid p-0">
+        <div class="card">
+            <div class="card-header"><h5>Informations détaillées des secteurs</h5></div>
+            <div class="card-body p-0">
+                <div id="accordionSecteur">
+                    <div class="card" th:each="secteur : ${secteurs}">
+                        <div class="card-header">
+                            <a class="card-link" data-toggle="collapse"
+                               th:attr="href='#collapseSecteurId_'+${secteur.getId()}">
+                                <span th:utext="${secteur.getNom()}">...</span>
+                            </a>
+                        </div>
+                        <div class="collapse" data-parent="#accordionSecteur"
+                             th:attr="id='collapseSecteurId_'+${secteur.getId()}">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless text-center">
+                                        <thead>
+                                        <th class="text-left">nom de la voie</th>
+                                        <th>cotation</th>
+                                        <th>Equipee</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="voie : ${secteur.getVoies()}">
+                                            <td class="text-left" th:utext="${voie.getNom()}"></td>
+                                            <td th:utext="${voie.getCotation()}"></td>
+                                            <td th:utext="${voie.isEquipee()}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -156,7 +165,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <div th:if="${site}">
@@ -167,6 +175,17 @@
     <br><br><br><br>
 </div>
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script crossorigin="anonymous"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 <footer>
     <a th:href="@{/}">Accueil</a>
