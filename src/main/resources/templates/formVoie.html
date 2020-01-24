@@ -3,96 +3,146 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Ajout d'une longueur</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <title>Modification d'une voie</title>
 </head>
 
 <body>
 
-<h1>Modification d'une voie</h1>
+<div class="container">
+    <header class="page-header">
+        <h1>Modification d'une voie</h1>
+    </header>
+</div>
 
 <br><br>
 <div th:if="${voie != null && suppression == false}">
-    <h2>
-    <span th:text="${site.getNom()}"/>
-    <span> / </span>
-    <span th:text="${secteur.getNom()}"/>
-    <span> / </span>
-    <span th:text="${voie.getNom()}"/>
-    </h2>
-    <br><br><br>
-    <span>Informations sur la voie : </span>
-    <form id="MajVoie" method="post" th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/update(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
-        <div>
-            <span>Nom de la voie :</span> <input name="nomVoie" type="text" th:value="${voie.getNom()}" th:size="50"><br>
-            <span>Cotation :</span> <input name="cotationVoie" type="text" th:value="${voie.getCotation()}" th:size="10"><br>
-            <div class="form-group blu-margin">
-                <span th:text="Equipee">Equipée ?</span>
-                <select class="form-control" id="dropEquipee" name="voieEquipee">
-                    <option th:value="${voie.isEquipee()}" th:text="${voie.isEquipee()}">Equipee ?</option>
-                    <option th:value="true" th:text="Oui"></option>
-                    <option th:value="false" th:text="Non"></option>
-                </select>
-            </div>
-            <button type="submit" name="MajVoie" value="MajVoie">Mettre à jour</button>
-        </div>
-    </form>
+    <div class="container">
+        <h2>
+            <span th:text="${site.getNom()}"/>
+            <span> / </span>
+            <span th:text="${secteur.getNom()}"/>
+            <span> / </span>
+            <span th:text="${voie.getNom()}"/>
+        </h2>
+    </div>
 
-    <br><br>
-    <div th:if="!${longueurs.isEmpty()}">
-        <table th:axis="1">
-            <tr>
-                <td th:align="left" th:text="longueurs">Longueurs</td>
-                <td th:align="left" th:text="cotation">Cotation</td>
-            </tr>
-            <tr th:each="longueur: ${longueurs}">
-                <td><span><a
-                        th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}"
-                        th:text="${longueur.getNom()}"></a> </span></td>
-                <td th:text="${longueur.getCotation()}">Cotation</td>
-            </tr>
-        </table>
+    <br><br><br>
+
+    <div class="container">
+        <span><h3>Informations sur la voie : </h3></span>
+        <form id="MajVoie" method="post"
+              th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/update(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
+
+
+            <dl>
+                <dt>Nom</dt>
+                <dd>
+                    <input class="col-6" name="nomVoie" th:value="${voie.getNom()}" type="text">
+                </dd>
+                <dt>Cotation</dt>
+                <dd>
+                    <input class="col-3" name="cotationVoie" th:value="${voie.getCotation()}" type="text">
+                </dd>
+                <dt>Equipée ?</dt>
+                <dd>
+                    <select class="form-control col-3" id="dropEquipee" name="voieEquipee">
+                        <option th:text="${voie.isEquipee()}" th:value="${voie.isEquipee()}">Equipee ?</option>
+                        <option th:text="Oui" th:value="true"></option>
+                        <option th:text="Non" th:value="false"></option>
+                    </select>
+                </dd>
+            </dl>
+
+            <button name="MajVoie" type="submit" value="MajVoie">Mettre à jour</button>
+        </form>
     </div>
 
     <br><br>
-    <span>Ajout d'une longueur : </span>
-    <form id="CreationSecteur" method="post"
-          th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
-        <div>
-            <span>Nom de la longueur :</span> <input name="nomLongueur" th:size="50" type="text"><br>
-            <span>Cotation :</span> <input name="cotation" th:size="10" type="text"><br>
-            <button name="AjouterLongueur" type="submit" value="AjouterLongueur">Ajouter longueur</button>
+    <div class="container">
+        <div th:if="!${longueurs.isEmpty()}">
+            <section class="table-responsive">
+                <table class="table-striped col-6">
+                    <tr>
+                        <td th:align="left" th:text="longueurs">Longueurs</td>
+                        <td th:align="left" th:text="cotation">Cotation</td>
+                    </tr>
+                    <tr th:each="longueur: ${longueurs}">
+                        <td><span><a
+                                th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}(idSite=${site.getId()},idSecteur=${secteur.getId()},idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}"
+                                th:text="${longueur.getNom()}"></a> </span></td>
+                        <td th:text="${longueur.getCotation()}">Cotation</td>
+                    </tr>
+                </table>
+            </section>
         </div>
-    </form>
+    </div>
+
+    <br><br>
+    <div class="container">
+        <span><h3>Ajout d'une longueur : </h3></span>
+        <form id="CreationLongueur" method="post"
+              th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
+            <dl>
+                <dt>Nom</dt>
+                <dd>
+                    <input class="col-6" name="nomLongueur" type="text">
+                </dd>
+                <dt>Cotation</dt>
+                <dd>
+                    <input class="col-3" name="cotation" type="text">
+                </dd>
+            </dl>
+
+            <button name="AjouterLongueur" type="submit" value="AjouterLongueur">Ajouter longueur</button>
+        </form>
+    </div>
 </div>
 <br><br>
 
 <div th:if="${voie}">
     <br>
-    <form class="button"
-          th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
-        <input type="submit" value="Supprimer la voie"/>
-    </form>
-    <br><br><br><br>
-</div>
-<div th:if="${suppression} == true">
-    <span><h2>LA VOIE A ETE SUPPRIME</h2></span>
+    <div class="container">
+        <form class="button"
+              th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()})}">
+            <input type="submit" value="Supprimer la voie"/>
+        </form>
+    </div>
     <br><br><br><br>
 </div>
 
-<a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()}, idSecteur=${secteur.getId()})}">Retour au secteur</a>
-<br><br>
-<a th:href="@{/modifSite/{idSite}(idSite=${site.getId()})}">Retour au site</a>
+<div class="container">
+    <div th:if="${suppression} == true">
+        <span><h2>LA VOIE A ETE SUPPRIME</h2></span>
+        <br><br><br><br>
+    </div>
+</div>
+
+<div class="container">
+    <a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()}, idSecteur=${secteur.getId()})}">Retour
+        au secteur</a>
+    <br><br>
+    <a th:href="@{/modifSite/{idSite}(idSite=${site.getId()})}">Retour au site</a>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 <footer>
-    <a th:href="@{/}">Accueil</a>
+    <div class="container">
+        <a th:href="@{/}">Accueil</a>
+    </div>
 </footer>
 </html>

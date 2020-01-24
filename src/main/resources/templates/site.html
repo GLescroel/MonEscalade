@@ -10,124 +10,44 @@
     <title>Site</title>
 </head>
 <body>
-
-<h1><span th:if="${site}" th:text="${site.getNom()}"/></h1>
-
-<br>
-<br>
-<img alt="Mountain View" style="width:600px" th:src="@{Site_+${site.getId()}+.jpg}">
-<br>
-<br>
-<br>
-
-<table>
-    <thead>
-    <tr>
-        <th th:text="Localisation">Localisation</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td th:text=Continent>Continent</td>
-        <td th:text="${site.getLocalisation().getContinent().getNom()}">Continent</td>
-    </tr>
-    <tr>
-        <td th:text=Pays>Pays</td>
-        <td th:text="${site.getLocalisation().getPays().getNom()}">Pays</td>
-    </tr>
-    <tr>
-        <td th:text=Région>Region</td>
-        <td th:text="${site.getLocalisation().getRegion()}">Region</td>
-    </tr>
-    <tr>
-        <td th:text=Département>Departement</td>
-        <td th:text="${site.getLocalisation().getDepartement()}">Departement</td>
-    </tr>
-    <tr>
-        <td th:text=Ville>Ville</td>
-        <td th:text="${site.getLocalisation().getVille()}">Ville</td>
-    </tr>
-    <tr>
-        <td th:text=Adresse>Adresse</td>
-        <td th:text="${site.getLocalisation().getAdresse()}">Adresse</td>
-    </tr>
-    </tbody>
-</table>
-
-<br>
-<br>
-
-<form id="formAjoutCommentaire" method="post" th:action="@{site(id=${site.getId()})}">
-    <div>
-        <span>Ajouter un commentaire:</span> <input name="commentaireSite" th:size="100" th:value="${commentaire.getCommentaire()}"
-                                                    type="text">
-        <button name="ajouter" type="submit" value="Ajouter!">Ajouter</button>
-    </div>
-</form>
-
-<div th:if="!${commentaires.isEmpty()}">
-    <br>
-    <!--    <span th:each="commentaire : ${commentaires}" th:text="${commentaire.getCommentaire()}"></span>  -->
-    <table th:axis="1" th:border="black">
-        <tr>
-            <td th:align="left" th:text="COMMENTAIRES">Commentaires</td>
-        </tr>
-        <tr th:each="commentaire: ${commentaires}">
-            <td th:text="${commentaire.getCommentaire()}">Commentaire</td>
-        </tr>
-    </table>
-
-</div>
-<div th:if="!${secteurs.isEmpty()}">
-    <br>
-    <br>
-    <br>
-
-    <table>
-        <thead>
-        <tr>
-            <th th:text="Description">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="secteur: ${secteurs}">
-            <td th:text="${secteur.getNom()}">Nom</td>
-            <div th:if="!${secteur.getVoies().isEmpty()}">
-                <table th:axis="1" th:border="black">
-                    <tr>
-                        <td th:align="center" th:text="voie">Nom</td>
-                        <td th:align="center" th:text="cotation">Cotation</td>
-                        <td th:align="center" th:text="equipée">Equipee</td>
-                    </tr>
-                    <tr th:each="voie: ${secteur.getVoies()}">
-                        <td th:text="${voie.getNom()}">Nom</td>
-                        <td th:text="${voie.getCotation()}">Cotation</td>
-                        <td th:text="${voie.isEquipee()}">Equipee</td>
-                        <div th:if="!${voie.getLongueurs().isEmpty()}">
-                            <table th:axis="1" th:border="black">
-                                <tr>
-                                    <td th:align="center" th:text="longueur">Nom</td>
-                                    <td th:align="center" th:text="cotation">Cotation</td>
-                                </tr>
-                                <tr th:each="longueur: ${voie.getLongueurs()}">
-                                    <td th:text="${longueur.getNom()}">Nom</td>
-                                    <td th:text="${longueur.getCotation()}">Cotation</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </tr>
-                </table>
+<div class="container">
+    <header class="page-header">
+        <div class="row">
+            <div class="col-6"><h1><span th:if="${site}" th:text="${site.getNom()}"/></h1></div>
+            <div class="col-4 offset-2 align-self-center" th:if="${site}">
+                <form class="button" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
+                    <input type="submit" value="Modifier ce site"/>
+                </form>
             </div>
-        </tr>
-        </tbody>
-    </table>
+        </div>
+    </header>
+
+    <img alt="Mountain View" class="col-12" style="width:600px" th:src="@{Site_+${site.getId()}+.jpg}">
+
+    <div>
+        <span><h3>Localisation : </h3></span>
+        <dl class="list-inline">
+            <dt>Continent</dt>
+            <dd th:text="${site.getLocalisation().getContinent().getNom()}">Continent</dd>
+            <dt>Pays</dt>
+            <dd th:text="${site.getLocalisation().getPays().getNom()}">Pays</dd>
+            <dt>Région</dt>
+            <dd th:text="${site.getLocalisation().getRegion()}">Région</dd>
+            <dt>Département</dt>
+            <dd th:text="${site.getLocalisation().getDepartement()}">Département</dd>
+            <dt>Ville</dt>
+            <dd th:text="${site.getLocalisation().getVille()}">Ville</dd>
+            <dt>Adresse</dt>
+            <dd th:text="${site.getLocalisation().getAdresse()}">Adresse</dd>
+        </dl>
+    </div>
 </div>
 
-<br><br><br>
+<br><br>
 
 <div th:if="!${secteurs.isEmpty()}">
 
-    <div class="container-fluid p-0">
+    <div class="container p-0">
         <div class="card">
             <div class="card-header"><h5>Informations détaillées des secteurs</h5></div>
             <div class="card-body p-0">
@@ -166,13 +86,28 @@
         </div>
     </div>
 </div>
-
-<div th:if="${site}">
+<br><br>
+<div th:if="!${commentaires.isEmpty()}">
+    <div class="container">
+        <dl>
+            <dt><h3>Commentaires</h3></dt>
+            <dd th:each="commentaire: ${commentaires}" th:text="${commentaire.getCommentaire()}">Commentaire</dd>
+        </dl>
+    </div>
     <br>
-    <form class="button" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
-        <input type="submit" value="Modifier ce site"/>
+</div>
+<div class="container">
+    <form id="formAjoutCommentaire" method="post" th:action="@{site(id=${site.getId()})}">
+        <div class="row align-items-center">
+            <div class="col-3"><strong>Ajouter un commentaire:</strong></div>
+            <div class="col-7"><textarea class="col-12" name="commentaireSite"
+                                         th:value="${commentaire.getCommentaire()}"></textarea></div>
+            <div class="clearfix visible"/>
+            <div class="col-2">
+                <button name="ajouter" type="submit" value="Ajouter!">Ajouter</button>
+            </div>
+        </div>
     </form>
-    <br><br><br><br>
 </div>
 
 <!-- Optional JavaScript -->
@@ -186,8 +121,11 @@
 <script crossorigin="anonymous"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</div>
 </body>
 <footer>
-    <a th:href="@{/}">Accueil</a>
+    <div class="container">
+        <a th:href="@{/}">Accueil</a>
+    </div>
 </footer>
 </html>

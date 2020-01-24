@@ -3,150 +3,228 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
     <title>Ajout/modification/suppression d'un site</title>
 </head>
 <body>
 
-<div th:if="${site == null && suppression == false}">
-    <h1>Ajout d'un site</h1><br><br>
-<form id="CreationSite" method="post" th:action="@{/modifSite}">
-    <div>
-        <span>Nom du site :</span> <input name="nomNewSite" type="text" th:size="50"><br><br>
+<div class="container">
+    <div th:if="${site == null && suppression == false}">
 
-        Localisation :<br>
-        <div class="form-group blu-margin">
-            Continent :
-            <select class="form-control" th:object="${continents}" id="dropContinent" name="continentSelection">
-                <option th:value="${continentSelectionne.getId()}" th:text="${continentSelectionne.getNom()}"></option>
-                <option th:each="continent : ${continents}" th:value="${continent.getId()}" th:text="${continent.getNom()}"></option>
-            </select>
-        </div>
-        <div class="form-group blu-margin">
-        et/ou pays :
-            <select class="form-control" th:object="${paysList}" id="dropPays" name="paysSelection">
-                <option th:value="${paysSelectionne.getId()}" th:text="${paysSelectionne.getNom()}"></option>
-                <option th:each="pays : ${paysList}" th:value="${pays.getId()}" th:text="${pays.getNom()}"></option>
-            </select>
-        </div>
-        <span>Région :</span> <input name="region" type="text" th:size="50" th:value="${localisation.getRegion()}"><br>
-        <span>Département :</span> <input name="departement" type="text" th:size="50" th:value="${localisation.getDepartement()}"><br>
-        <span>Ville :</span> <input name="ville" type="text" th:size="50" th:value="${localisation.getVille()}"><br>
-        <span>Adresse :</span> <input name="adresse" type="text" th:size="50" th:value="${localisation.getAdresse()}"><br>
+        <header class="page-header">
+            <h1>Ajout d'un site</h1><br><br>
+        </header>
 
+        <form class="form-group" id="CreationSite" method="post" th:action="@{/modifSite}">
+            <div>
+                <h2><span>Nom du site :</span> <input class="col-6" name="nomNewSite" type="text"></h2>
+                <br><br>
+
+                <h3>Localisation :</h3><br>
+                <div class="container">
+                    <dl>
+                        <dt>Continent</dt>
+                        <dd>
+                            <select class="form-control col-8" id="dropContinent" name="continentSelection"
+                                    th:object="${continents}">
+                                <option th:text="${continentSelectionne.getNom()}"
+                                        th:value="${continentSelectionne.getId()}"></option>
+                                <option th:each="continent : ${continents}" th:text="${continent.getNom()}"
+                                        th:value="${continent.getId()}"></option>
+                            </select>
+                        </dd>
+                        <dt>Pays</dt>
+                        <dd>
+                            <select class="form-control col-8" id="dropPays" name="paysSelection"
+                                    th:object="${paysList}">
+                                <option th:text="${paysSelectionne.getNom()}"
+                                        th:value="${paysSelectionne.getId()}"></option>
+                                <option th:each="pays : ${paysList}" th:text="${pays.getNom()}"
+                                        th:value="${pays.getId()}"></option>
+                            </select>
+                        </dd>
+
+                        <dt>Région</dt>
+                        <dd>
+                            <input class="col-8" name="region" th:value="${localisation.getRegion()}"
+                                   type="text">
+                        </dd>
+                        <dt>Département</dt>
+                        <dd>
+                            <input class="col-8" name="departement" th:value="${localisation.getDepartement()}" type="text">
+                        </dd>
+                        <dt>Ville</dt>
+                        <dd>
+                            <input class="col-8" name="ville" th:value="${localisation.getVille()}"
+                                   type="text">
+                        </dd>
+                        <dt>Adresse</dt>
+                        <dd>
+                            <input class="col-8" name="adresse" th:value="${localisation.getAdresse()}"
+                                   type="text"><br>
+                        </dd>
+                    </dl>
+                </div>
+
+                <button name="CreerSite" type="submit" value="CreerSite!">Créer site</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div th:if="${site}">
+        <div class="row">
+            <div class="col-8"><h1>Modification d'un site</h1></div>
+            <div class="col-4 align-self-center">
+                <form class="button" th:action="@{/modifSite/{id}/suppression(id=${site.getId()})}">
+                    <input type="submit" value="Supprimer le site"/>
+                </form>
+            </div>
+        </div>
         <br><br>
-        <button type="submit" name="CreerSite" value="CreerSite!">Créer site</button>
+        <form class="form-group" id="MajSite" method="post" th:action="@{/modifSite/{idSite}/update(idSite=${site.getId()})}">
+            <h2><b>Nom du site : </b>
+                <input class="col-5" name="nomSite" th:value="${site.getNom()}" type="text"></h2>
+            <br>
+            <section class="table-responsive">
+                <table class="col-8">
+                    <thead>
+                    <tr>
+                        <th><h3>Localisation :</h3></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text=Continent>Continent :</td>
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control col-12" id="dropContinentUpdate" name="continentSelection"
+                                        th:object="${continents}">
+                                    <option th:text="${site.getLocalisation().getContinent().getNom()}"
+                                            th:value="${site.getLocalisation().getContinent().getId()}"></option>
+                                    <option th:each="continent : ${continents}" th:text="${continent.getNom()}"
+                                            th:value="${continent.getId()}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text=Pays>Pays :</td>
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control col-12" id="dropPaysUpdate" name="paysSelection"
+                                        th:object="${paysList}">
+                                    <option th:text="${site.getLocalisation().getPays().getNom()}"
+                                            th:value="${site.getLocalisation().getPays().getId()}"></option>
+                                    <option th:each="pays : ${paysList}" th:text="${pays.getNom()}"
+                                            th:value="${pays.getId()}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text=Région>Region :</td>
+                        <td>
+                            <div class="form-group">
+                                <input class="col-12" name="region"
+                                                 th:value="${site.getLocalisation().getRegion()}"
+                                                 type="text">
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text=Département>Departement :</td>
+                        <td>
+                            <div class="form-group">
+                                <input class="col-12" name="departement"
+                                                 th:value="${site.getLocalisation().getDepartement()}" type="text">
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text=Ville>Ville :</td>
+                        <td>
+                            <div class="form-group">
+                                <input class="col-12" name="ville"
+                                                 th:value="${site.getLocalisation().getVille()}"
+                                                 type="text">
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text=Adresse>Adresse :</td>
+                        <td>
+                            <div class="form-group">
+                                <input class="col-12" name="adresse"
+                                                 th:value="${site.getLocalisation().getAdresse()}" type="text">
+                        </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+            <button name="MajSite" type="submit" value="MajSite">Mettre à jour</button>
+        </form>
     </div>
-</form>
 </div>
 
-<div th:if="${site}">
-    <h1>Modification d'un site</h1><br><br>
-    <form id="MajSite" method="post" th:action="@{/modifSite/{idSite}/update(idSite=${site.getId()})}">
-    <b>Nom du site : </b>
-        <span></span> <input name="nomSite" type="text" th:value="${site.getNom()}" th:size="50">
-    <table>
-        <thead>
-        <tr>
-            <th th:text="Localisation">Localisation</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text=Continent>Continent : </td>
-            <td>
-                <div class="form-group blu-margin">
-                    <select class="form-control" th:object="${continents}" id="dropContinentUpdate" name="continentSelection">
-                        <option th:value="${site.getLocalisation().getContinent().getId()}" th:text="${site.getLocalisation().getContinent().getNom()}"></option>
-                        <option th:each="continent : ${continents}" th:value="${continent.getId()}" th:text="${continent.getNom()}"></option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td th:text=Pays>Pays : </td>
-            <td>
-                <div class="form-group blu-margin">
-                    <select class="form-control" th:object="${paysList}" id="dropPaysUpdate" name="paysSelection">
-                        <option th:value="${site.getLocalisation().getPays().getId()}" th:text="${site.getLocalisation().getPays().getNom()}"></option>
-                        <option th:each="pays : ${paysList}" th:value="${pays.getId()}" th:text="${pays.getNom()}"></option>
-                    </select>
-                </div>
-
-            </td>
-        </tr>
-        <tr>
-            <td th:text=Région>Region : </td>
-            <td><span></span> <input name="region" type="text" th:value="${site.getLocalisation().getRegion()}" th:size="50"></td>
-        </tr>
-        <tr>
-            <td th:text=Département>Departement : </td>
-            <td><span></span> <input name="departement" type="text" th:value="${site.getLocalisation().getDepartement()}" th:size="50"></td>
-        </tr>
-        <tr>
-            <td th:text=Ville>Ville : </td>
-            <td><span></span> <input name="ville" type="text" th:value="${site.getLocalisation().getVille()}" th:size="50"></td>
-        </tr>
-        <tr>
-            <td th:text=Adresse>Adresse : </td>
-            <td><span></span> <input name="adresse" type="text" th:value="${site.getLocalisation().getAdresse()}" th:size="50"></td>
-        </tr>
-        </tbody>
-    </table>
-
-        <button type="submit" name="MajSite" value="MajSite">Mettre à jour</button>
-    </form>
-</div>
-
-<br>
-<div th:if="${site}">
-    <div th:if="${site.getSecteurs() != null && !site.getSecteurs().isEmpty()}">
-    <table th:axis="1">
-        <tr>
-            <td th:text="SECTEURS" th:align="left">Secteurs :</td>
-        </tr>
-        <tr th:each="secteur: ${site.getSecteurs()}">
-            <td><span><a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}" th:text="${secteur.getNom()}"></a> </span></td>
-        </tr>
-    </table>
-    </div>
-</div>
-<br><br>
-<div th:if="${site}">
-    <form id="CreationSecteur" method="post" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
-        <div>
-            <button type="submit" name="AjouterSecteur" value="AjouterSecteur!">Ajouter secteur</button>
-            <span></span> <input name="nomSecteur" type="text" th:size="50">
+<div class="container">
+    <div th:if="${site}">
+        <div th:if="${site.getSecteurs() != null && !site.getSecteurs().isEmpty()}">
+            <dl>
+                <dt><h3>Secteurs</h3></dt>
+                <dd th:each="secteur: ${site.getSecteurs()}">
+                    <a th:href="@{/modifSite/{idSite}/modifSecteur/{idSecteur}(idSite=${site.getId()},idSecteur=${secteur.getId()})}"
+                       th:text="${secteur.getNom()}"></a>
+                </dd>
+            </dl>
         </div>
-    </form>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div th:if="${site}">
+        <form id="CreationSecteur" method="post" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
+            <div>
+                <button name="AjouterSecteur" type="submit" value="AjouterSecteur!">Ajouter secteur</button>
+                <span></span> <input name="nomSecteur" th:size="50" type="text">
+            </div>
+        </form>
+    </div>
 </div>
 <br><br>
 
-<div th:if="${site}">
-    <br>
-    <form class="button" th:action="@{/modifSite/{id}/suppression(id=${site.getId()})}">
-        <input type="submit" value="Supprimer le site"/>
-    </form>
-    <br><br><br><br>
+<div class="container">
+    <div th:if="${suppression} == true">
+        <span><h2>LE SITE A ETE SUPPRIME</h2></span>
+        <br><br><br><br>
+    </div>
 </div>
-<div th:if="${suppression} == true">
-    <span><h2>LE SITE A ETE SUPPRIME</h2></span>
-    <br><br><br><br>
-</div>
-<div th:if="${site}">
-<a th:href="@{/site(id=${site.getId()})}">Aller au site</a>
+<div class="container">
+    <div th:if="${site}">
+        <a th:href="@{/site(id=${site.getId()})}">Aller au site</a>
+    </div>
 </div>
 
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 <footer>
-    <a th:href="@{/}">Accueil</a>
+    <div class="container">
+        <a th:href="@{/}">Accueil</a>
+    </div>
 </footer>
 </html>
