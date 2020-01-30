@@ -1,6 +1,10 @@
 INSERT INTO role (id, role) VALUES (1, 'Administrateur');
 INSERT INTO role (id, role) VALUES (2, 'Membre');
 INSERT INTO role (id, role) VALUES (3, 'Utilisateur');
+INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('admin@axa.fr','ADMIN', 'ADMIN', '$2a$11$NWK4enrvaXbcLu0Hf4eVIe3cdNk82VO6BvfNx7UMBeHYGJjQcFMQi', '1');
+INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('user@axa.fr', 'USER', 'USER', '$2a$11$fwbi72Ko53c6Dvd87f7d7u7hkiFQ5dGnS2SO8JYdiMO41olj78EQi', '3');
+INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('membre@axa.fr', 'MEMBRE', 'MEMBRE', '$2a$11$yel.cNbeeJNTEa7czcLHHup4wIJVQLqay293LmAewxQZgSV05KSAK', '2');
+INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('glescroel@hotmail.com', 'LESCROEL', 'Gregory', '$2a$11$NWK4enrvaXbcLu0Hf4eVIe3cdNk82VO6BvfNx7UMBeHYGJjQcFMQi', '1');
 INSERT INTO continent (id, nom) VALUES (1, 'Europe');
 INSERT INTO continent (id, nom) VALUES (2, 'Amérique du nord');
 INSERT INTO continent (id, nom) VALUES (3, 'Amérique du sud');

@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,12 +9,36 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
     <title>Les amis de l'escalade</title>
 </head>
-<div class="container">
-    <header class="page-header">
+<header class="page-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <div sec:authorize="!isAuthenticated()">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                </li>
+                </div>
+                <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
         <h1>Bienvenue aux amis de l'escalade</h1>
         <br><br>
-    </header>
-</div>
+    </div>
+</header>
 <div class="container">
     <form id="formRecherche" method="post" th:action="@{/}">
         <div>
@@ -98,11 +122,6 @@
 <br>
 <div class="container">
     <img alt="Mountain View" class="col-12" src="Homepage.jpg" style="width:600px">
-</div>
-<br>
-<br>
-<div class="container">
-    <a th:href="@{/modifSite}">Ajouter un site</a>
 </div>
 
 <!-- Optional JavaScript -->

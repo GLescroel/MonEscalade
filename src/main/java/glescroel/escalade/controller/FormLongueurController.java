@@ -21,13 +21,13 @@ public class FormLongueurController {
     private static final Logger LOGGER = LoggerFactory.getLogger(FormLongueurController.class);
 
     @Autowired
-    SiteService siteService;
+    private SiteService siteService;
     @Autowired
-    SecteurService secteurService;
+    private SecteurService secteurService;
     @Autowired
-    VoieService voieService;
+    private VoieService voieService;
     @Autowired
-    LongueurService longueurService;
+    private LongueurService longueurService;
 
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}")
     public String viewFormLongueur(@PathVariable("idSite") String idSite,

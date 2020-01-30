@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,13 +11,38 @@
 </head>
 <body>
 
-<div class="container">
+<header class="page-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <div sec:authorize="!isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </div>
+
+
     <div th:if="${site == null && suppression == false}">
-
-        <header class="page-header">
+        <div class="container">
             <h1>Ajout d'un site</h1><br><br>
-        </header>
+        </div>
+    </div>
+    </header>
 
+
+<div th:if="${site == null && suppression == false}">
+    <div class="container">
         <form class="form-group" id="CreationSite" method="post" th:action="@{/modifSite}">
             <div>
                 <h2><span>Nom du site :</span> <input class="col-6" name="nomNewSite" type="text"></h2>
@@ -54,7 +79,8 @@
                         </dd>
                         <dt>Département</dt>
                         <dd>
-                            <input class="col-8" name="departement" th:value="${localisation.getDepartement()}" type="text">
+                            <input class="col-8" name="departement" th:value="${localisation.getDepartement()}"
+                                   type="text">
                         </dd>
                         <dt>Ville</dt>
                         <dd>
@@ -85,7 +111,8 @@
             </div>
         </div>
         <br><br>
-        <form class="form-group" id="MajSite" method="post" th:action="@{/modifSite/{idSite}/update(idSite=${site.getId()})}">
+        <form class="form-group" id="MajSite" method="post"
+              th:action="@{/modifSite/{idSite}/update(idSite=${site.getId()})}">
             <h2><b>Nom du site : </b>
                 <input class="col-5" name="nomSite" th:value="${site.getNom()}" type="text"></h2>
             <br>
@@ -130,9 +157,9 @@
                         <td>
                             <div class="form-group">
                                 <input class="col-12" name="region"
-                                                 th:value="${site.getLocalisation().getRegion()}"
-                                                 type="text">
-                        </div>
+                                       th:value="${site.getLocalisation().getRegion()}"
+                                       type="text">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -140,8 +167,8 @@
                         <td>
                             <div class="form-group">
                                 <input class="col-12" name="departement"
-                                                 th:value="${site.getLocalisation().getDepartement()}" type="text">
-                        </div>
+                                       th:value="${site.getLocalisation().getDepartement()}" type="text">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -149,9 +176,9 @@
                         <td>
                             <div class="form-group">
                                 <input class="col-12" name="ville"
-                                                 th:value="${site.getLocalisation().getVille()}"
-                                                 type="text">
-                        </div>
+                                       th:value="${site.getLocalisation().getVille()}"
+                                       type="text">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -159,8 +186,8 @@
                         <td>
                             <div class="form-group">
                                 <input class="col-12" name="adresse"
-                                                 th:value="${site.getLocalisation().getAdresse()}" type="text">
-                        </div>
+                                       th:value="${site.getLocalisation().getAdresse()}" type="text">
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -222,9 +249,4 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
-<footer>
-    <div class="container">
-        <a th:href="@{/}">Accueil</a>
-    </div>
-</footer>
 </html>

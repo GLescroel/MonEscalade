@@ -17,7 +17,6 @@ import java.util.Optional;
 public class VoieService {
 
     private static final VoieMapper VOIE_MAPPER = VoieMapper.INSTANCE;
-    private static final SecteurMapper SECTEUR_MAPPER = SecteurMapper.INSTANCE;
 
     @Autowired
     private VoieRepository voieRepository;

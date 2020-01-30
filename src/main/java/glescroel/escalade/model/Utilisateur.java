@@ -3,22 +3,34 @@ package glescroel.escalade.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class Utilisateur {
+@Table(name = "UTILISATEUR")
+public class Utilisateur implements Serializable, UserDetails {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Utilisateur.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +53,10 @@ public class Utilisateur {
     private String email;
 
     @Basic
-    @ColumnTransformer()
-    @Size(message = ErrorMessages.UTILISATEUR_MDP_LENGTH, min = 8, max = 15)
+    @Size(message = ErrorMessages.UTILISATEUR_MDP_LENGTH, min = 8, max = 80)
     private String password;
 
-    @OneToOne
+    @ManyToOne
     private Role role;
 
     @OneToMany
@@ -53,4 +64,39 @@ public class Utilisateur {
 
     @OneToMany
     private List<Commentaire> commentaires;
+
+
+    @Override
+    public String getUsername() {
+        return nom;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        LOGGER.info("Authorities = " + role.getRole());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.getRole()));
+
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

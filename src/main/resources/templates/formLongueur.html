@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,11 +12,30 @@
 
 <body>
 
-<div class="container">
-    <header class="page-header">
+<header class="page-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <div sec:authorize="!isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
         <h1>Modification d'une longueur</h1>
-    </header>
-</div>
+    </div>
+</header>
 
 <br><br>
 
@@ -96,9 +115,4 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
-<footer>
-    <div class="container">
-        <a th:href="@{/}">Accueil</a>
-    </div>
-</footer>
 </html>
