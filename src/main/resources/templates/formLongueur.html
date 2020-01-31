@@ -82,7 +82,7 @@
                 </dd>
             </dl>
 
-            <button name="MajLongueur" type="submit" value="MajLongueur">Mettre à jour</button>
+            <button class="btn btn-outline-secondary" name="MajLongueur" type="submit" value="MajLongueur">Mettre à jour</button>
         </form>
     </div>
     <br><br><br><br>
@@ -90,7 +90,7 @@
     <div class="container">
         <form class="button"
               th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()}, idVoie=${voie.getId()}, idLongueur=${longueur.getId()})}">
-            <input type="submit" value="Supprimer la longueur"/>
+            <input class="btn btn-outline-danger" type="submit" value="Supprimer la longueur"/>
         </form>
     </div>
     <br><br><br><br>

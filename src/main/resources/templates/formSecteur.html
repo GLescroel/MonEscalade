@@ -57,7 +57,7 @@
                 <span> / </span>
                 <span></span> <input class="col-6" name="nomSecteur" th:value="${secteur.getNom()}" type="text"><br>
             </h2>
-            <button name="MajSecteur" type="submit" value="MajSecteur">Mettre à jour</button>
+            <button class="btn btn-outline-secondary" name="MajSecteur" type="submit" value="MajSecteur">Mettre à jour</button>
         </form>
         <br><br>
     </div>
@@ -111,7 +111,7 @@
                     </select>
                 </dd>
             </dl>
-            <button name="AjouterVoie" type="submit" value="AjouterVoie">Ajouter voie</button>
+            <button class="btn btn-outline-secondary" name="AjouterVoie" type="submit" value="AjouterVoie">Ajouter voie</button>
         </form>
     </div>
 </div>
@@ -123,7 +123,7 @@
         <br>
         <form class="button"
               th:action="@{/modifSite/{idSite}/modifSecteur/{idSecteur}/suppression(idSite=${site.getId()}, idSecteur=${secteur.getId()})}">
-            <input type="submit" value="Supprimer le secteur"/>
+            <input class="btn btn-outline-danger" type="submit" value="Supprimer le secteur"/>
         </form>
     </div>
 </div>

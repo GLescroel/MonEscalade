@@ -105,7 +105,7 @@
                     </dl>
                 </div>
 
-                <button name="CreerSite" type="submit" value="CreerSite!">Créer site</button>
+                <button class="btn btn-outline-secondary" name="CreerSite" type="submit" value="CreerSite!">Créer site</button>
             </div>
         </form>
     </div>
@@ -116,7 +116,7 @@
             <div class="col-8"><h1>Modification d'un site</h1></div>
             <div class="col-4 align-self-center">
                 <form class="button" th:action="@{/modifSite/{id}/suppression(id=${site.getId()})}">
-                    <input type="submit" value="Supprimer le site"/>
+                    <input class="btn btn-outline-danger" type="submit" value="Supprimer le site"/>
                 </form>
             </div>
         </div>
@@ -203,7 +203,7 @@
                     </tbody>
                 </table>
             </section>
-            <button name="MajSite" type="submit" value="MajSite">Mettre à jour</button>
+            <button class="btn btn-outline-secondary" name="MajSite" type="submit" value="MajSite">Mettre à jour</button>
         </form>
     </div>
 </div>
@@ -226,7 +226,7 @@
     <div th:if="${site}">
         <form id="CreationSecteur" method="post" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
             <div>
-                <button name="AjouterSecteur" type="submit" value="AjouterSecteur!">Ajouter secteur</button>
+                <button class="btn btn-outline-secondary" name="AjouterSecteur" type="submit" value="AjouterSecteur!">Ajouter secteur</button>
                 <span></span> <input name="nomSecteur" th:size="50" type="text">
             </div>
         </form>
