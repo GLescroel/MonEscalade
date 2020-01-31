@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,6 +11,7 @@
     <title>Les amis de l'escalade</title>
 </head>
 <header class="page-header">
+    <div th:if="${deleted} != true">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav mr-auto">
@@ -40,53 +42,44 @@
         </nav>
     </div>
     <div class="container">
-        <h1>Création de compte</h1>
+        <h1>Votre compte utilisateur</h1>
         <br><br>
     </div>
+</div>
 </header>
+
 <body>
 
-<div th:if="${rejected} == true">
-    <div class="container">
-        <h2><span th:text="${message}"></span></h2>
+<div th:if="${deleted} != true">
+<div class="container">
+    <div>
+        <span><h3>Vos informations : </h3></span>
+        <dl class="row">
+            <dt class="col-2">Nom</dt>
+            <dd class="col-10" th:text="${#authentication.principal.getNom()}">Nom</dd>
+            <dt class="col-2">Prénom</dt>
+            <dd class="col-10" th:text="${#authentication.principal.getPrenom()}">Prenom</dd>
+            <dt class="col-2">Email</dt>
+            <dd class="col-10" th:text="${#authentication.principal.getEmail()}">Email</dd>
+            <dt class="col-2">Rôle</dt>
+            <dd class="col-10" th:text="${#authentication.principal.getRole().getRole()}">Role</dd>
+        </dl>
     </div>
 </div>
 
-<div th:if="${created} == null">
+<div class="container">
+    <form class="button" id="suppressionUtilisateur" th:action="@{/compte/suppression/{idUtilisateur}(idUtilisateur=${#authentication.principal.getId()})}">
+        <input type="submit" value="Supprimer le compte"/>
+    </form>
+</div>
+</div>
+<div th:if="${deleted} == true">
     <div class="container">
-        <form class="form-group" method="post" th:action="@{/creationCompte}">
-            <div class="row">
-                <div class="col-4"><label> Email : <input class="col-8" name="username" type="text"/>
-                </label></div>
-            </div>
-            <div class="row">
-                <div class="col-4"><label> Mot de passe : <input class="col-8" name="password" type="password"/>
-                </label></div>
-            </div>
-            <div class="row">
-                <div class="col-4"><label> Nom : <input class="col-8" name="nom" type="text"/>
-                </label></div>
-            </div>
-            <div class="row">
-                <div class="col-4"><label> Prenom : <input class="col-8" name="prenom" type="text"/>
-                </label></div>
-            </div>
-            <div class="row"><input class="col-4" type="submit" value="Créer le compte"/></div>
+    <h1>Votre compte a été supprimé</h1>
+        <form class="button" id="retour" th:action="@{/logout}">
+            <input type="submit" value="Revenir à l'accueil"/>
         </form>
     </div>
 </div>
-
-<div th:if="${created} == true">
-    <div class="container">
-        <h2><span th:text="${message}"></span></h2>
-        <form class="form-group">
-            <div><label>Nom : </label><span th:text="${nom}"></span></div>
-            <div><label>Prénom : </label><span th:text="${prenom}"></span></div>
-            <div><label>Email : </label><span th:text="${email}"></span></div>
-        </form>
-
-    </div>
-</div>
-
 </body>
 </html>

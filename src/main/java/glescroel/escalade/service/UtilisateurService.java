@@ -63,4 +63,17 @@ public class UtilisateurService implements UserDetailsService {
     public UtilisateurDto save(UtilisateurDto utilisateur) {
         return UTILISATEUR_MAPPER.map(utilisateurRepository.save(UTILISATEUR_MAPPER.map(utilisateur)));
     }
+
+    public UtilisateurDto getUtilisateurById(Integer id) {
+        Optional<Utilisateur> result = utilisateurRepository.findById(id);
+        UtilisateurDto utilisateurDto = null;
+        if (result.isPresent()){
+            utilisateurDto = UTILISATEUR_MAPPER.map(result.get());
+        }
+        return utilisateurDto;
+    }
+
+    public void remove(UtilisateurDto utilisateur) {
+        utilisateurRepository.delete(UTILISATEUR_MAPPER.map(utilisateur));
+    }
 }

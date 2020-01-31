@@ -27,7 +27,17 @@
                         <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
                     </li>
                 </div>
+                <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
             </ul>
+            <div sec:authorize="isAuthenticated()">
+                    <span class="navbar-text">
+                        <a class="nav-link" href="/compte" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
+                    </span>
+            </div>
         </nav>
     </div>
 
@@ -50,19 +60,19 @@
 
 <div>
     <span><h3>Localisation : </h3></span>
-    <dl class="list-inline">
-        <dt>Continent</dt>
-        <dd th:text="${site.getLocalisation().getContinent().getNom()}">Continent</dd>
-        <dt>Pays</dt>
-        <dd th:text="${site.getLocalisation().getPays().getNom()}">Pays</dd>
-        <dt>Région</dt>
-        <dd th:text="${site.getLocalisation().getRegion()}">Région</dd>
-        <dt>Département</dt>
-        <dd th:text="${site.getLocalisation().getDepartement()}">Département</dd>
-        <dt>Ville</dt>
-        <dd th:text="${site.getLocalisation().getVille()}">Ville</dd>
-        <dt>Adresse</dt>
-        <dd th:text="${site.getLocalisation().getAdresse()}">Adresse</dd>
+    <dl class="row">
+        <dt class="col-2">Continent</dt>
+        <dd class="col-10" th:text="${site.getLocalisation().getContinent().getNom()}">Continent</dd>
+        <dt class="col-2">Pays</dt>
+        <dd class="col-10" th:text="${site.getLocalisation().getPays().getNom()}">Pays</dd>
+        <dt class="col-2">Région</dt>
+        <dd class="col-10" th:text="${site.getLocalisation().getRegion()}">Région</dd>
+        <dt class="col-2">Département</dt>
+        <dd class="col-10" th:text="${site.getLocalisation().getDepartement()}">Département</dd>
+        <dt class="col-2">Ville</dt>
+        <dd class="col-10" th:text="${site.getLocalisation().getVille()}">Ville</dd>
+        <dt class="col-2">Adresse</dt>
+        <dd class="col-10" th:text="${site.getLocalisation().getAdresse()}">Adresse</dd>
     </dl>
 </div>
 </div>

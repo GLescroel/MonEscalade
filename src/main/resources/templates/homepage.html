@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,14 +18,14 @@
                     <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
                 </li>
                 <div sec:authorize="!isAuthenticated()">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
-                </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                    </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
-                </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                    </li>
                 </div>
                 <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
                     <li class="nav-item active">
@@ -32,6 +33,11 @@
                     </li>
                 </div>
             </ul>
+                <div sec:authorize="isAuthenticated()">
+                    <span class="navbar-text">
+                        <a class="nav-link" href="/compte" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
+                    </span>
+                </div>
         </nav>
     </div>
     <div class="container">
