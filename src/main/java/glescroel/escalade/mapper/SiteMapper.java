@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(uses = {SecteurMapper.class, VoieMapper.class, LongueurMapper.class})
+@Mapper(uses = {SecteurMapper.class, VoieMapper.class, LongueurMapper.class, CommentaireMapper.class, UtilisateurMapper.class})
 public interface SiteMapper {
     SiteMapper INSTANCE = Mappers.getMapper(SiteMapper.class);
 

@@ -2,12 +2,14 @@ package glescroel.escalade.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -16,11 +18,16 @@ import javax.validation.constraints.Size;
 public class Commentaire {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     private Integer id;
 
     @Basic
     @Size(message = ErrorMessages.COMMENTAIRE_COMMENTAIRE_LENGTH, min = 10, max = 1000)
     private String commentaire;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
 
 }

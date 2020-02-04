@@ -25,4 +25,8 @@ public class UtilisateurDto {
     public UtilisateurDto() {
         //default constructor vs Lombok
     }
+
+    public void addCommentaire(CommentaireDto commentaire) {
+        commentaires.add(commentaire);
+    }
 }

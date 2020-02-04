@@ -123,25 +123,33 @@
 <br><br>
 <div th:if="!${commentaires.isEmpty()}">
     <div class="container">
-        <dl>
-            <dt><h3>Commentaires</h3></dt>
-            <dd th:each="commentaire: ${commentaires}" th:text="${commentaire.getCommentaire()}">Commentaire</dd>
-        </dl>
+        <div>
+            <span><h3>Commentaires : </h3></span>
+            <dl th:each="commentaire: ${commentaires}" class="row ">
+                <dt class="col-2" th:text="${commentaire.getUtilisateur().getNom()}">Utilisateur</dt>
+                <dd class="col-10" th:text="${commentaire.getCommentaire()}">Commentaire</dd>
+            </dl>
+        </div>
     </div>
     <br>
 </div>
+<div sec:authorize="isAuthenticated()">
 <div class="container">
     <form id="formAjoutCommentaire" method="post" th:action="@{site(id=${site.getId()})}">
         <div class="row align-items-center">
             <div class="col-3"><strong>Ajouter un commentaire:</strong></div>
             <div class="col-7"><textarea class="col-12" name="commentaireSite"
                                          th:value="${commentaire.getCommentaire()}"></textarea></div>
-            <div class="clearfix visible"/>
+            <div class="clearfix visible">
             <div class="col-2">
                 <button class="btn btn-outline-secondary" name="ajouter" type="submit" value="Ajouter!">Ajouter</button>
             </div>
+            </div>
         </div>
+        <div ><input class="text-hide" name="utilisateurCommentaire"
+                     th:value="${#authentication.principal.getEmail()}"></div>
     </form>
+</div>
 </div>
 
 <!-- Optional JavaScript -->

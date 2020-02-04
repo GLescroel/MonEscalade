@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -62,7 +63,7 @@ public class Utilisateur implements Serializable, UserDetails {
     @OneToMany
     private List<Topo> topos;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "utilisateur", orphanRemoval = true)
     private List<Commentaire> commentaires;
 
 

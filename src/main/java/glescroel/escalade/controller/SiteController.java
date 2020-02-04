@@ -2,8 +2,10 @@ package glescroel.escalade.controller;
 
 import glescroel.escalade.dto.CommentaireDto;
 import glescroel.escalade.dto.SiteDto;
+import glescroel.escalade.dto.UtilisateurDto;
 import glescroel.escalade.service.CommentaireService;
 import glescroel.escalade.service.SiteService;
+import glescroel.escalade.service.UtilisateurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class SiteController {
 
     @Autowired
     private CommentaireService commentaireService;
+    @Autowired
+    private UtilisateurService utilisateurService;
 
     @GetMapping(value = "/site", params = {"id"})
     public String viewSitePage(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
@@ -46,23 +50,36 @@ public class SiteController {
 
     @PostMapping(value = "/site", params = {"id"})
     public ModelAndView addComment(@NotNull(message = "id must be not null") @RequestParam("id") String id,
-                                   @RequestParam(required = true, name = "commentaireSite") String commentaire) {
+                                   @RequestParam(required = true, name = "commentaireSite") String texte,
+                                   @RequestParam(required = true, name = "utilisateurCommentaire") String email) {
         LOGGER.info(">>>>> Dans SiteController - PostMapping");
 
         ModelAndView modelAndview = new ModelAndView("site");
 
+        LOGGER.info("avant recup site");
         SiteDto site = siteService.getSiteById(Integer.valueOf(id));
+        LOGGER.info("avant recup utilisateur");
+        UtilisateurDto utilisateur = utilisateurService.getUtilisateurByEmail(email);
 
-        CommentaireDto commentaireDto = new CommentaireDto().builder()
-                .commentaire(commentaire)
+        LOGGER.info("avant builder commentaire");
+        CommentaireDto commentaire = new CommentaireDto().builder()
+                .commentaire(texte)
+                .utilisateur(utilisateur)
                 .build();
-        commentaireDto = commentaireService.save(commentaireDto);
-        site.addComment(commentaireDto);
+        LOGGER.info("avant save commentaire");
+        commentaire = commentaireService.save(commentaire);
+        LOGGER.info("avant utilisateur add commentaire");
+        utilisateur.addCommentaire(commentaire);
+        LOGGER.info("avant utilisateur save");
+        utilisateurService.save(utilisateur);
+        LOGGER.info("avant site add commentaire");
+        site.addComment(commentaire);
+        LOGGER.info("avant site save");
         site = siteService.save(site);
 
         modelAndview.addObject("site", site);
         modelAndview.addObject("commentaires", site.getCommentaires());
-        modelAndview.addObject("commentaire", new CommentaireDto());
+        modelAndview.addObject("commentaire", commentaire);
 
         modelAndview.addObject("secteurs", site.getSecteurs());
 
