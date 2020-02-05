@@ -1,6 +1,6 @@
 <!DOCTYPE html >
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,32 +12,22 @@
 </head>
 <header class="page-header">
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
-                </li>
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+                <a class="btn btn-outline-secondary" href="/">Accueil</a>
                 <div sec:authorize="!isAuthenticated()">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
-                    </li>
+                    <a class="btn btn-outline-secondary" href="/login">S'authentifier</a>
                 </div>
                 <div sec:authorize="isAuthenticated()">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
-                    </li>
+                    <a class="btn btn-outline-secondary" href="/logout">Log out</a>
                 </div>
-                <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
-                    </li>
-                </div>
-            </ul>
                 <div sec:authorize="isAuthenticated()">
-                    <span class="navbar-text">
-                        <a class="nav-link" href="/compte" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
-                    </span>
+                    <a class="btn btn-outline-secondary" href="/modifSite">Ajouter un site</a>
                 </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a class="btn btn-outline-secondary" href="/compte" th:text="${#authentication.getName()}"></a>
+                </div>
+            </form>
         </nav>
     </div>
     <div class="container">
@@ -85,7 +75,8 @@
 
         <br>
         <div>
-            <button class="btn btn-outline-secondary" name="rechercher" type="submit" value="RECHERCHER!">RECHERCHER !</button>
+            <button class="btn btn-outline-secondary" name="rechercher" type="submit" value="RECHERCHER!">RECHERCHER !
+            </button>
         </div>
     </form>
 </div>
