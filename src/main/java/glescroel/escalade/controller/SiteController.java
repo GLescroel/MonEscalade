@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,10 +40,7 @@ public class SiteController {
         model.addAttribute("site", site);
 
         model.addAttribute("secteurs", site.getSecteurs());
-
-        CommentaireDto commentaire = new CommentaireDto();
-        commentaire.setCommentaire("");
-        model.addAttribute("commentaire", commentaire);
+        model.addAttribute("commentaire", new CommentaireDto().builder().commentaire("").build());
         model.addAttribute("commentaires", site.getCommentaires());
 
         return "site";
@@ -84,5 +82,21 @@ public class SiteController {
         modelAndview.addObject("secteurs", site.getSecteurs());
 
         return modelAndview;
+    }
+
+    @GetMapping(value = "/site/{idSite}/tag")
+    public String tagSite(Model model, @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite) {
+        LOGGER.info(">>>>> Dans SiteController - PostMapping Tag");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
+        site.setTag(true);
+        siteService.save(site);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("commentaires", site.getCommentaires());
+        model.addAttribute("commentaire", new CommentaireDto().builder().commentaire("").build());
+
+        return "redirect:/site?id=" + site.getId();
     }
 }

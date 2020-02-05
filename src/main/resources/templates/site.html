@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -44,10 +44,22 @@
     <div class="container">
         <div class="row">
             <div class="col-6"><h1><span th:if="${site}" th:text="${site.getNom()}"/></h1></div>
-            <div class="col-4 offset-2 align-self-center" th:if="${site}">
+            <div class="col-4 align-self-center" th:if="${site}">
+                <div th:if="${site.isTag()}">
+                    <img alt="Tag" class="col-12" th:src="AmisEscalade.png">
+                </div>
+                <div th:if="${!site.isTag()}">
+                    <form class="button" id="tagSite" th:action="@{/site/{idSite}/tag(idSite=${site.getId()})}">
+                        <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
+                            <input class="btn btn-outline-secondary" type="submit" value="Taguer ce site"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-2 align-self-center" th:if="${site}">
                 <form class="button" id="modifSite" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
                     <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
-                    <input class="btn btn-outline-secondary" type="submit" value="Modifier ce site"/>
+                        <input class="btn btn-outline-secondary" type="submit" value="Modifier ce site"/>
                     </div>
                 </form>
             </div>
@@ -56,25 +68,27 @@
 </header>
 
 <div class="container">
-<img alt="Mountain View" class="col-12" style="width:600px" th:src="@{Site_+${site.getId()}+.jpg}">
+    <div>
+    <img alt="Mountain View" class="col-12" style="width:600px" th:src="@{Site_+${site.getId()}+.jpg}">
+    </div>
 
-<div>
-    <span><h3>Localisation : </h3></span>
-    <dl class="row">
-        <dt class="col-2">Continent</dt>
-        <dd class="col-10" th:text="${site.getLocalisation().getContinent().getNom()}">Continent</dd>
-        <dt class="col-2">Pays</dt>
-        <dd class="col-10" th:text="${site.getLocalisation().getPays().getNom()}">Pays</dd>
-        <dt class="col-2">Région</dt>
-        <dd class="col-10" th:text="${site.getLocalisation().getRegion()}">Région</dd>
-        <dt class="col-2">Département</dt>
-        <dd class="col-10" th:text="${site.getLocalisation().getDepartement()}">Département</dd>
-        <dt class="col-2">Ville</dt>
-        <dd class="col-10" th:text="${site.getLocalisation().getVille()}">Ville</dd>
-        <dt class="col-2">Adresse</dt>
-        <dd class="col-10" th:text="${site.getLocalisation().getAdresse()}">Adresse</dd>
-    </dl>
-</div>
+    <div>
+        <span><h3>Localisation : </h3></span>
+        <dl class="row">
+            <dt class="col-2">Continent</dt>
+            <dd class="col-10" th:text="${site.getLocalisation().getContinent().getNom()}">Continent</dd>
+            <dt class="col-2">Pays</dt>
+            <dd class="col-10" th:text="${site.getLocalisation().getPays().getNom()}">Pays</dd>
+            <dt class="col-2">Région</dt>
+            <dd class="col-10" th:text="${site.getLocalisation().getRegion()}">Région</dd>
+            <dt class="col-2">Département</dt>
+            <dd class="col-10" th:text="${site.getLocalisation().getDepartement()}">Département</dd>
+            <dt class="col-2">Ville</dt>
+            <dd class="col-10" th:text="${site.getLocalisation().getVille()}">Ville</dd>
+            <dt class="col-2">Adresse</dt>
+            <dd class="col-10" th:text="${site.getLocalisation().getAdresse()}">Adresse</dd>
+        </dl>
+    </div>
 </div>
 
 <br><br>
@@ -125,7 +139,7 @@
     <div class="container">
         <div>
             <span><h3>Commentaires : </h3></span>
-            <dl th:each="commentaire: ${commentaires}" class="row ">
+            <dl class="row " th:each="commentaire: ${commentaires}">
                 <dt class="col-2" th:text="${commentaire.getUtilisateur().getNom()}">Utilisateur</dt>
                 <dd class="col-10" th:text="${commentaire.getCommentaire()}">Commentaire</dd>
             </dl>
@@ -134,22 +148,24 @@
     <br>
 </div>
 <div sec:authorize="isAuthenticated()">
-<div class="container">
-    <form id="formAjoutCommentaire" method="post" th:action="@{site(id=${site.getId()})}">
-        <div class="row align-items-center">
-            <div class="col-3"><strong>Ajouter un commentaire:</strong></div>
-            <div class="col-7"><textarea class="col-12" name="commentaireSite"
-                                         th:value="${commentaire.getCommentaire()}"></textarea></div>
-            <div class="clearfix visible">
-            <div class="col-2">
-                <button class="btn btn-outline-secondary" name="ajouter" type="submit" value="Ajouter!">Ajouter</button>
+    <div class="container">
+        <form id="formAjoutCommentaire" method="post" th:action="@{/site(id=${site.getId()})}">
+            <div class="row align-items-center">
+                <div class="col-3"><strong>Ajouter un commentaire:</strong></div>
+                <div class="col-7"><textarea class="col-12" name="commentaireSite"
+                                             th:value="${commentaire.getCommentaire()}"></textarea></div>
+                <div class="clearfix visible">
+                    <div class="col-2">
+                        <button class="btn btn-outline-secondary" name="ajouter" type="submit" value="Ajouter!">
+                            Ajouter
+                        </button>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>
-        <div ><input class="text-hide" name="utilisateurCommentaire"
-                     th:value="${#authentication.principal.getEmail()}"></div>
-    </form>
-</div>
+            <div><input class="text-hide" name="utilisateurCommentaire"
+                        th:value="${#authentication.principal.getEmail()}"></div>
+        </form>
+    </div>
 </div>
 
 <!-- Optional JavaScript -->
