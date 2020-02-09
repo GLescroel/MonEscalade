@@ -54,25 +54,17 @@ public class SiteController {
 
         ModelAndView modelAndview = new ModelAndView("site");
 
-        LOGGER.info("avant recup site");
         SiteDto site = siteService.getSiteById(Integer.valueOf(id));
-        LOGGER.info("avant recup utilisateur");
         UtilisateurDto utilisateur = utilisateurService.getUtilisateurByEmail(email);
 
-        LOGGER.info("avant builder commentaire");
         CommentaireDto commentaire = new CommentaireDto().builder()
                 .commentaire(texte)
                 .utilisateur(utilisateur)
                 .build();
-        LOGGER.info("avant save commentaire");
         commentaire = commentaireService.save(commentaire);
-        LOGGER.info("avant utilisateur add commentaire");
         utilisateur.addCommentaire(commentaire);
-        LOGGER.info("avant utilisateur save");
         utilisateurService.save(utilisateur);
-        LOGGER.info("avant site add commentaire");
         site.addComment(commentaire);
-        LOGGER.info("avant site save");
         site = siteService.save(site);
 
         modelAndview.addObject("site", site);
@@ -99,4 +91,21 @@ public class SiteController {
 
         return "redirect:/site?id=" + site.getId();
     }
+
+    @GetMapping(value = "/site/{idSite}/untag")
+    public String untagSite(Model model, @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite) {
+        LOGGER.info(">>>>> Dans SiteController - PostMapping unTag");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
+        site.setTag(false);
+        siteService.save(site);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("commentaires", site.getCommentaires());
+        model.addAttribute("commentaire", new CommentaireDto().builder().commentaire("").build());
+
+        return "redirect:/site?id=" + site.getId();
+    }
+
 }

@@ -66,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/creationCompte").permitAll()
                 .antMatchers("/user").authenticated()
                 .antMatchers("/compte").authenticated()
-                .antMatchers("/modifSite/**").hasAnyAuthority("Membre", "Administrateur")
+                .antMatchers("/modifSite/**").authenticated()
                 .antMatchers("/*").permitAll()
                 .anyRequest().authenticated()
                 .and()

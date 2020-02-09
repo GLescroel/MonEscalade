@@ -33,4 +33,14 @@ public class SiteDto {
     public void addSecteur(SecteurDto secteur) {
         secteurs.add(secteur);
     }
+
+    public void removeCommentaire(CommentaireDto commentaire) {
+        int index = 0;
+        for (int i = 0 ; i < commentaires.size() ; i++) {
+            if(commentaires.get(i).getId() == commentaire.getId()) {
+                index = i;
+            }
+        }
+        commentaires.remove(index);
+    }
 }

@@ -113,8 +113,28 @@
 <div class="container">
     <div th:if="${site}">
         <div class="row">
-            <div class="col-8"><h1>Modification d'un site</h1></div>
-            <div class="col-4 align-self-center">
+            <div class="col-5"><h1>Modification d'un site</h1></div>
+            <div class="col-4 align-self-center" th:if="${site}">
+                <div th:if="${site.isTag()}">
+                    <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
+                        <form class="button" id="untagSite" th:action="@{/site/{idSite}/untag(idSite=${site.getId()})}">
+                                <input class="btn btn-outline-secondary" type="submit" value="DéTaguer ce site"/>
+                        </form>
+                    </div>
+                    <div sec:authorize="hasAuthority('Utilisateur')">
+                        <img alt="Tag" class="col-12" th:src="AmisEscalade.png">
+                    </div>
+
+                </div>
+                <div th:if="${!site.isTag()}">
+                    <form class="button" id="tagSite" th:action="@{/site/{idSite}/tag(idSite=${site.getId()})}">
+                        <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
+                            <input class="btn btn-outline-secondary" type="submit" value="Taguer ce site"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3 align-self-center">
                 <form class="button" th:action="@{/modifSite/{id}/suppression(id=${site.getId()})}">
                     <input class="btn btn-outline-danger" type="submit" value="Supprimer le site"/>
                 </form>
@@ -224,7 +244,7 @@
 <br>
 <div class="container">
     <div th:if="${site}">
-        <form id="CreationSecteur" method="post" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
+        <form class="form-group" id="CreationSecteur" method="post" th:action="@{/modifSite/{idSite}(idSite=${site.getId()})}">
             <div>
                 <button class="btn btn-outline-secondary" name="AjouterSecteur" type="submit" value="AjouterSecteur!">Ajouter secteur</button>
                 <span></span> <input name="nomSecteur" th:size="50" type="text">
@@ -233,6 +253,37 @@
     </div>
 </div>
 <br><br>
+
+<div th:if="${site}">
+    <div th:if="!${site.getCommentaires().isEmpty()}">
+        <div sec:authorize="hasAnyAuthority('Membre', 'Administrateur')">
+            <div class="container">
+                <div>
+                    <span><h3>Commentaires : </h3></span>
+                    <div th:each="commentaire: ${site.getCommentaires()}">
+                        <form id="gestionCommentaire" method="post"
+                              th:action="@{/modifSite/{idSite}/updateCommentaire/{idCommentaire}(idSite=${site.getId()}, idCommentaire=${commentaire.getId()})}">
+                            <div class="row">
+                                <label class="col-2 align-self-center"
+                                       th:text="${commentaire.getUtilisateur().getNom()}"></label>
+                                <input class="col-6 align-self-center" name="commentaire"
+                                       th:value="${commentaire.getCommentaire()}"
+                                       type="text">
+                                <button class="btn btn-outline-warning btn-sm col-2 align-self-center"
+                                        name="modifierCommentaire" type="submit" value="modifierCommentaire!">Modifier
+                                </button>
+                                <a class="btn btn-outline-danger btn-sm col-2 align-self-center"
+                                   th:href="@{/modifSite/{idSite}/deleteCommentaire/{idCommentaire}(idSite=${site.getId()}, idCommentaire=${commentaire.getId()})}">Supprimer</a>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div th:if="${suppression} == true">

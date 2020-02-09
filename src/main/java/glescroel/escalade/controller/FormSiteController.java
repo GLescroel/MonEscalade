@@ -1,10 +1,12 @@
 package glescroel.escalade.controller;
 
+import glescroel.escalade.dto.CommentaireDto;
 import glescroel.escalade.dto.ContinentDto;
 import glescroel.escalade.dto.LocalisationDto;
 import glescroel.escalade.dto.PaysDto;
 import glescroel.escalade.dto.SecteurDto;
 import glescroel.escalade.dto.SiteDto;
+import glescroel.escalade.service.CommentaireService;
 import glescroel.escalade.service.ContinentService;
 import glescroel.escalade.service.LocalisationService;
 import glescroel.escalade.service.LongueurService;
@@ -44,6 +46,8 @@ public class FormSiteController {
     private PaysService paysService;
     @Autowired
     private LocalisationService localisationService;
+    @Autowired
+    private CommentaireService commentaireService;
 
     @GetMapping(value = "/modifSite")
     public String viewEmptyFormSite(Model model) {
@@ -153,6 +157,47 @@ public class FormSiteController {
         site.setLocalisation(localisation);
         site = siteService.save(site);
 
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
+
+        return "formSite";
+    }
+
+    @GetMapping(value = "/modifSite/{idSite}/deleteCommentaire/{idCommentaire}")
+    public String deleteComment(Model model,
+                             @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite,
+                             @NotNull(message = "id must be not null") @PathVariable("idCommentaire") String idCommentaire) {
+        LOGGER.info(">>>>> Dans FormSiteController - PostMapping / deleteCommentaire");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
+        CommentaireDto commentaire = commentaireService.getCommentaireById(Integer.valueOf(idCommentaire));
+
+        site.removeCommentaire(commentaire);
+        siteService.save(site);
+        commentaireService.delete(commentaire);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
+
+        return "formSite";
+    }
+
+    @PostMapping(value = "/modifSite/{idSite}/updateCommentaire/{idCommentaire}")
+    public String updateComment(Model model,
+                             @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite,
+                             @NotNull(message = "id must be not null") @PathVariable("idCommentaire") String idCommentaire,
+                             @RequestParam(required = true, name = "commentaire") String commentaireUpdated) {
+        LOGGER.info(">>>>> Dans FormSiteController - PostMapping / updateCommentaire");
+
+        CommentaireDto commentaire = commentaireService.getCommentaireById(Integer.valueOf(idCommentaire));
+        commentaire.setCommentaire(commentaireUpdated);
+        commentaireService.save(commentaire);
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(idSite));
         model.addAttribute("site", site);
         model.addAttribute("secteurs", site.getSecteurs());
         model.addAttribute("continents", continentService.getAll());
