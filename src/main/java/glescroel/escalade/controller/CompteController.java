@@ -1,6 +1,10 @@
 package glescroel.escalade.controller;
 
+import glescroel.escalade.dto.CommentaireDto;
+import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.dto.UtilisateurDto;
+import glescroel.escalade.service.CommentaireService;
+import glescroel.escalade.service.SiteService;
 import glescroel.escalade.service.UtilisateurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Controller
 public class CompteController {
@@ -19,6 +24,10 @@ public class CompteController {
 
     @Autowired
     private UtilisateurService utilisateurService;
+    @Autowired
+    private CommentaireService commentaireService;
+    @Autowired
+    private SiteService siteService;
 
     @GetMapping(value = "/compte")
     public String viewComptePage(Model model/*, @RequestParam(name = "email") String email*/) {
@@ -34,6 +43,17 @@ public class CompteController {
         LOGGER.info(">>>>> Dans CompteController - GetMapping suppression compte");
 
         UtilisateurDto utilisateur = utilisateurService.getUtilisateurById(Integer.valueOf(id));
+        utilisateur.removeAllCommentaires();
+        utilisateurService.save(utilisateur);
+
+        List<CommentaireDto> commentaireList= commentaireService.getCommentairesUtilisateur(Integer.valueOf(id));
+        for (CommentaireDto commentaire : commentaireList) {
+            SiteDto site = siteService.findSiteForCommentaire(commentaire);
+            site.removeCommentaire(commentaire);
+            siteService.save(site);
+            commentaireService.delete(commentaire);
+        }
+
         utilisateurService.remove(utilisateur);
 
         model.addAttribute("deleted", true);

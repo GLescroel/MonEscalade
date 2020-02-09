@@ -6,6 +6,8 @@ import glescroel.escalade.repository.CommentaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentaireService {
 
@@ -24,5 +26,9 @@ public class CommentaireService {
 
     public void delete(CommentaireDto commentaire) {
         commentaireRepository.delete(COMMENTAIRE_MAPPER.map(commentaire));
+    }
+
+    public List<CommentaireDto> getCommentairesUtilisateur(Integer idUtilisateur) {
+        return COMMENTAIRE_MAPPER.commentairesToDtos(commentaireRepository.findCommentairesByUtilisateur_IdOrderById(idUtilisateur));
     }
 }

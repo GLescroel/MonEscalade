@@ -1,6 +1,8 @@
 package glescroel.escalade.service;
 
+import glescroel.escalade.dto.CommentaireDto;
 import glescroel.escalade.dto.SiteDto;
+import glescroel.escalade.mapper.CommentaireMapper;
 import glescroel.escalade.mapper.SiteMapper;
 import glescroel.escalade.model.Site;
 import glescroel.escalade.repository.SiteRepository;
@@ -13,6 +15,7 @@ import java.util.Optional;
 @Service
 public class SiteService {
     private static final SiteMapper SITE_MAPPER = SiteMapper.INSTANCE;
+    private static final CommentaireMapper COMMENTAIRE_MAPPER = CommentaireMapper.INSTANCE;
 
     @Autowired
     private SiteRepository siteRepository;
@@ -66,5 +69,9 @@ public class SiteService {
 
     public void delete(SiteDto siteDto) {
         siteRepository.delete(SITE_MAPPER.map(siteDto));
+    }
+
+    public SiteDto findSiteForCommentaire(CommentaireDto commentaire) {
+        return SITE_MAPPER.map(siteRepository.findByCommentairesIn(COMMENTAIRE_MAPPER.map(commentaire)));
     }
 }

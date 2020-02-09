@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,5 +29,9 @@ public class UtilisateurDto {
 
     public void addCommentaire(CommentaireDto commentaire) {
         commentaires.add(commentaire);
+    }
+
+    public void removeAllCommentaires() {
+        commentaires = new ArrayList<>();
     }
 }
