@@ -38,4 +38,12 @@ public class TopoService {
     public void save(TopoDto topo) {
         topoRepository.save(TOPO_MAPPER.map(topo));
     }
+
+    public TopoDto getTopoById(Integer topoId) {
+        return TOPO_MAPPER.map(topoRepository.getOne(topoId));
+    }
+
+    public Object getToposByEmprunteur(Integer emprunteurId) {
+        return TOPO_MAPPER.toposToDtos(topoRepository.findAllByEmprunteurId(emprunteurId));
+    }
 }

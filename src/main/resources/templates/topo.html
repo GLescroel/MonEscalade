@@ -93,6 +93,9 @@
                 <div th:if="${mode} == 'ALL'">
                     <th>Proprietaire</th>
                 </div>
+                <div th:if="${mode} == 'USER'">
+                    <th>Emprunteur</th>
+                </div>
             </tr>
             </thead>
             <tbody>
@@ -106,10 +109,55 @@
                 <td><span th:text="${topo.getEtat().getEtat()}"> </span></td>
                 <div th:if="${mode} == 'ALL'">
                     <td><span th:text="${topo.getProprietaire().getNom()}"> </span></td>
+                    <div th:if="${topo.getEtat().getEtat()} == 'Disponible'">
+                        <form id="reserverTopo" method="post" th:action="@{/topo/reservation/{idTopo}(idTopo=${topo.getId()})}">
+                            <input class="text-hide" name="emprunteur" th:value="${#authentication.principal.getEmail()}">
+                            <td>
+                            <input class="btn btn-outline-success" type="submit" value="Réserver"/>
+                            </td>
+                        </form>
+                    </div>
+                </div>
+                <div th:if="${mode} == 'USER'">
+                    <div th:if="${topo.getEtat().getEtat()} == 'Reserve'">
+                        <td><span th:text="${topo.getEmprunteur().getNom()}"> </span></td>
+                    </div>
                 </div>
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div th:if="${mode} == 'USER'">
+        <div th:if="!${reservations.isEmpty()}">
+            <h2><span><br>Mes réservations<br></span></h2>
+            <table class="col-12 table-striped">
+                <thead>
+                <tr>
+                    <th> Nom</th>
+                    <th> Continent</th>
+                    <th> Pays</th>
+                    <th> Lieu</th>
+                    <th> Description</th>
+                    <th> Date de parution</th>
+                    <th> Etat</th>
+                    <th>Proprietaire</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="topo : ${reservations}">
+                    <td><span th:text="${topo.getNom()}">Nom</span></td>
+                    <td><span th:text="${topo.getContinent().getNom()}">Continent</span></td>
+                    <td><span th:text="${topo.getPays().getNom()}">Pays</span></td>
+                    <td><span th:text="${topo.getLieu()}"> </span></td>
+                    <td><span th:text="${topo.getDescription()}"> </span></td>
+                    <td><span th:text="${topo.getParution()}"> </span></td>
+                    <td><span th:text="${topo.getEtat().getEtat()}"> </span></td>
+                    <td><span th:text="${topo.getProprietaire().getNom()}"> </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface TopoRepository extends JpaRepository<Topo, Integer> {
     Optional<Topo> findByNomIgnoreCase(String nom);
     List<Topo> findAllByProprietaireId(int userId);
+    List<Topo> findAllByEmprunteurId(Integer emprunteurId);
 }

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
@@ -56,6 +57,23 @@ public class TopoController {
 
         model.addAttribute("mode", "ALL");
         model.addAttribute("topos", topoService.getAll());
+        model.addAttribute("reservations", new ArrayList<>());
+
+        return "topo";
+    }
+
+    @PostMapping(value = "/topo/reservation/{idTopo}")
+    public String bookTopo(Model model, @NotNull(message = "idTopo must be not null") @PathVariable("idTopo") String topoId,
+                           @RequestParam(required = true, name = "emprunteur") String email) {
+        LOGGER.info(">>>>> Dans TopoController - GetMapping topo/reservation");
+
+        TopoDto topo = topoService.getTopoById(Integer.valueOf(topoId));
+        topo.setEtat(etatService.getEtatByNom("Reserve"));
+        topo.setEmprunteur(utilisateurService.getUtilisateurByEmail(email));
+        topoService.save(topo);
+
+        model.addAttribute("mode", "ALL");
+        model.addAttribute("topos", topoService.getAll());
 
         return "topo";
     }
@@ -66,6 +84,7 @@ public class TopoController {
 
         model.addAttribute("mode", "USER");
         model.addAttribute("topos", topoService.getToposByUtilisateur(Integer.valueOf(userId)));
+        model.addAttribute("reservations", topoService.getToposByEmprunteur(Integer.valueOf(userId)));
         model.addAttribute("continents", continentService.getAll());
         model.addAttribute("continentSelectionne", new ContinentDto());
         model.addAttribute("paysList", paysService.getAll());
@@ -100,6 +119,7 @@ public class TopoController {
 
         model.addAttribute("mode", "USER");
         model.addAttribute("topos", topoService.getToposByUtilisateur(Integer.valueOf(userId)));
+        model.addAttribute("reservations", topoService.getToposByEmprunteur(Integer.valueOf(userId)));
         model.addAttribute("continents", continentService.getAll());
         model.addAttribute("continentSelectionne", new ContinentDto());
         model.addAttribute("paysList", paysService.getAll());
