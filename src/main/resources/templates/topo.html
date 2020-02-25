@@ -121,6 +121,14 @@
                 <div th:if="${mode} == 'USER'">
                     <div th:if="${topo.getEtat().getEtat()} == 'Reserve'">
                         <td><span th:text="${topo.getEmprunteur().getNom()}"> </span></td>
+                        <form id="preterTopo" method="post" th:action="@{/topo/pret/{idTopo}(idTopo=${topo.getId()})}">
+                            <td>
+                                <input class="btn btn-outline-success" type="submit" value="Prêter"/>
+                            </td>
+                        </form>
+                    </div>
+                    <div th:if="${topo.getEtat().getEtat()} == 'Indisponible'">
+                        <td><span th:text="${topo.getEmprunteur().getNom()}"> </span></td>
                     </div>
                 </div>
             </tr>
@@ -130,7 +138,7 @@
 
     <div th:if="${mode} == 'USER'">
         <div th:if="!${reservations.isEmpty()}">
-            <h2><span><br>Mes réservations<br></span></h2>
+            <h2><span><br>Mes emprunts et réservations<br></span></h2>
             <table class="col-12 table-striped">
                 <thead>
                 <tr>
@@ -154,6 +162,14 @@
                     <td><span th:text="${topo.getParution()}"> </span></td>
                     <td><span th:text="${topo.getEtat().getEtat()}"> </span></td>
                     <td><span th:text="${topo.getProprietaire().getNom()}"> </span></td>
+                    <div th:if="${topo.getEtat().getEtat()} == 'Indisponible'">
+                        <form id="rendreTopo" method="post" th:action="@{/topo/rendre/{idTopo}(idTopo=${topo.getId()})}">
+                            <input class="text-hide" name="emprunteur" th:value="${#authentication.principal.getId()}">
+                            <td>
+                                <input class="btn btn-outline-success" type="submit" value="Rendre"/>
+                            </td>
+                        </form>
+                    </div>
                 </tr>
                 </tbody>
             </table>

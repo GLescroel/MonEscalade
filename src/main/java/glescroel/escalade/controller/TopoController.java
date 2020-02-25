@@ -78,6 +78,48 @@ public class TopoController {
         return "topo";
     }
 
+    @PostMapping(value = "/topo/pret/{idTopo}")
+    public String giveTopo(Model model, @NotNull(message = "idTopo must be not null") @PathVariable("idTopo") String topoId) {
+        LOGGER.info(">>>>> Dans TopoController - GetMapping topo/pret");
+
+        TopoDto topo = topoService.getTopoById(Integer.valueOf(topoId));
+        topo.setEtat(etatService.getEtatByNom("Indisponible"));
+        topoService.save(topo);
+
+        model.addAttribute("mode", "USER");
+        model.addAttribute("topos", topoService.getToposByUtilisateur(Integer.valueOf(topo.getProprietaire().getId())));
+        model.addAttribute("reservations", topoService.getToposByEmprunteur(Integer.valueOf(topo.getProprietaire().getId())));
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("continentSelectionne", new ContinentDto());
+        model.addAttribute("paysList", paysService.getAll());
+        model.addAttribute("paysSelectionne", new PaysDto());
+        model.addAttribute("localisation", new LocalisationDto());
+
+        return "topo";
+    }
+
+    @PostMapping(value = "/topo/rendre/{idTopo}")
+    public String giveBackTopo(Model model, @NotNull(message = "idTopo must be not null") @PathVariable("idTopo") String topoId,
+                               @RequestParam(required = true, name = "emprunteur") String idEmprunteur) {
+        LOGGER.info(">>>>> Dans TopoController - GetMapping topo/rendre");
+
+        TopoDto topo = topoService.getTopoById(Integer.valueOf(topoId));
+        topo.setEtat(etatService.getEtatByNom("Disponible"));
+        topo.setEmprunteur(null);
+        topoService.save(topo);
+
+        model.addAttribute("mode", "USER");
+        model.addAttribute("topos", topoService.getToposByUtilisateur(Integer.valueOf(idEmprunteur)));
+        model.addAttribute("reservations", topoService.getToposByEmprunteur(Integer.valueOf(idEmprunteur)));
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("continentSelectionne", new ContinentDto());
+        model.addAttribute("paysList", paysService.getAll());
+        model.addAttribute("paysSelectionne", new PaysDto());
+        model.addAttribute("localisation", new LocalisationDto());
+
+        return "topo";
+    }
+
     @GetMapping(value = "/mesTopos/{userId}")
     public String viewMyTopoPage(Model model, @NotNull(message = "userId must be not null") @PathVariable("userId") String userId) {
         LOGGER.info(">>>>> Dans TopoController - GetMapping MyTopo");
