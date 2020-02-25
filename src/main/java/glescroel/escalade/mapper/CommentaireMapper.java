@@ -20,7 +20,8 @@ public interface CommentaireMapper {
 
     @Mappings({
             @Mapping(target = "utilisateur", ignore = true),
-            @Mapping(target = "utilisateur.commentaires", ignore = true)
+            @Mapping(target = "utilisateur.commentaires", ignore = true),
+            @Mapping(target = "utilisateur.topos", ignore = true)
     })
     Commentaire map(CommentaireDto commentaireDto);
 
@@ -31,7 +32,8 @@ public interface CommentaireMapper {
 
     @Mappings({
 //            @Mapping(target = "utilisateur", ignore = true),
-            @Mapping(target = "utilisateur.commentaires", ignore = true)
+            @Mapping(target = "utilisateur.commentaires", ignore = true),
+            @Mapping(target = "utilisateur.topos", ignore = true)
     })
     CommentaireDto map(Commentaire commentaire);
 

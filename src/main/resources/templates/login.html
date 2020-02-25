@@ -40,6 +40,17 @@
                     <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
                 </li>
             </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Topos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/topo">Topos</a>
+                        <a class="dropdown-item" th:href="@{/mesTopos/{username}(username=${#authentication.principal.getId()})}">Mes topos</a>
+                    </div>
+                </li>
+            </div>
         </ul>
         <div sec:authorize="isAuthenticated()">
                     <span class="navbar-text">

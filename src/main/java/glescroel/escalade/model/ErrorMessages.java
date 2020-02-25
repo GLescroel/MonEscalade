@@ -24,4 +24,5 @@ public class ErrorMessages {
     public static final String LOCALISATION_DEPARTEMENT_LENGTH = "Longueur erronée du département : 50 caractères max";
     public static final String LOCALISATION_VILLE_LENGTH = "Longueur erronée de la ville : 50 caractères max";
     public static final String LOCALISATION_ADRESSE_LENGTH = "Longueur erronée de l'adresse : 100 caractères max";
+    public static final String TOPO_LIEU_LENGTH = "Longueur erronée du lieu : 100 caractères max";
 }

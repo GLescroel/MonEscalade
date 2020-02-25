@@ -22,6 +22,7 @@ public class UtilisateurDto {
     private String password;
     private Role role;
     private List<CommentaireDto> commentaires;
+    private List<TopoDto> topos;
 
     public UtilisateurDto() {
         //default constructor vs Lombok

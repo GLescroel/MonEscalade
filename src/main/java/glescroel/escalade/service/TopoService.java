@@ -7,6 +7,7 @@ import glescroel.escalade.repository.TopoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,4 +27,15 @@ public class TopoService {
         return topoDto;
     }
 
+    public List<TopoDto> getAll() {
+        return TOPO_MAPPER.toposToDtos(topoRepository.findAll());
+    }
+
+    public List<TopoDto> getToposByUtilisateur(int userId) {
+        return TOPO_MAPPER.toposToDtos(topoRepository.findAllByProprietaireId(userId));
+    }
+
+    public void save(TopoDto topo) {
+        topoRepository.save(TOPO_MAPPER.map(topo));
+    }
 }

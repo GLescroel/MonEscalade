@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(uses = {CommentaireMapper.class})
+@Mapper(uses = {CommentaireMapper.class, TopoMapper.class})
 public interface UtilisateurMapper {
 
     UtilisateurMapper INSTANCE = Mappers.getMapper(UtilisateurMapper.class);

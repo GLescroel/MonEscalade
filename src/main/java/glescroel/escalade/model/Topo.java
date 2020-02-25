@@ -10,11 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -36,13 +36,29 @@ public class Topo {
     private String description;
 
     @Basic
-    @DateTimeFormat
+    @ManyToOne
+    private Continent continent;
+
+    @Basic
+    @ManyToOne
+    private Pays pays;
+
+    @Basic
     @ColumnTransformer(write = "UPPER(?)")
+    @Size(message = ErrorMessages.TOPO_LIEU_LENGTH, max = 100)
+    private String lieu;
+
+    @Basic
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date parution;
 
-    @OneToOne
-    private Utilisateur utilisateur;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur proprietaire;
 
-    @OneToMany
-    private List<Commentaire> commentaires;
+    @ManyToOne(optional = false)
+    private Etat etat;
+
+    @OneToOne
+    private Utilisateur emprunteur;
 }

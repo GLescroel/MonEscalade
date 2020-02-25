@@ -1,0 +1,173 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <title>Site</title>
+</head>
+<body>
+<header class="page-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <div sec:authorize="!isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item dropdown">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           href="#" id="navbarDropdown" role="button">
+                            Topos
+                        </a>
+                        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                            <a class="dropdown-item" href="/topo">Topos</a>
+                            <a class="dropdown-item"
+                               th:href="@{/mesTopos/{username}(username=${#authentication.principal.getId()})}">Mes
+                                topos</a>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+            <div sec:authorize="isAuthenticated()">
+                    <span class="navbar-text">
+                        <a class="nav-link" href="/compte" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
+                    </span>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div th:if="${mode} == 'ALL'">
+            <h1>Topos</h1>
+        </div>
+        <div th:if="${mode} == 'USER'">
+            <h1>Mes Topos</h1>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div th:if="${topos.isEmpty()}">
+        <div th:if="${mode} == 'USER'">
+            <h2><span><br>Vous n'avez aucun topo<br></span></h2>
+        </div>
+        <div th:if="${mode} == 'ALL'">
+            <h2><span><br>Aucun topo à afficher<br></span></h2>
+        </div>
+    </div>
+    <div th:if="!${topos.isEmpty()}">
+        <div th:if="${mode} == 'USER'">
+            <h2><span><br>Mes topos<br></span></h2>
+        </div>
+        <div th:if="${mode} == 'ALL'">
+            <h2><span><br>Liste des topos<br></span></h2>
+        </div>
+        <table class="col-12 table-striped">
+            <thead>
+            <tr>
+                <th> Nom</th>
+                <th> Continent</th>
+                <th> Pays</th>
+                <th> Lieu</th>
+                <th> Description</th>
+                <th> Date de parution</th>
+                <th> Etat</th>
+                <div th:if="${mode} == 'ALL'">
+                    <th>Proprietaire</th>
+                </div>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="topo : ${topos}">
+                <td><span th:text="${topo.getNom()}">Nom</span></td>
+                <td><span th:text="${topo.getContinent().getNom()}">Continent</span></td>
+                <td><span th:text="${topo.getPays().getNom()}">Pays</span></td>
+                <td><span th:text="${topo.getLieu()}"> </span></td>
+                <td><span th:text="${topo.getDescription()}"> </span></td>
+                <td><span th:text="${topo.getParution()}"> </span></td>
+                <td><span th:text="${topo.getEtat().getEtat()}"> </span></td>
+                <div th:if="${mode} == 'ALL'">
+                    <td><span th:text="${topo.getProprietaire().getNom()}"> </span></td>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <div th:if="${mode} == 'USER'">
+        <form class="form-group" id="AjoutTopo" method="post"
+              th:action="@{/mesTopos/{userId}/newTopo(userId=${#authentication.getPrincipal().getId()})}">
+            <div>
+                <h2>Ajouter un topo :</h2><br>
+                <div class="container">
+                    <dl>
+                        <dt>Nom du topo</dt>
+                        <dd><input class="col-6" name="nomNewTopo" type="text"></dd>
+                        <dt>Continent</dt>
+                        <dd>
+                            <select class="form-control col-8" id="dropContinent" name="continentSelection"
+                                    th:object="${continents}">
+                                <option th:text="${continentSelectionne.getNom()}"
+                                        th:value="${continentSelectionne.getId()}"></option>
+                                <option th:each="continent : ${continents}" th:text="${continent.getNom()}"
+                                        th:value="${continent.getId()}"></option>
+                            </select>
+                        </dd>
+                        <dt>Pays</dt>
+                        <dd>
+                            <select class="form-control col-8" id="dropPays" name="paysSelection"
+                                    th:object="${paysList}">
+                                <option th:text="${paysSelectionne.getNom()}"
+                                        th:value="${paysSelectionne.getId()}"></option>
+                                <option th:each="pays : ${paysList}" th:text="${pays.getNom()}"
+                                        th:value="${pays.getId()}"></option>
+                            </select>
+                        </dd>
+
+                        <dt>Lieu</dt>
+                        <dd>
+                            <input class="col-8" name="lieu" th:value="lieu"
+                                   type="text">
+                        </dd>
+                        <dt>Description</dt>
+                        <dd>
+                            <input class="col-8" name="description" th:value="description"
+                                   type="text">
+                        </dd>
+                        <dt>Date de parution</dt>
+                        <dd>
+                            <input class="col-8" name="dateParution" type="date">
+                        </dd>
+                    </dl>
+                </div>
+
+                <button class="btn btn-outline-secondary" name="AjouterTopo" type="submit" value="AjouterTopo">Ajouter
+                    topo
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

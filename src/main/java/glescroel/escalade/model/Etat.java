@@ -1,6 +1,9 @@
 package glescroel.escalade.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 
@@ -16,6 +19,9 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Etat {
 
     @Id
@@ -26,8 +32,4 @@ public class Etat {
     @ColumnTransformer(write = "UPPER(?)")
     @Size(message = ErrorMessages.ETAT_NOM_LENGTH, min = 1, max = 20)
     private String etat;
-
-    @OneToMany
-    private Map<Topo, Utilisateur> topoUtilisateur;
-
 }

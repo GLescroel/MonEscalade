@@ -60,7 +60,7 @@ public class Utilisateur implements Serializable, UserDetails {
     @ManyToOne
     private Role role;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "proprietaire", orphanRemoval = true)
     private List<Topo> topos;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "utilisateur", orphanRemoval = true)

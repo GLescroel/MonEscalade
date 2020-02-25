@@ -25,6 +25,19 @@
                     <a class="btn btn-outline-secondary" href="/modifSite">Ajouter un site</a>
                 </div>
                 <div sec:authorize="isAuthenticated()">
+                    <div class="nav-item dropdown">
+                        <a aria-expanded="false" aria-haspopup="true"
+                           class="nav-link dropdown-toggle btn btn-outline-secondary btn-sm" data-toggle="dropdown" href="#" id="navbarDropdown"
+                           role="button">
+                            Topos
+                        </a>
+                        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                            <a class="dropdown-item" href="/topo">Topos</a>
+                            <a class="dropdown-item" th:href="@{/mesTopos/{username}(username=${#authentication.principal.getId()})}">Mes topos</a>
+                        </div>
+                    </div>
+                </div>
+                <div sec:authorize="isAuthenticated()">
                     <a class="btn btn-outline-secondary" href="/compte" th:text="${#authentication.getName()}"></a>
                 </div>
             </form>
