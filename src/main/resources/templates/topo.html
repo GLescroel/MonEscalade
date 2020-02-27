@@ -7,6 +7,9 @@
     <!-- Bootstrap CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>Site</title>
 </head>
 <body>
@@ -34,7 +37,8 @@
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item dropdown">
-                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                           data-toggle="dropdown"
                            href="#" id="navbarDropdown" role="button">
                             Topos
                         </a>
@@ -110,17 +114,47 @@
                 <div th:if="${mode} == 'ALL'">
                     <td><span th:text="${topo.getProprietaire().getNom()}"> </span></td>
                     <div th:if="${topo.getEtat().getEtat()} == 'Disponible'">
-                        <form id="reserverTopo" method="post" th:action="@{/topo/reservation/{idTopo}(idTopo=${topo.getId()})}">
-                            <input class="text-hide" name="emprunteur" th:value="${#authentication.principal.getEmail()}">
+                        <form id="reserverTopo" method="post"
+                              th:action="@{/topo/reservation/{idTopo}(idTopo=${topo.getId()})}">
+                            <input class="text-hide" name="emprunteur"
+                                   th:value="${#authentication.principal.getEmail()}">
                             <td>
-                            <input class="btn btn-outline-success" type="submit" value="Réserver"/>
+                                <input class="btn btn-outline-success" type="submit" value="Réserver"/>
                             </td>
                         </form>
                     </div>
                 </div>
                 <div th:if="${mode} == 'USER'">
                     <div th:if="${topo.getEtat().getEtat()} == 'Reserve'">
-                        <td><span th:text="${topo.getEmprunteur().getNom()}"> </span></td>
+                        <td><span class="btn btn-outline-secondary btn-sm" data-target="#myModalEmprunteur" data-toggle="modal" th:text="${topo.getEmprunteur().getNom()}"> </span></td>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModalEmprunteur" role="document">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                        <h4 class="modal-title">Emprunteur</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <dl class="row">
+                                            <dt class="col-2">Nom</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getNom()}">Nom</dd>
+                                            <dt class="col-2">Prénom</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getPrenom()}">Prenom</dd>
+                                            <dt class="col-2">Email</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getEmail()}">Email</dd>
+                                            <dt class="col-2">Profil</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getRole().getRole()}">Role</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" data-dismiss="modal" type="button">Fermer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <form id="preterTopo" method="post" th:action="@{/topo/pret/{idTopo}(idTopo=${topo.getId()})}">
                             <td>
                                 <input class="btn btn-outline-success" type="submit" value="Prêter"/>
@@ -128,7 +162,35 @@
                         </form>
                     </div>
                     <div th:if="${topo.getEtat().getEtat()} == 'Indisponible'">
-                        <td><span th:text="${topo.getEmprunteur().getNom()}"> </span></td>
+                        <td><span class="btn btn-outline-secondary btn-sm" data-target="#myModalEmprunteur" data-toggle="modal" th:text="${topo.getEmprunteur().getNom()}"> </span></td>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModalEmprunteur" role="document">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                        <h4 class="modal-title">Emprunteur</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <dl class="row">
+                                            <dt class="col-2">Nom</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getNom()}">Nom</dd>
+                                            <dt class="col-2">Prénom</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getPrenom()}">Prenom</dd>
+                                            <dt class="col-2">Email</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getEmail()}">Email</dd>
+                                            <dt class="col-2">Profil</dt>
+                                            <dd class="col-10" th:text="${topo.getEmprunteur().getRole().getRole()}">Role</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" data-dismiss="modal" type="button">Fermer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </tr>
@@ -161,9 +223,38 @@
                     <td><span th:text="${topo.getDescription()}"> </span></td>
                     <td><span th:text="${topo.getParution()}"> </span></td>
                     <td><span th:text="${topo.getEtat().getEtat()}"> </span></td>
-                    <td><span th:text="${topo.getProprietaire().getNom()}"> </span></td>
+                    <td><span class="btn btn-outline-secondary btn-sm" data-target="#myModalProprietaire"
+                              data-toggle="modal" th:text="${topo.getProprietaire().getNom()}"> </span></td>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModalProprietaire" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                    <h4 class="modal-title">Propriétaire</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <dl class="row">
+                                        <dt class="col-2">Nom</dt>
+                                        <dd class="col-10" th:text="${topo.getProprietaire().getNom()}">Nom</dd>
+                                        <dt class="col-2">Prénom</dt>
+                                        <dd class="col-10" th:text="${topo.getProprietaire().getPrenom()}">Prenom</dd>
+                                        <dt class="col-2">Email</dt>
+                                        <dd class="col-10" th:text="${topo.getProprietaire().getEmail()}">Email</dd>
+                                        <dt class="col-2">Profil</dt>
+                                        <dd class="col-10" th:text="${topo.getProprietaire().getRole().getRole()}">Role</dd>
+                                    </dl>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal" type="button">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div th:if="${topo.getEtat().getEtat()} == 'Indisponible'">
-                        <form id="rendreTopo" method="post" th:action="@{/topo/rendre/{idTopo}(idTopo=${topo.getId()})}">
+                        <form id="rendreTopo" method="post"
+                              th:action="@{/topo/rendre/{idTopo}(idTopo=${topo.getId()})}">
                             <input class="text-hide" name="emprunteur" th:value="${#authentication.principal.getId()}">
                             <td>
                                 <input class="btn btn-outline-success" type="submit" value="Rendre"/>
@@ -232,6 +323,13 @@
         </form>
     </div>
 </div>
-
+<script th:inline="javascript">
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+</script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>
