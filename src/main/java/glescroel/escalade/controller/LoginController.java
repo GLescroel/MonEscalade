@@ -38,7 +38,7 @@ public class LoginController {
         LOGGER.info(">>>>> Dans LoginController - PostMapping");
 
         UtilisateurDto utilisateur = utilisateurService.getUtilisateurByEmail(email);
-        if(utilisateur.equals(null) || !passwordEncoder.matches(password, utilisateur.getPassword())) {
+        if(utilisateur == null || !passwordEncoder.matches(password, utilisateur.getPassword())) {
             model.addAttribute("connected", null);
             model.addAttribute("logout", false);
         } else {
