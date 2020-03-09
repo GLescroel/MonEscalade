@@ -84,7 +84,9 @@
         <div th:if="${mode} == 'ALL'">
             <h2><span><br>Liste des topos<br></span></h2>
         </div>
-        <table class="col-12 table-striped">
+        <div class="row">
+        <div class="table-responsive">
+        <table class="table-striped">
             <thead>
             <tr>
                 <th> Nom</th>
@@ -196,12 +198,16 @@
             </tr>
             </tbody>
         </table>
+        </div>
+        </div>
     </div>
 
     <div th:if="${mode} == 'USER'">
         <div th:if="!${reservations.isEmpty()}">
             <h2><span><br>Mes emprunts et réservations<br></span></h2>
-            <table class="col-12 table-striped">
+            <div class="row">
+                <div class="table-responsive">
+            <table class="table-striped">
                 <thead>
                 <tr>
                     <th> Nom</th>
@@ -264,6 +270,8 @@
                 </tr>
                 </tbody>
             </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -273,7 +281,7 @@
         <form class="form-group" id="AjoutTopo" method="post"
               th:action="@{/mesTopos/{userId}/newTopo(userId=${#authentication.getPrincipal().getId()})}">
             <div>
-                <h2>Ajouter un topo :</h2><br>
+                <br><h2>Ajouter un topo :</h2><br>
                 <div class="container">
                     <dl>
                         <dt>Nom du topo</dt>
