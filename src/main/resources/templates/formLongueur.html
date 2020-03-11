@@ -17,21 +17,21 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" th:href="@{/}">Accueil <span class="sr-only">(current)</span></a>
                 </li>
                 <div sec:authorize="!isAuthenticated()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/login}">S'authentifier<span class="sr-only">(current)</span></a>
                     </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/logout}">Log out <span class="sr-only">(current)</span></a>
                     </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/modifSite}">Ajouter un site<span class="sr-only">(current)</span></a>
                     </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
@@ -40,7 +40,7 @@
                             Topos
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/topo">Topos</a>
+                            <a class="dropdown-item" th:href="@{/topo}">Topos</a>
                             <a class="dropdown-item" th:href="@{/mesTopos/{username}(username=${#authentication.principal.getId()})}">Mes topos</a>
                         </div>
                     </li>
@@ -48,7 +48,7 @@
             </ul>
             <div sec:authorize="isAuthenticated()">
                     <span class="navbar-text">
-                        <a class="nav-link" href="/compte" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/compte}" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
                     </span>
             </div>
         </nav>

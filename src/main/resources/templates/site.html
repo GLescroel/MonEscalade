@@ -15,21 +15,21 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" th:href="@{/}">Accueil <span class="sr-only">(current)</span></a>
                 </li>
                 <div sec:authorize="!isAuthenticated()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/login">S'authentifier<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/login}">S'authentifier<span class="sr-only">(current)</span></a>
                     </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/logout">Log out <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/logout}">Log out <span class="sr-only">(current)</span></a>
                     </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/modifSite">Ajouter un site<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/modifSite}">Ajouter un site<span class="sr-only">(current)</span></a>
                     </li>
                 </div>
                 <div sec:authorize="isAuthenticated()">
@@ -39,7 +39,7 @@
                             Topos
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu">
-                            <a class="dropdown-item" href="/topo">Topos</a>
+                            <a class="dropdown-item" th:href="@{/topo}">Topos</a>
                             <a class="dropdown-item"
                                th:href="@{/mesTopos/{username}(username=${#authentication.principal.getId()})}">Mes
                                 topos</a>
@@ -49,7 +49,7 @@
             </ul>
             <div sec:authorize="isAuthenticated()">
                     <span class="navbar-text">
-                        <a class="nav-link" href="/compte" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/compte}" th:text="${#authentication.getName()}"><span class="sr-only">(current)</span></a>
                     </span>
             </div>
         </nav>
@@ -60,7 +60,7 @@
             <div class="col-6"><h1><span th:if="${site}" th:text="${site.getNom()}"/></h1></div>
             <div class="col-4 align-self-center" th:if="${site}">
                 <div th:if="${site.isTag()}">
-                    <img alt="Tag" class="col-12" th:src="AmisEscalade.png">
+                    <img alt="Tag" th:src="@{AmisEscalade.PNG}">
                 </div>
                 <div th:if="${!site.isTag()}">
                     <form class="button" id="tagSite" th:action="@{/site/{idSite}/tag(idSite=${site.getId()})}">

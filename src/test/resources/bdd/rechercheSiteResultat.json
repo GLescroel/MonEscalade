@@ -5,17 +5,26 @@
     },
     {
       "nom": "Mont Lincoln"
+    },
+    {
+      "nom": "Montagna Spaccata"
+    },
+    {
+      "nom": "Mont OTEPATOTU"
     }
   ],
   "rechercheSiteResultat2" : [
     {
-      "nom": "Mont Janus"
-    },
-    {
       "nom": "site de Chambéry"
     },
     {
-      "nom": "Pic des Pyrhénées"
+      "nom": "Mont Janus"
+    },
+    {
+      "nom": "Pic des Pyrénées"
+    },
+    {
+      "nom": "Montagna Spaccata"
     }
   ],
   "rechercheSiteResultat3" : [
@@ -29,6 +38,9 @@
   "rechercheSiteResultat4" : [
     {
       "nom": "Mont Janus"
+    },
+    {
+      "nom": "Montagna Spaccata"
     }
   ]
 

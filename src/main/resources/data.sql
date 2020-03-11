@@ -52,11 +52,11 @@ INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (5, 'Pic des Pyr√
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (6, 'Snowy Mountains', false, 6);
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (8, 'CHUANGSHANG', false, 8);
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (11, 'TAGHIA', false, 11);
-INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (12, 'MONTAGNA SPACCATA', false, 12);
+INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (12, 'Montagna Spaccata', false, 12);
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (13, 'EL EDEN', false, 13);
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (14, 'CUYUJA', false, 14);
-INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (2, 'MONT LINCOLN', true, 2);
-INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (7, 'MONT OTEPATOTU', true, 7);
+INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (2, 'Mont Lincoln', true, 2);
+INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (7, 'Mont OTEPATOTU', true, 7);
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (10, 'BOVEN', true, 10);
 INSERT INTO public.site (id, nom, tag, localisation_id) VALUES (9, 'TOYAMAGAWA', true, 9);
 INSERT INTO public.secteur (id, nom, site_id) VALUES (1, 'Secteur de l"ourson', 1);

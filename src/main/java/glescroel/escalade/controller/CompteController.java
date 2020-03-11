@@ -34,7 +34,7 @@ public class CompteController {
         LOGGER.info(">>>>> Dans CompteController - GetMapping");
 
         model.addAttribute("deleted", false);
-        return "Compte";
+        return "compte";
     }
 
     @GetMapping(value = "/compte/suppression/{idUtilisateur}")
@@ -57,6 +57,6 @@ public class CompteController {
         utilisateurService.remove(utilisateur);
 
         model.addAttribute("deleted", true);
-        return "Compte";
+        return "compte";
     }
 }
