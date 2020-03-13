@@ -38,6 +38,4 @@ public class Secteur {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "secteur")
     private List<Voie> voies;
 
-    @OneToMany
-    private List<Commentaire> commentaires;
 }

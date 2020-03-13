@@ -46,6 +46,4 @@ public class Voie {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "voie")
     private List<Longueur> longueurs;
 
-    @OneToMany
-    private List<Commentaire> commentaires;
 }

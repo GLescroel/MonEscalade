@@ -39,7 +39,4 @@ public class Longueur {
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "voie_id")
     private Voie voie;
-
-    @OneToMany
-    private List<Commentaire> commentaires;
 }
