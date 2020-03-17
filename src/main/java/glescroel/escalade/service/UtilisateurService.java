@@ -53,10 +53,8 @@ public class UtilisateurService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Objects.requireNonNull(email);
-        LOGGER.info("UtilisateurService : loadUserByUsername : username=" + email);
         Utilisateur user = utilisateurRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        LOGGER.info("UtilisateurService : loadUserByUsername : trouvé : " + user.getNom() + " / id = " + user.getId());
         return user;
     }
 

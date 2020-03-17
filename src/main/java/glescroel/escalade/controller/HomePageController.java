@@ -52,6 +52,11 @@ public class HomePageController {
         this.localisationService = localisationService;
     }
 
+    /**
+     * Affichage de l'écran d'accueil
+     * @param model
+     * @return l'écran d'accueil
+     */
     @GetMapping(value = "/")
     public String viewHomePage(Model model) {
         LOGGER.debug(">>>>> Dans HomePageController - GetMapping");
@@ -70,6 +75,16 @@ public class HomePageController {
         return "homepage";
     }
 
+    /**
+     * Recherche de sites selon les critères saisis
+     * @param nomSiteRecherche
+     * @param continentRecherche
+     * @param paysRecherche
+     * @param regionRecherche
+     * @param cotationMinRecherche
+     * @param cotationMaxRecherche
+     * @return l'écran d'accueil
+     */
     @PostMapping(value = "/")
     public ModelAndView searchSite(@RequestParam(required = false, name = "siteRecherche") String nomSiteRecherche,
                                    @RequestParam(required = false, name = "continentRecherche") String continentRecherche,
@@ -104,6 +119,11 @@ public class HomePageController {
 
     }
 
+    /**
+     * Retourne le Continent à partir de son id
+     * @param idContinent
+     * @return Continent
+     */
     private ContinentDto getContinentFromId(String idContinent) {
         if ((idContinent != null) && (!idContinent.equals("0"))) {
             return continentService.getContinentById(Integer.valueOf(idContinent));
@@ -112,6 +132,11 @@ public class HomePageController {
         }
     }
 
+    /**
+     * Retourne le Pays à partir de son id
+     * @param idPays
+     * @return Pays
+     */
     private PaysDto getPaysFromId(String idPays) {
         if ((idPays != null) && (!idPays.equals("0"))) {
             return paysService.getPaysById(Integer.valueOf(idPays));
@@ -120,6 +145,11 @@ public class HomePageController {
         }
     }
 
+    /**
+     * Construit l'objet de recherche en fonction de la sélection de l'utilisateur
+     * @param selection
+     * @return Recherche
+     */
     private Recherche buildRechercheFromSelection(Selection selection) {
 
         selection.setContinent(getContinentFromId(selection.getNomContinent()));
@@ -143,6 +173,12 @@ public class HomePageController {
                 .build();
     }
 
+    /**
+     * vérifie la cohérence Continent/Pays
+     * @param paysToCheck
+     * @param continentToCheck
+     * @return le pays si ok, pays par défaut sinon
+     */
     private PaysDto checkPaysContinentConsistency(PaysDto paysToCheck, ContinentDto continentToCheck) {
 
         boolean paysContinentOk = false;
@@ -162,6 +198,12 @@ public class HomePageController {
         return paysToCheck;
     }
 
+    /**
+     * vérifie la cohérence Région/Pays
+     * @param region
+     * @param pays
+     * @return la région si ok, région par défaut sinon
+     */
     private String checkRegionPaysConsistency(String region, PaysDto pays) {
         for (LocalisationDto localisation : localisationService.getLocalisationsByPays(pays.getId())) {
             if (localisation.getRegion().equalsIgnoreCase(region)) {
@@ -171,6 +213,11 @@ public class HomePageController {
         return DEFAULT_REGION;
     }
 
+    /**
+     * Recherche des sites en fonction des critères saisis par l'utiliateur
+     * @param recherche
+     * @return la liste des sites qui répondent aux critères
+     */
     private List<SiteDto> findSitesFromRecherche(Recherche recherche) {
         LOGGER.info(">>>>>>> Recherche des sites correspondants à la recherche");
 
@@ -190,7 +237,6 @@ public class HomePageController {
         }
 
         if ((sites != null) && (recherche.getRegion() != DEFAULT_REGION)) {
-            LOGGER.info("filtre par region");
             List<Integer> deletionIndexList = new ArrayList<>();
             for (SiteDto siteDto : sites) {
                 if (!siteDto.getLocalisation().getRegion().equalsIgnoreCase(recherche.getRegion())) {
@@ -209,6 +255,11 @@ public class HomePageController {
         return sites;
     }
 
+    /**
+     * Mise à jour des critères sélectionnés suite aux controles appliqués
+     * @param selection
+     * @param modelAndview
+     */
     private static void updateSelection(Selection selection, ModelAndView modelAndview) {
         modelAndview.addObject("site", new SiteDto().builder().nom(selection.getNomSite()).build());
         modelAndview.addObject("continentSelectionne", selection.getContinent());
@@ -218,9 +269,12 @@ public class HomePageController {
         modelAndview.addObject("cotationMax", selection.getCotationMax());
     }
 
+    /**
+     * Mise à jur des listes Continents / pays / régions à afficher dans les menus déroulants
+     * @param recherche
+     * @param modelAndview
+     */
     private void updateLists(Recherche recherche, ModelAndView modelAndview) {
-
-        LOGGER.info(">>>>>>> Update des listes à afficher");
         modelAndview.addObject("continents", continentService.getAll());
 
         if (recherche.getContinent() != DEFAULT_CONTINENT) {
@@ -239,6 +293,12 @@ public class HomePageController {
         }
     }
 
+    /**
+     * Filtre sur les sites pré-sélectionnés en fonction des cotations saisies par l'utilisateur
+     * @param siteList
+     * @param recherche
+     * @return la liste des sites qui répondent aux critères de sélection
+     */
     private List<SiteDto> filterCotations(List<SiteDto> siteList, Recherche recherche) {
 
         for (SiteDto site : siteList) {
@@ -250,6 +310,45 @@ public class HomePageController {
         return siteList;
     }
 
+    /**
+     * Récupération des cotations min et max d'un site
+     * @param siteDto
+     * @return le DTO du site avec ses cotations min et max
+     */
+    private SiteDto getSiteCotationsMinMax(SiteDto siteDto) {
+        List<String> cotations = new ArrayList<>();
+        if (!siteDto.getSecteurs().isEmpty()) {
+            for (SecteurDto secteur : siteDto.getSecteurs()) {
+                if (!secteur.getVoies().isEmpty()) {
+                    for (VoieDto voie : secteur.getVoies()) {
+                        cotations.add(voie.getCotation());
+                        if (!voie.getLongueurs().isEmpty()) {
+                            for (LongueurDto longueur : voie.getLongueurs()) {
+                                cotations.add(longueur.getCotation());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!cotations.isEmpty()) {
+            Collections.sort(cotations);
+            siteDto.setCotationsMin(cotations.get(0));
+            siteDto.setCotationsMax(cotations.get(cotations.size() - 1));
+        } else {
+            siteDto.setCotationsMin("");
+            siteDto.setCotationsMax("");
+        }
+        return siteDto;
+    }
+
+    /**
+     * Application des cotations min et max recherchées pour filtrer les sites
+     * @param siteList
+     * @param recherche
+     * @return liste des sites dont les cotations répondent aux critères
+     */
     private static List<SiteDto> filterSitesCotations(List<SiteDto> siteList, Recherche recherche) {
 
         if(recherche.getCotationMin().isEmpty() && recherche.getCotationMax().isEmpty()) {
@@ -267,6 +366,13 @@ public class HomePageController {
         return getSitesWithCotationOk(siteList, rechercheCotationMin, rechercheCotationMax);
     }
 
+    /**
+     * Filtre des sites sur le critère des cotations
+     * @param siteList
+     * @param rechercheCotationMin
+     * @param rechercheCotationMax
+     * @return liste des sites dont les cotations correspondent aux critères
+     */
     private static List<SiteDto> getSitesWithCotationOk(List<SiteDto> siteList, int rechercheCotationMin, int rechercheCotationMax) {
 
         List<SiteDto> sitesWithCotationOk = new ArrayList<>();
@@ -300,6 +406,11 @@ public class HomePageController {
         return sitesWithCotationOk;
     }
 
+    /**
+     * Conversion des cotations de String etn entiers pour faciliter les comparaisons
+     * @param cotation
+     * @return cotation en int
+     */
     private static int convertCotationToInt(String cotation) {
         if(cotation.matches("[0-9]{1}")){
             return Integer.valueOf(cotation) * 10;
@@ -318,33 +429,5 @@ public class HomePageController {
             return cotationInt;
         }
         return 0;
-    }
-
-    private SiteDto getSiteCotationsMinMax(SiteDto siteDto) {
-        List<String> cotations = new ArrayList<>();
-        if (!siteDto.getSecteurs().isEmpty()) {
-            for (SecteurDto secteur : siteDto.getSecteurs()) {
-                if (!secteur.getVoies().isEmpty()) {
-                    for (VoieDto voie : secteur.getVoies()) {
-                        cotations.add(voie.getCotation());
-                        if (!voie.getLongueurs().isEmpty()) {
-                            for (LongueurDto longueur : voie.getLongueurs()) {
-                                cotations.add(longueur.getCotation());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if(!cotations.isEmpty()) {
-            Collections.sort(cotations);
-            siteDto.setCotationsMin(cotations.get(0));
-            siteDto.setCotationsMax(cotations.get(cotations.size() - 1));
-        } else {
-            siteDto.setCotationsMin("");
-            siteDto.setCotationsMax("");
-        }
-        return siteDto;
     }
 }

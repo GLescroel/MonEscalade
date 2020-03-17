@@ -23,6 +23,11 @@ public class LoginController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * affichage écran de login
+      * @param model
+     * @return l'écran de login
+     */
     @GetMapping(value = "/login")
     public String viewLoginPage(Model model) {
         LOGGER.info(">>>>> Dans LoginController - GetMapping");
@@ -31,6 +36,13 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * Log in
+     * @param model
+     * @param email
+     * @param password
+     * @return page web de login
+     */
     @PostMapping(value = "/login")
     public String checkLogin(Model model,
                              @RequestParam (name="username") String email,
@@ -42,8 +54,6 @@ public class LoginController {
             model.addAttribute("connected", null);
             model.addAttribute("logout", false);
         } else {
-            LOGGER.info("User = " + email + " / pwd = " + password);
-            LOGGER.info("Role utilisateur = " + utilisateur.getRole().getRole());
             model.addAttribute("nom", utilisateur.getNom());
             model.addAttribute("prenom", utilisateur.getPrenom());
             model.addAttribute("email", email);
@@ -55,6 +65,11 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * Log out
+     * @param model
+     * @return logout
+     */
     @RequestMapping(value = "/logout")
     public String logOut(Model model) {
         LOGGER.info(">>>>> Dans LoginController - PostMapping LogOut");
@@ -64,5 +79,4 @@ public class LoginController {
 
         return "login";
     }
-
 }

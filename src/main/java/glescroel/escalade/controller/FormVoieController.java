@@ -32,6 +32,14 @@ public class FormVoieController {
     @Autowired
     private LongueurService longueurService;
 
+    /**
+     * Affichage du forulaire de modification de la voie
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param model
+     * @return la page web du formulaire de la voie
+     */
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
     public String viewFormVoie(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
@@ -51,6 +59,17 @@ public class FormVoieController {
         return "formVoie";
     }
 
+    /**
+     * Mise à jour de la voie
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param model
+     * @param nomVoie
+     * @param voieEquipee
+     * @param cotation
+     * @return la page web du formulaire de la voie
+     */
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/update")
     public String viewUpdateVoie(@PathVariable("idSite") String idSite,
                                  @PathVariable("idSecteur") String idSecteur,
@@ -77,6 +96,16 @@ public class FormVoieController {
         return "formVoie";
     }
 
+    /**
+     * Ajout d'une longueur dans la voie
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param model
+     * @param nomLongueur
+     * @param cotation
+     * @return la page web du formulaire de la voie
+     */
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}")
     public String viewAddLongueur(@PathVariable("idSite") String idSite,
                                  @PathVariable("idSecteur") String idSecteur,
@@ -108,6 +137,14 @@ public class FormVoieController {
         return "formVoie";
     }
 
+    /**
+     * Suppression de la voie
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param model
+     * @return la page web du formulaire de la voie
+     */
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/suppression")
     public String deleteSecteur(@PathVariable("idSite") String idSite,
                                 @PathVariable("idSecteur") String idSecteur,
@@ -125,5 +162,4 @@ public class FormVoieController {
 
         return "formVoie";
     }
-
 }

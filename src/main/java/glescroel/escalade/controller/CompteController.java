@@ -29,14 +29,25 @@ public class CompteController {
     @Autowired
     private SiteService siteService;
 
+    /**
+     * Affichage de la page du compte utilisateur
+     * @param model
+     * @return la page web "compte"
+     */
     @GetMapping(value = "/compte")
-    public String viewComptePage(Model model/*, @RequestParam(name = "email") String email*/) {
+    public String viewComptePage(Model model) {
         LOGGER.info(">>>>> Dans CompteController - GetMapping");
 
         model.addAttribute("deleted", false);
         return "compte";
     }
 
+    /**
+     * Suppression du compte de l'utilisateur
+     * @param model
+     * @param id
+     * @return la page web "compte"
+     */
     @GetMapping(value = "/compte/suppression/{idUtilisateur}")
     public String suppressionCompteUtilisateur(Model model,
                                                @NotNull(message = "id must be not null") @PathVariable("idUtilisateur") String id) {

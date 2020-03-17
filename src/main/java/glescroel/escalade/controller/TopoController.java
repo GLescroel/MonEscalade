@@ -51,6 +51,11 @@ public class TopoController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
+    /**
+     * Affichage de la liste des topos
+     * @param model
+     * @return la page web des topos
+     */
     @GetMapping(value = "/topo")
     public String viewTopoPage(Model model) {
         LOGGER.info(">>>>> Dans TopoController - GetMapping");
@@ -62,6 +67,13 @@ public class TopoController {
         return "topo";
     }
 
+    /**
+     * Réservation d'un topo
+     * @param model
+     * @param topoId
+     * @param email
+     * @return la page web des topos
+     */
     @PostMapping(value = "/topo/reservation/{idTopo}")
     public String bookTopo(Model model, @NotNull(message = "idTopo must be not null") @PathVariable("idTopo") String topoId,
                            @RequestParam(required = true, name = "emprunteur") String email) {
@@ -78,6 +90,12 @@ public class TopoController {
         return "topo";
     }
 
+    /**
+     * Prêt d'un topo
+     * @param model
+     * @param topoId
+     * @return la page web des topos
+     */
     @PostMapping(value = "/topo/pret/{idTopo}")
     public String giveTopo(Model model, @NotNull(message = "idTopo must be not null") @PathVariable("idTopo") String topoId) {
         LOGGER.info(">>>>> Dans TopoController - GetMapping topo/pret");
@@ -98,6 +116,13 @@ public class TopoController {
         return "topo";
     }
 
+    /**
+     * Restitution d'un topo
+     * @param model
+     * @param topoId
+     * @param idEmprunteur
+     * @return la page web des topos
+     */
     @PostMapping(value = "/topo/rendre/{idTopo}")
     public String giveBackTopo(Model model, @NotNull(message = "idTopo must be not null") @PathVariable("idTopo") String topoId,
                                @RequestParam(required = true, name = "emprunteur") String idEmprunteur) {
@@ -120,6 +145,12 @@ public class TopoController {
         return "topo";
     }
 
+    /**
+     * Affichage des topos de l'utilisateur connecté
+     * @param model
+     * @param userId
+     * @return la page web des topos
+     */
     @GetMapping(value = "/mesTopos/{userId}")
     public String viewMyTopoPage(Model model, @NotNull(message = "userId must be not null") @PathVariable("userId") String userId) {
         LOGGER.info(">>>>> Dans TopoController - GetMapping MyTopo");
@@ -135,6 +166,19 @@ public class TopoController {
         return "topo";
     }
 
+    /**
+     * Création d'un nouveau topo
+     * @param model
+     * @param userId
+     * @param nomTopo
+     * @param continentSelectionne
+     * @param paysSelectionne
+     * @param lieu
+     * @param description
+     * @param dateParution
+     * @return la page web des topos
+     * @throws ParseException
+     */
     @PostMapping(value = "/mesTopos/{userId}/newTopo")
     public String addUserTopo(Model model, @NotNull(message = "userId must be not null") @PathVariable("userId") String userId,
                               @RequestParam(required = false, name = "nomNewTopo") String nomTopo,
@@ -170,5 +214,4 @@ public class TopoController {
 
         return "topo";
     }
-
 }

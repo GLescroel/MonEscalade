@@ -20,22 +20,33 @@ public class FormCompteController {
 
     @Autowired
     private UtilisateurService utilisateurService;
-
     @Autowired
     private RoleService roleService;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    /**
+     * Affichage du formulaire de création de compte
+     * @param model
+     * @return la page web "formCompte"
+     */
     @GetMapping(value = "/creationCompte")
     public String viewFormComptePage(Model model) {
         LOGGER.info(">>>>> Dans FormCompteController - GetMapping");
         return "formCompte";
     }
 
+    /**
+     * Création d'un compte utilisateur si inexistant
+     * @param model
+     * @param nom
+     * @param prenom
+     * @param email
+     * @param password
+     * @return page web du formulaire de création de compte
+     */
     @PostMapping(value = "/creationCompte")
-    public String checkData(Model model,
+    public String createUserAccount(Model model,
                             @RequestParam(name = "nom") String nom,
                             @RequestParam(name = "prenom") String prenom,
                             @RequestParam(name = "username") String email,

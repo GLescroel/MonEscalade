@@ -29,6 +29,15 @@ public class FormLongueurController {
     @Autowired
     private LongueurService longueurService;
 
+    /**
+     * Affichage du formulaire de modification d'une longueur
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param idLongueur
+     * @param model
+     * @return la page web de formulaire de longueur
+     */
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}")
     public String viewFormLongueur(@PathVariable("idSite") String idSite,
                                 @PathVariable("idSecteur") String idSecteur,
@@ -46,6 +55,17 @@ public class FormLongueurController {
         return "formLongueur";
     }
 
+    /**
+     * Mise à jour de la longueur
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param idLongueur
+     * @param nomLongueur
+     * @param cotation
+     * @param model
+     * @return la page web du formulaire de la longueur
+     */
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}")
     public String updateLongueur(@PathVariable("idSite") String idSite,
                                    @PathVariable("idSecteur") String idSecteur,
@@ -71,8 +91,17 @@ public class FormLongueurController {
         return "formLongueur";
     }
 
+    /**
+     * Suppression de la longueur
+     * @param idSite
+     * @param idSecteur
+     * @param idVoie
+     * @param idLongueur
+     * @param model
+     * @return la page web du formulaire de la longueur
+     */
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/modifVoie/{idVoie}/modifLongueur/{idLongueur}/suppression")
-    public String deleteSecteur(@PathVariable("idSite") String idSite,
+    public String deleteLongueur(@PathVariable("idSite") String idSite,
                                 @PathVariable("idSecteur") String idSecteur,
                                 @PathVariable("idVoie") String idVoie,
                                 @PathVariable("idLongueur") String idLongueur,

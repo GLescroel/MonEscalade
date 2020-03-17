@@ -26,12 +26,17 @@ public class SiteController {
 
     @Autowired
     private SiteService siteService;
-
     @Autowired
     private CommentaireService commentaireService;
     @Autowired
     private UtilisateurService utilisateurService;
 
+    /**
+     * Affichage de la page du site
+     * @param model
+     * @param id
+     * @return la page du site
+     */
     @GetMapping(value = "/site", params = {"id"})
     public String viewSitePage(Model model, @NotNull(message = "id must be not null") @RequestParam("id") String id) {
         LOGGER.info(">>>>> Dans SiteController - GetMapping");
@@ -46,6 +51,13 @@ public class SiteController {
         return "site";
     }
 
+    /**
+     * Ajout d"un commentaire sur le site
+     * @param id
+     * @param texte
+     * @param email
+     * @return la page web du site
+     */
     @PostMapping(value = "/site", params = {"id"})
     public ModelAndView addComment(@NotNull(message = "id must be not null") @RequestParam("id") String id,
                                    @RequestParam(required = true, name = "commentaireSite") String texte,
@@ -76,6 +88,12 @@ public class SiteController {
         return modelAndview;
     }
 
+    /**
+     * Tag d'un site
+     * @param model
+     * @param idSite
+     * @return la page web du site
+     */
     @GetMapping(value = "/site/{idSite}/tag")
     public String tagSite(Model model, @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite) {
         LOGGER.info(">>>>> Dans SiteController - PostMapping Tag");
@@ -92,6 +110,12 @@ public class SiteController {
         return "redirect:/site?id=" + site.getId();
     }
 
+    /**
+     * Détag d'un site
+     * @param model
+     * @param idSite
+     * @return la page web du site
+     */
     @GetMapping(value = "/site/{idSite}/untag")
     public String untagSite(Model model, @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite) {
         LOGGER.info(">>>>> Dans SiteController - PostMapping unTag");
@@ -107,5 +131,4 @@ public class SiteController {
 
         return "redirect:/site?id=" + site.getId();
     }
-
 }

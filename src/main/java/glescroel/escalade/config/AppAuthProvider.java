@@ -21,28 +21,28 @@ public class AppAuthProvider extends DaoAuthenticationProvider {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * authenticate : gestion de l'authentification
+     * @param authentication
+     * @return Authentication
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
         String name = auth.getName();
         String password = auth.getCredentials()
                 .toString();
-        LOGGER.info(" AppAuthProvider : recherche User = " + name + " / pwd = " + password);
 
         UserDetails user =  utilisateurService.loadUserByUsername(name);
-        LOGGER.info("AppAuthProvider : check " + passwordEncoder.encode(password) + " vs " + user.getPassword());
         if(user == null || !passwordEncoder.matches(password, user.getPassword())) {
             LOGGER.info("AppAuthProvider : Utilisateur inconnu");
             throw new BadCredentialsException("Username/Password does not match for " + auth.getPrincipal());
-        } else {
-            LOGGER.info("AppAuthProvider : Utilisateur trouvé : User = " + user.getUsername() + " / pwd = " + user.getPassword());
         }
-
         return new UsernamePasswordAuthenticationToken(user, auth.getCredentials(), user.getAuthorities());
     }
     @Override
     public boolean supports(Class<?> authentication) {
-        LOGGER.info("supports");
         return true;
     }
 }

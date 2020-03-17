@@ -1,10 +1,10 @@
 INSERT INTO role (id, role) VALUES (1, 'Administrateur');
 INSERT INTO role (id, role) VALUES (2, 'Membre');
 INSERT INTO role (id, role) VALUES (3, 'Utilisateur');
-INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('admin@oc.com','ADMIN', 'ADMIN', '$2a$11$NWK4enrvaXbcLu0Hf4eVIe3cdNk82VO6BvfNx7UMBeHYGJjQcFMQi', '1');
-INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('user@oc.com', 'USER', 'USER', '$2a$11$fwbi72Ko53c6Dvd87f7d7u7hkiFQ5dGnS2SO8JYdiMO41olj78EQi', '3');
-INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('membre@oc.com', 'MEMBRE', 'MEMBRE', '$2a$11$yel.cNbeeJNTEa7czcLHHup4wIJVQLqay293LmAewxQZgSV05KSAK', '2');
-INSERT INTO UTILISATEUR(email, nom, prenom, password, role_id) VALUES('glescroel@hotmail.com', 'LESCROEL', 'Gregory', '$2a$11$NWK4enrvaXbcLu0Hf4eVIe3cdNk82VO6BvfNx7UMBeHYGJjQcFMQi', '1');
+INSERT INTO UTILISATEUR(id, email, nom, prenom, password, role_id) VALUES(1, 'admin@oc.com','ADMIN', 'ADMIN', '$2a$11$NWK4enrvaXbcLu0Hf4eVIe3cdNk82VO6BvfNx7UMBeHYGJjQcFMQi', '1');
+INSERT INTO UTILISATEUR(id, email, nom, prenom, password, role_id) VALUES(2, 'user@oc.com', 'USER', 'USER', '$2a$11$fwbi72Ko53c6Dvd87f7d7u7hkiFQ5dGnS2SO8JYdiMO41olj78EQi', '3');
+INSERT INTO UTILISATEUR(id, email, nom, prenom, password, role_id) VALUES(3, 'membre@oc.com', 'MEMBRE', 'MEMBRE', '$2a$11$yel.cNbeeJNTEa7czcLHHup4wIJVQLqay293LmAewxQZgSV05KSAK', '2');
+INSERT INTO UTILISATEUR(id, email, nom, prenom, password, role_id) VALUES(4, 'glescroel@hotmail.com', 'LESCROEL', 'Gregory', '$2a$11$NWK4enrvaXbcLu0Hf4eVIe3cdNk82VO6BvfNx7UMBeHYGJjQcFMQi', '1');
 INSERT INTO public.utilisateur (id, email, nom, password, prenom, role_id) VALUES (5, 'DUPONT@OC.COM', 'DUPONT', '$2a$11$poeYMQ8pqjKSk1GqvidW2./pYd6kVly0iVrwKB8uWd/YBJocoUOci', 'RENÉ', 3);
 INSERT INTO public.utilisateur (id, email, nom, password, prenom, role_id) VALUES (6, 'DUBOIS@OC.COM', 'DUBOIS', '$2a$11$2LLBNGe2bzp1YUsAA7T/RuXmzK7ascvDammvpgsN10bUwOH3LQi7O', 'ANDRÉE', 3);
 INSERT INTO public.utilisateur (id, email, nom, password, prenom, role_id) VALUES (7, 'SMITH@OC.COM', 'SMITH', '$2a$11$doPqn9Ex3T9zKrjm3R09m.LnjbeEMNGKWwwR2ElBcevmvaPi9uQ32', 'JOHN', 3);

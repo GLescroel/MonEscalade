@@ -9,11 +9,9 @@ import glescroel.escalade.dto.SiteDto;
 import glescroel.escalade.service.CommentaireService;
 import glescroel.escalade.service.ContinentService;
 import glescroel.escalade.service.LocalisationService;
-import glescroel.escalade.service.LongueurService;
 import glescroel.escalade.service.PaysService;
 import glescroel.escalade.service.SecteurService;
 import glescroel.escalade.service.SiteService;
-import glescroel.escalade.service.VoieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +35,6 @@ public class FormSiteController {
     @Autowired
     private SecteurService secteurService;
     @Autowired
-    private VoieService voieService;
-    @Autowired
-    private LongueurService longueurService;
-    @Autowired
     private ContinentService continentService;
     @Autowired
     private PaysService paysService;
@@ -49,6 +43,11 @@ public class FormSiteController {
     @Autowired
     private CommentaireService commentaireService;
 
+    /**
+     * Affichage du formulaire de création d'un site
+     * @param model
+     * @return la page web du formulaire du site
+     */
     @GetMapping(value = "/modifSite")
     public String viewEmptyFormSite(Model model) {
         LOGGER.info(">>>>> Dans FormSiteController - GetMapping");
@@ -64,34 +63,17 @@ public class FormSiteController {
         return "formSite";
     }
 
-    @GetMapping(value = "/modifSite/{id}")
-    public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @PathVariable("id") String id) {
-        LOGGER.info(">>>>> Dans FormSiteController - GetMapping");
-        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
-        model.addAttribute("continents", continentService.getAll());
-        model.addAttribute("paysList", paysService.getAll());
-        return "formSite";
-    }
-
-    @PostMapping(value = "/modifSite/{id}")
-    public String saveSecteur(Model model,
-                              @NotNull(message = "id must be not null") @PathVariable("id") String id,
-                              @RequestParam(required = true, name = "nomSecteur") String nomSecteur) {
-        LOGGER.info(">>>>> Dans FormSiteController - PostMapping - saveSecteur");
-
-        SiteDto site = siteService.getSiteById(Integer.valueOf(id));
-        SecteurDto secteur = new SecteurDto().builder().nom(nomSecteur).site(site).build();
-        secteur = secteurService.save(secteur);
-        site.addSecteur(secteur);
-
-        model.addAttribute("site", site);
-        model.addAttribute("secteurs", site.getSecteurs());
-        model.addAttribute("continents", continentService.getAll());
-        model.addAttribute("paysList", paysService.getAll());
-
-        return "formSite";
-    }
-
+    /**
+     * Enregistrement d'un nouveau site
+     * @param nomSite
+     * @param continentSelectionne
+     * @param paysSelectionne
+     * @param region
+     * @param departement
+     * @param ville
+     * @param adresse
+     * @return la page web du formulaire du site
+     */
     @PostMapping(value = "/modifSite")
     public ModelAndView createSite(@RequestParam(required = false, name = "nomNewSite") String nomSite,
                                    @RequestParam(required = false, name = "continentSelection") String continentSelectionne,
@@ -130,6 +112,60 @@ public class FormSiteController {
         return modelAndview;
     }
 
+    /**
+     * Affichage de la page web de modification du site
+     * @param model
+     * @param id
+     * @return la page web du formulaire du site
+     */
+    @GetMapping(value = "/modifSite/{id}")
+    public String viewSiteForm(Model model, @NotNull(message = "id must be not null") @PathVariable("id") String id) {
+        LOGGER.info(">>>>> Dans FormSiteController - GetMapping");
+        model.addAttribute("site", siteService.getSiteById(Integer.valueOf(id)));
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
+        return "formSite";
+    }
+
+    /**
+     * Ajout d'un secteur dans le site
+     * @param model
+     * @param id
+     * @param nomSecteur
+     * @return la page web du formulaire du site
+     */
+    @PostMapping(value = "/modifSite/{id}")
+    public String saveSecteur(Model model,
+                              @NotNull(message = "id must be not null") @PathVariable("id") String id,
+                              @RequestParam(required = true, name = "nomSecteur") String nomSecteur) {
+        LOGGER.info(">>>>> Dans FormSiteController - PostMapping - saveSecteur");
+
+        SiteDto site = siteService.getSiteById(Integer.valueOf(id));
+        SecteurDto secteur = new SecteurDto().builder().nom(nomSecteur).site(site).build();
+        secteur = secteurService.save(secteur);
+        site.addSecteur(secteur);
+
+        model.addAttribute("site", site);
+        model.addAttribute("secteurs", site.getSecteurs());
+        model.addAttribute("continents", continentService.getAll());
+        model.addAttribute("paysList", paysService.getAll());
+
+        return "formSite";
+    }
+
+    /**
+     * Mise à jour du site
+     * @param model
+     * @param id
+     * @param nomSite
+     * @param idContinent
+     * @param idPays
+     * @param region
+     * @param departement
+     * @param ville
+     * @param adresse
+     * @return la page web du formulaire du site
+     */
     @PostMapping(value = "/modifSite/{id}/update")
     public String updateSite(Model model,
                               @NotNull(message = "id must be not null") @PathVariable("id") String id,
@@ -165,6 +201,13 @@ public class FormSiteController {
         return "formSite";
     }
 
+    /**
+     * Suppression d'un commentaire (par un utilisateur membre)
+     * @param model
+     * @param idSite
+     * @param idCommentaire
+     * @return la page web du formulaire du site
+     */
     @GetMapping(value = "/modifSite/{idSite}/deleteCommentaire/{idCommentaire}")
     public String deleteComment(Model model,
                              @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite,
@@ -186,6 +229,14 @@ public class FormSiteController {
         return "formSite";
     }
 
+    /**
+     * Mise à jour d'un commentaire (par un utilisateur membre)
+     * @param model
+     * @param idSite
+     * @param idCommentaire
+     * @param commentaireUpdated
+     * @return la page web du formulaire du site
+     */
     @PostMapping(value = "/modifSite/{idSite}/updateCommentaire/{idCommentaire}")
     public String updateComment(Model model,
                              @NotNull(message = "id must be not null") @PathVariable("idSite") String idSite,
@@ -206,6 +257,12 @@ public class FormSiteController {
         return "formSite";
     }
 
+    /**
+     * Suppression du site
+     * @param idSite
+     * @param model
+     * @return la page web du formulaire du site
+     */
     @GetMapping(value = "/modifSite/{idSite}/suppression")
     public String deleteSite(@PathVariable("idSite") String idSite, Model model) {
         LOGGER.info(">>>>> Dans FormSiteController - GetMapping - URL : /modifSite/{id}/suppression");

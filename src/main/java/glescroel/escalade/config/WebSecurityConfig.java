@@ -40,6 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(utilisateurService);
     }
 
+    /**
+     * configure : configuration des droits sur les pages
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         LOGGER.info("configure");
@@ -67,6 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").authenticated()
                 .antMatchers("/compte").authenticated()
                 .antMatchers("/modifSite/**").authenticated()
+                .antMatchers("/topo/**").authenticated()
+                .antMatchers("/mesTopos/**").authenticated()
                 .antMatchers("/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -90,7 +97,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public DaoAuthenticationProvider authProvider() {
-        LOGGER.info("authProvider");
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(utilisateurService);
         authProvider.setPasswordEncoder(encoder());
@@ -100,19 +106,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * Déclaration du bean utilisé par le fournisseur d'authentification pour encoder les mdp.
      *
-     * @return le bean chargé d'encodé les mdp
+     * @return le bean chargé d'encoder les mdp
      */
     @Bean
     public PasswordEncoder encoder() {
-        LOGGER.info("encodage");
         return new BCryptPasswordEncoder(11);
     }
 
     private class AuthentificationLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request,
-                                            HttpServletResponse response, Authentication authentication)
-                throws IOException, ServletException {
+                                            HttpServletResponse response, Authentication authentication) {
             response.setStatus(HttpServletResponse.SC_OK);
             LOGGER.info("LOGIN SUCCESSFULL");
         }
@@ -120,7 +124,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private class AuthentificationLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         @Override
         public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                                    Authentication authentication) throws IOException, ServletException {
+                                    Authentication authentication) throws IOException {
             response.setStatus(HttpServletResponse.SC_OK);
             LOGGER.info("log out success");
             response.sendRedirect(request.getContextPath() + "/");
@@ -130,7 +134,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationProvider getProvider() {
         AppAuthProvider provider = new AppAuthProvider();
         provider.setUserDetailsService(utilisateurService);
-        LOGGER.info("getProvider");
         return provider;
     }
 

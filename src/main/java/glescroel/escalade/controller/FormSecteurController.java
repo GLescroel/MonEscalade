@@ -28,6 +28,13 @@ public class FormSecteurController {
     @Autowired
     private VoieService voieService;
 
+    /**
+     * Affichage du formulaire de modification du secteur
+     * @param idSite
+     * @param idSecteur
+     * @param model
+     * @return la page web du formulaire du secteur
+     */
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}")
     public String viewFormSecteur(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
@@ -44,6 +51,16 @@ public class FormSecteurController {
         return "formSecteur";
     }
 
+    /**
+     * Ajout d'une voie dans le secteur
+     * @param idSite
+     * @param idSecteur
+     * @param model
+     * @param nomVoie
+     * @param cotation
+     * @param isEquipee
+     * @return la page web du formulaire du secteur
+     */
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}")
     public String addVoie(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
@@ -74,6 +91,14 @@ public class FormSecteurController {
         return "formSecteur";
     }
 
+    /**
+     * Mise à jour du secteur
+     * @param idSite
+     * @param idSecteur
+     * @param nomSecteur
+     * @param model
+     * @return la page web du formulaire du secteur
+     */
     @PostMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/update")
     public String updateNomSecteur(@PathVariable("idSite") String idSite,
                                     @PathVariable("idSecteur") String idSecteur,
@@ -95,6 +120,13 @@ public class FormSecteurController {
         return "formSecteur";
     }
 
+    /**
+     * Suppression du secteur
+     * @param idSite
+     * @param idSecteur
+     * @param model
+     * @return la page web du formulaire du secteur
+     */
     @GetMapping(value = "/modifSite/{idSite}/modifSecteur/{idSecteur}/suppression")
     public String deleteSecteur(@PathVariable("idSite") String idSite,
                                @PathVariable("idSecteur") String idSecteur,
@@ -103,9 +135,7 @@ public class FormSecteurController {
 
         SecteurDto secteur = secteurService.getSecteurById(Integer.valueOf(idSecteur));
 
-        LOGGER.info("avant delete");
         secteurService.delete(secteur);
-        LOGGER.info("après delete");
 
         model.addAttribute("suppression", true);
         model.addAttribute("secteur", null);

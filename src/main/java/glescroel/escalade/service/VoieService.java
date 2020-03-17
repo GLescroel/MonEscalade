@@ -1,7 +1,6 @@
 package glescroel.escalade.service;
 
 import glescroel.escalade.dto.VoieDto;
-import glescroel.escalade.mapper.SecteurMapper;
 import glescroel.escalade.mapper.VoieMapper;
 import glescroel.escalade.model.Voie;
 import glescroel.escalade.repository.SecteurRepository;
