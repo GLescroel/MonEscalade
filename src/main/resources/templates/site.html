@@ -82,8 +82,11 @@
 </header>
 
 <div class="container">
-    <div>
+    <div th:if="${site.getId() < 15}">
         <img alt="Mountain View" class="col-12" style="width:600px" th:src="@{Site_+${site.getId()}+.jpg}">
+    </div>
+    <div th:if="!${site.getId() < 15}">
+        <img alt="Mountain View" class="col-12" style="width:300px" th:src="@{ESCALADE.jpg}">
     </div>
 
     <div>
