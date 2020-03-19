@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -61,21 +60,6 @@ public class LoginController {
             model.addAttribute("connected", true);
             model.addAttribute("logout", false);
         }
-
-        return "login";
-    }
-
-    /**
-     * Log out
-     * @param model
-     * @return logout
-     */
-    @RequestMapping(value = "/logout")
-    public String logOut(Model model) {
-        LOGGER.info(">>>>> Dans LoginController - PostMapping LogOut");
-
-        model.addAttribute("connected", null);
-        model.addAttribute("logout", true);
 
         return "login";
     }
